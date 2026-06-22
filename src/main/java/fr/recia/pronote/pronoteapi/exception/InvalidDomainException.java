@@ -13,18 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi;
+package fr.recia.pronote.pronoteapi.exception;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
-
-@SpringBootApplication(scanBasePackages = "fr.recia")
-@ConfigurationPropertiesScan
-public class PronoteApiApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(PronoteApiApplication.class, args);
-	}
-
+public class InvalidDomainException extends RuntimeException {
+    public InvalidDomainException(String message) {
+        super(message);
+    }
 }

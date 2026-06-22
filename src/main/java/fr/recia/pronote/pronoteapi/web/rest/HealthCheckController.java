@@ -13,18 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi;
+package fr.recia.pronote.pronoteapi.web.rest;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication(scanBasePackages = "fr.recia")
-@ConfigurationPropertiesScan
-public class PronoteApiApplication {
+@RestController
+@RequestMapping("/")
+public class HealthCheckController {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PronoteApiApplication.class, args);
-	}
+    @GetMapping("/health-check")
+    ResponseEntity<Void> healthCheck(){
+        return ResponseEntity.ok(null);
+    }
 
 }

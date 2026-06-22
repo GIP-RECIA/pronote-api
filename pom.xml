@@ -27,6 +27,16 @@
 		<tag/>
 		<url/>
 	</scm>
+	<distributionManagement>
+		<repository>
+			<id>esco-releases</id>
+			<url>https://nexus.recia.dev/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>esco-snapshots</id>
+			<url>https://nexus.recia.dev/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<properties>
 		<java.version>25</java.version>
 	</properties>
@@ -35,7 +45,28 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apereo.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+			<version>4.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-cas</artifactId>
+<!--			<version>6.3.5</version>-->
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -50,6 +81,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-core</artifactId>
+			<version>3.5.1</version>
 		</dependency>
 	</dependencies>
 
