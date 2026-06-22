@@ -33,6 +33,7 @@ This project includes:
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
+  Jackson-dataformat-XML under The Apache Software License, Version 2.0
   Jakarta Activation API under EDL 1.0
   Jakarta Annotations API under EPL 2.0 or GPL2 w/ CPE
   Jakarta XML Binding API under Eclipse Distribution License - v 1.0
@@ -125,7 +126,9 @@ This project includes:
   spring-security-web under Apache License, Version 2.0
   spring-session-core under Apache License, Version 2.0
   spring-session-data-redis under Apache License, Version 2.0
+  Stax2 API under The BSD 2-Clause License
   tomcat-embed-core under Apache License, Version 2.0
   tomcat-embed-el under Apache License, Version 2.0
   tomcat-embed-websocket under Apache License, Version 2.0
+  Woodstox under The Apache License, Version 2.0
 
