@@ -40,7 +40,7 @@ public class Item extends PageAttribute {
     @JacksonXmlProperty(localName = "NiveauDAcquisition")
     protected NiveauDAcquisition niveauDAcquisition;
 
-    @JacksonXmlProperty(localName = "Matiere")
+    @JacksonXmlProperty(localName = "Date")
     protected Date date;
 
 }
