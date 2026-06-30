@@ -16,9 +16,11 @@
 package fr.recia.pronote.pronoteapi.model.abs;
 
 import jakarta.annotation.Nullable;
+import lombok.Data;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-public class TitreMessageElementsPageAttribute extends PageAttribute {
+@Data
+public abstract class TitreMessageElementsPageAttribute extends PageAttribute {
 
     @JacksonXmlProperty(localName = "Titre")
     protected String titre;
