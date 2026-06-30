@@ -28,7 +28,7 @@ public class NiveauDAcquisition extends PageAttribute {
     protected Integer genre;
 
     @JacksonXmlProperty(localName = "Libelle")
-    protected GenreNiveauDAcquisition libelle;
+    protected String libelle;
 
 
 
