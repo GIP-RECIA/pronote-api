@@ -18,6 +18,7 @@ package fr.recia.pronote.pronoteapi.model;
 
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -54,6 +55,7 @@ public class EleveFromParent {
     PageVieScolaire pageVieScolaire;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "PagePronote")
     List<PagePronote> pagePronoteList;
 

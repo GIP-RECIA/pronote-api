@@ -21,6 +21,7 @@ import fr.recia.pronote.pronoteapi.model.competences.Evaluation;
 import fr.recia.pronote.pronoteapi.model.competences.Item;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -31,15 +32,18 @@ import java.util.List;
 public class PageCompetences extends TitreMessageElementsPageAttribute {
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Evaluation")
     List<Evaluation> evaluationList;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Domaine")
     List<Domaine> domaineList;
 
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Item")
     List<Item> itemList;
 

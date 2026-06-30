@@ -18,6 +18,7 @@ package fr.recia.pronote.pronoteapi.model.cahierdetextes;
 import fr.recia.pronote.pronoteapi.model.abs.PageAttribute;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -40,10 +41,12 @@ public class ContenuDeCours extends PageAttribute {
     protected String descriptif;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "PieceJointe")
     protected List<String> pieceJointeList;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "SiteInternet")
     protected List<String> siteInternet;
 

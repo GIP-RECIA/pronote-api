@@ -18,6 +18,7 @@ package fr.recia.pronote.pronoteapi.model;
 import fr.recia.pronote.pronoteapi.model.abs.TitreMessageElementsPageAttribute;
 import fr.recia.pronote.pronoteapi.model.cahierdetextes.CahierDeTextes;
 import lombok.Data;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -27,6 +28,7 @@ import java.util.List;
 @JacksonXmlRootElement(localName = "PageCahierDeTextes")
 public class PageCahierDeTextes extends TitreMessageElementsPageAttribute {
 
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "CahierDeTextes")
     List<CahierDeTextes> cahierDeTextesList;
 

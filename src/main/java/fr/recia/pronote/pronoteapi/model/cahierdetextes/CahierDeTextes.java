@@ -18,6 +18,7 @@ package fr.recia.pronote.pronoteapi.model.cahierdetextes;
 import fr.recia.pronote.pronoteapi.model.abs.PageAttribute;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -35,10 +36,12 @@ public class CahierDeTextes extends PageAttribute {
     protected Date date;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "ContenuDeCours")
     List<ContenuDeCours> contenuDeCoursList;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "TravailAFaire")
     List<TravailAFaire> travailAFaireList;
 

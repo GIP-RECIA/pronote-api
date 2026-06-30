@@ -23,6 +23,7 @@ import fr.recia.pronote.pronoteapi.model.viescolaire.Punition;
 import fr.recia.pronote.pronoteapi.model.viescolaire.Retard;
 import fr.recia.pronote.pronoteapi.model.viescolaire.Sanction;
 import jakarta.annotation.Nullable;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
@@ -32,26 +33,32 @@ import java.util.List;
 public class PageVieScolaire extends TitreMessageElementsPageAttribute {
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Absence")
     protected List<Absence> absenceList;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Retard")
     protected List<Retard> retardList;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "PassageInfirmerie")
     protected List<PassageInfirmerie> passageInfirmerieList;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Punition")
     protected List<Punition> punitionList;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Sanction")
     protected List<Sanction> sanctionList;
 
     @Nullable
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Observation")
     protected List<Observation> observation;
 
