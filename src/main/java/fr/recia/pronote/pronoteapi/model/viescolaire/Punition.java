@@ -35,7 +35,7 @@ public class Punition extends PageAttribute {
 
     @Nullable
     @JacksonXmlProperty(localName = "Matiere")
-    protected String Nature;
+    protected String matiere;
 
     @JacksonXmlProperty(localName = "Motif")
     protected String motif;
