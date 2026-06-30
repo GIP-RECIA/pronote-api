@@ -17,6 +17,7 @@ package fr.recia.pronote.pronoteapi.model;
 
 import fr.recia.pronote.pronoteapi.model.abs.TitreMessageElementsPageAttribute;
 import fr.recia.pronote.pronoteapi.model.relevedenotes.Devoir;
+import jakarta.annotation.Nullable;
 import lombok.Data;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -27,6 +28,8 @@ import java.util.List;
 @Data
 @JacksonXmlRootElement(localName = "PageReleveDeNotes")
 public class PageReleveDeNotes extends TitreMessageElementsPageAttribute {
+
+    @Nullable
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "Devoir")
     List<Devoir> devoirList;
