@@ -23,12 +23,14 @@ import fr.recia.pronote.pronoteapi.model.viescolaire.Punition;
 import fr.recia.pronote.pronoteapi.model.viescolaire.Retard;
 import fr.recia.pronote.pronoteapi.model.viescolaire.Sanction;
 import jakarta.annotation.Nullable;
+import lombok.Data;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.util.List;
 
+@Data
 @JacksonXmlRootElement(localName = "PageVieScolaire")
 public class PageVieScolaire extends TitreMessageElementsPageAttribute {
 
