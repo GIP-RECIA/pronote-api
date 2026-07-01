@@ -15,11 +15,20 @@
  */
 package fr.recia.pronote.pronoteapi.service.impl;
 
-import fr.recia.pronote.pronoteapi.dto.CahierDeTextesDto;
+import fr.recia.pronote.pronoteapi.dto.DevoirDto;
+import fr.recia.pronote.pronoteapi.dto.ResumeCoursEtTravailAFaireAllDto;
+import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.ResponseEleveDto;
+import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAfaireDto;
+import fr.recia.pronote.pronoteapi.dto.VieScolaireDto;
+import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
 import fr.recia.pronote.pronoteapi.model.Eleve;
 import fr.recia.pronote.pronoteapi.model.cahierdetextes.CahierDeTextes;
 import fr.recia.pronote.pronoteapi.service.IEleveService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tools.jackson.dataformat.xml.XmlMapper;
 
 import java.time.Instant;
 import java.time.temporal.ChronoField;
@@ -28,41 +37,51 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
+@Service
 public class EleveServiceImpl implements IEleveService {
+
+
+    @Autowired
+    FetchPronoteServiceImpl fetchPronoteService;
+
+    @Autowired
+    ResumeCoursEtTravailAFaireAllDtoFactory resumeCoursEtTravailAFaireAllDtoFactory;
+
     @Override
     public ResponseEleveDto getDto(boolean isForWidget) {
 
-        ResponseEleveDto responseEleveDto = new ResponseEleveDto();
+        String xml = fetchPronoteService.getPronoteXmlAsString();
+
+        XmlMapper xmlMapper = new XmlMapper();
+
+        Eleve eleve = xmlMapper.readValue(xml, Eleve.class);
 
 
-        Eleve eleve = new Eleve(); // todo  fetch eleve
+        VieScolaireDto vieScolaireDto = Objects.nonNull(eleve.getPageVieScolaire()) ? new VieScolaireDto(eleve.getPageVieScolaire()) : null;
 
-        responseEleveDto.setCahierDeTextesDtoList(getCahierDeTextesDtoList(eleve, isForWidget));
+        List<ResumeDeCoursDto> resumeDeCoursDtoList = null;
+        List<TravailAfaireDto> travailAfaireDtoList = null;
 
-        return null;
-    }
-
-
-    private List<CahierDeTextesDto> getCahierDeTextesDtoList(Eleve eleve, boolean isForWidget){
-
-        List<CahierDeTextesDto> cahierDeTextesDtoList = new ArrayList<>();
-
-        if(Objects.isNull( eleve.getPageCahierDeTextes())){
-            return new ArrayList<>();
+        if(Objects.nonNull(eleve.getPageCahierDeTextes()) && Objects.nonNull(eleve.getPageCahierDeTextes().getCahierDeTextesList())){
+            ResumeCoursEtTravailAFaireAllDto  resumeCoursEtTravailAFaireAllDto = resumeCoursEtTravailAFaireAllDtoFactory.create(eleve.getPageCahierDeTextes().getCahierDeTextesList());
+            resumeDeCoursDtoList = resumeCoursEtTravailAFaireAllDto.getResumeCoursDtoList();
+            travailAfaireDtoList = resumeCoursEtTravailAFaireAllDto.getTravailAfaireDtoList();
         }
 
-        List<CahierDeTextes> listToConvert = eleve.getPageCahierDeTextes().getCahierDeTextesList();
+        List<DevoirDto> devoirDtoList =
+                Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
 
-        if(isForWidget){
-            listToConvert = cahierDeTextesListFilterdForWidget(listToConvert);
-        }
-
-        //todo transformer listToConvert
-
-
-        return cahierDeTextesDtoList;
+        ResponseEleveDto responseEleveDto = new ResponseEleveDto(
+                resumeDeCoursDtoList,
+                travailAfaireDtoList,
+                vieScolaireDto,
+                devoirDtoList);
 
 
+        log.info("ELEVE DTO IS {}", responseEleveDto.toString());
+
+        return responseEleveDto;
     }
 
     private List<CahierDeTextes> cahierDeTextesListFilterdForWidget(List<CahierDeTextes> listToConvert){
