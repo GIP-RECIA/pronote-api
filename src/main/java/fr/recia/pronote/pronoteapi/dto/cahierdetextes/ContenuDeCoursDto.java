@@ -13,17 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi;
+package fr.recia.pronote.pronoteapi.dto.cahierdetextes;
 
-import fr.recia.pronote.pronoteapi.model.relevedenotes.Devoir;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import tools.jackson.dataformat.xml.XmlMapper;
+import jakarta.annotation.Nullable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@SpringBootTest
-class PronoteApiApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ContenuDeCoursDto {
+
+    @Nullable
+    protected String titre;
+
+    @Nullable
+    protected String categorie;
+
+    @Nullable
+    protected String descriptif;
+
+    @Nullable
+    protected List<String> pieceJointeList;
+
+    @Nullable
+    protected List<String> siteInternetList;
+
 }

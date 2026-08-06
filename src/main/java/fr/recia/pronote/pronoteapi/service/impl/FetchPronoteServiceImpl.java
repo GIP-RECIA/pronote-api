@@ -19,6 +19,7 @@ import fr.recia.pronote.pronoteapi.config.bean.AppConfProperties;
 import fr.recia.pronote.pronoteapi.exception.PronoteXmlFetchException;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
 import fr.recia.pronote.pronoteapi.util.UserAttributesHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@Slf4j
 public class FetchPronoteServiceImpl implements IFetchPronoteService {
 
     @Autowired
@@ -40,14 +42,17 @@ public class FetchPronoteServiceImpl implements IFetchPronoteService {
         CasAuthenticationToken token = (CasAuthenticationToken) SecurityContextHolder
                 .getContext()
                 .getAuthentication();
+        String uaiCourant =   userAttributesHandler.getAttribute(UserAttributesHandler.UAI_CURRENT);
+
         assert token != null;
-        final String proxyTicket = token.getAssertion().getPrincipal().getProxyTicketFor(appConfProperties.getCasProxyTicketFor());
+        final String proxyTicket = token.getAssertion().getPrincipal().getProxyTicketFor(String.format( appConfProperties.getCasProxyTicketFor(), uaiCourant));
         try {
             RestTemplate restTemplate = new RestTemplate();
-            String uaiCourant =   userAttributesHandler.getAttribute(UserAttributesHandler.UAI_CURRENT);
-            String uri = String.format(appConfProperties.getCasProxyTicketFor(), uaiCourant);
+            String uri = String.format(appConfProperties.getContactUri(), uaiCourant) + "?ticket=" + proxyTicket + "&methode=proxyValidate" ;
+            log.info("using uri {}", uri);
+            log.info("proxy ticket for {}", appConfProperties.getCasProxyTicketFor());
             ResponseEntity<String> response
-                    = restTemplate.postForEntity(uri + "?ticket=" + proxyTicket + "&methode=proxyValidate", String.class, String.class);
+                    = restTemplate.postForEntity(uri, String.class, String.class);
             assert response.getBody() != null;
             return response.getBody();
 

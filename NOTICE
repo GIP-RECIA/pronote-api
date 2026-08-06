@@ -29,6 +29,8 @@ This project includes:
   Bouncy Castle Provider under Bouncy Castle Licence
   Byte Buddy (without dependencies) under Apache License, Version 2.0
   Byte Buddy agent under Apache License, Version 2.0
+  Caffeine cache under Apache License, Version 2.0
+  error-prone annotations under Apache 2.0
   Hamcrest under BSD-3-Clause
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
@@ -105,6 +107,7 @@ This project includes:
   spring-boot-security under Apache License, Version 2.0
   spring-boot-servlet under Apache License, Version 2.0
   spring-boot-starter under Apache License, Version 2.0
+  spring-boot-starter-cache under Apache License, Version 2.0
   spring-boot-starter-data-redis under Apache License, Version 2.0
   spring-boot-starter-jackson under Apache License, Version 2.0
   spring-boot-starter-logging under Apache License, Version 2.0

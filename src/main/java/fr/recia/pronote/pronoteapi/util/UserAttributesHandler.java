@@ -34,7 +34,7 @@ public class UserAttributesHandler {
   @Autowired
   private HttpSession session;
 
-
+  public static final String ENT_PERSON_PROFILS = "ENTPersonProfils";
   public static final String UAI_CURRENT = "ESCOUAICourant";
   public static final String UID = "uid";
 

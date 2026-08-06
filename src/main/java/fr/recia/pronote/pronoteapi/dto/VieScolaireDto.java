@@ -15,5 +15,64 @@
  */
 package fr.recia.pronote.pronoteapi.dto;
 
+import fr.recia.pronote.pronoteapi.dto.viescolaire.AbsenceDto;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.ObservationDto;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.PassageInfirmerieDto;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.PunitionDto;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.RetardDto;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.SanctionDto;
+import fr.recia.pronote.pronoteapi.model.PageVieScolaire;
+import lombok.Data;
+
+import java.util.List;
+import java.util.Objects;
+
+@Data
 public class VieScolaireDto {
+
+    public VieScolaireDto(PageVieScolaire pageVieScolaire){
+
+        if(Objects.isNull(pageVieScolaire)){
+            return;
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getAbsenceList())){
+            this.absenceList = pageVieScolaire.getAbsenceList().stream().map(AbsenceDto::new).toList();
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getRetardList())){
+            this.retardList = pageVieScolaire.getRetardList().stream().map(RetardDto::new).toList();
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getPassageInfirmerieList())){
+            this.passageInfirmerieList = pageVieScolaire.getPassageInfirmerieList().stream().map(PassageInfirmerieDto::new).toList();
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getPunitionList())){
+            this.punitionList = pageVieScolaire.getPunitionList().stream().map(PunitionDto::new).toList();
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getSanctionList())){
+            this.sanctionList = pageVieScolaire.getSanctionList().stream().map(SanctionDto::new).toList();
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getObservation())){
+            this.observationList = pageVieScolaire.getObservation().stream().map(ObservationDto::new).toList();
+        }
+
+
+    }
+
+    protected List<AbsenceDto> absenceList;
+
+    protected List<RetardDto> retardList;
+
+    protected List<PassageInfirmerieDto> passageInfirmerieList;
+
+    protected List<PunitionDto> punitionList;
+
+    protected List<SanctionDto> sanctionList;
+
+    protected List<ObservationDto> observationList;
+
 }

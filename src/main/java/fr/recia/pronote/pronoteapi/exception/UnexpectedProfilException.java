@@ -13,19 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi.dto;
+package fr.recia.pronote.pronoteapi.exception;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
-
-@Getter
-@Setter
-public class ResponseEleveDto {
-
-    List<CahierDeTextesDto> cahierDeTextesDtoList;
-    List<VieScolaireDto> vieScolaireDtoList;
-
-
+public class UnexpectedProfilException extends RuntimeException {
+    public UnexpectedProfilException(String message) {
+        super(message);
+    }
 }

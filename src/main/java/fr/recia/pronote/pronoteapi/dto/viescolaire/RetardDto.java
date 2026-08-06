@@ -13,17 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi;
+package fr.recia.pronote.pronoteapi.dto.viescolaire;
 
-import fr.recia.pronote.pronoteapi.model.relevedenotes.Devoir;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import tools.jackson.dataformat.xml.XmlMapper;
+import fr.recia.pronote.pronoteapi.model.viescolaire.Retard;
+import lombok.Data;
 
-@SpringBootTest
-class PronoteApiApplicationTests {
+import java.time.LocalDateTime;
 
-	@Test
-	void contextLoads() {
-	}
+@Data
+public class RetardDto {
+
+    public RetardDto(Retard retard){
+        this.date = retard.getDate();
+        this.justifie = retard.isJustifie();
+        this.motif = retard.getMotif();
+    }
+
+    protected LocalDateTime date;
+
+    protected  boolean justifie;
+
+    protected String motif;
+
 }

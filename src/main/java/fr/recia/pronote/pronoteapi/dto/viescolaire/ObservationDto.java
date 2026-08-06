@@ -13,12 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi.service;
+package fr.recia.pronote.pronoteapi.dto.viescolaire;
 
-import fr.recia.pronote.pronoteapi.dto.ResponseEleveDto;
+import fr.recia.pronote.pronoteapi.model.viescolaire.Observation;
+import lombok.Data;
 
-public interface IEleveService {
+import java.time.LocalDateTime;
 
-    public ResponseEleveDto getDto(boolean isForWidget);
+@Data
+public class ObservationDto {
+
+    public ObservationDto(Observation observation){
+        this.date = observation.getDate();
+        this.demandeur = observation.getDemandeur();
+        this.matiere = observation.getMatiere();
+        this.observation = observation.getObservation();
+    }
+
+    protected LocalDateTime date;
+
+    protected String demandeur;
+
+    protected String matiere;
+
+    protected String observation;
 
 }

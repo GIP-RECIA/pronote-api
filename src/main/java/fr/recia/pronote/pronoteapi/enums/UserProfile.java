@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi;
+package fr.recia.pronote.pronoteapi.enums;
 
-import fr.recia.pronote.pronoteapi.model.relevedenotes.Devoir;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import tools.jackson.dataformat.xml.XmlMapper;
+public enum UserProfile {
+        eleve("Eleve"),
+        parent("Parent");
 
-@SpringBootTest
-class PronoteApiApplicationTests {
+        public final String label;
 
-	@Test
-	void contextLoads() {
-	}
-}
+        UserProfile(String label) {
+            this.label = label;
+        }
+    }

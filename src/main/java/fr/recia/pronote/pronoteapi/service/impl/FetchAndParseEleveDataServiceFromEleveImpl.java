@@ -18,15 +18,16 @@ package fr.recia.pronote.pronoteapi.service.impl;
 import fr.recia.pronote.pronoteapi.dto.DevoirDto;
 import fr.recia.pronote.pronoteapi.dto.ResumeCoursEtTravailAFaireAllDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
-import fr.recia.pronote.pronoteapi.dto.ResponseEleveDto;
-import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAfaireDto;
+import fr.recia.pronote.pronoteapi.dto.EleveDto;
+import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
 import fr.recia.pronote.pronoteapi.dto.VieScolaireDto;
 import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
 import fr.recia.pronote.pronoteapi.model.Eleve;
 import fr.recia.pronote.pronoteapi.model.cahierdetextes.CahierDeTextes;
-import fr.recia.pronote.pronoteapi.service.IEleveService;
+import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tools.jackson.dataformat.xml.XmlMapper;
 
@@ -34,12 +35,13 @@ import java.time.Instant;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 @Slf4j
 @Service
-public class EleveServiceImpl implements IEleveService {
+public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndParseEleveDataService {
 
 
     @Autowired
@@ -49,7 +51,8 @@ public class EleveServiceImpl implements IEleveService {
     ResumeCoursEtTravailAFaireAllDtoFactory resumeCoursEtTravailAFaireAllDtoFactory;
 
     @Override
-    public ResponseEleveDto getDto(boolean isForWidget) {
+    @Cacheable(value = "dtoListCache", key = "#uid")
+    public List<EleveDto> getDto(String uid) {
 
         String xml = fetchPronoteService.getPronoteXmlAsString();
 
@@ -61,28 +64,32 @@ public class EleveServiceImpl implements IEleveService {
         VieScolaireDto vieScolaireDto = Objects.nonNull(eleve.getPageVieScolaire()) ? new VieScolaireDto(eleve.getPageVieScolaire()) : null;
 
         List<ResumeDeCoursDto> resumeDeCoursDtoList = null;
-        List<TravailAfaireDto> travailAfaireDtoList = null;
+        List<TravailAFaireDto> travailAFaireDtoList = null;
 
         if(Objects.nonNull(eleve.getPageCahierDeTextes()) && Objects.nonNull(eleve.getPageCahierDeTextes().getCahierDeTextesList())){
             ResumeCoursEtTravailAFaireAllDto  resumeCoursEtTravailAFaireAllDto = resumeCoursEtTravailAFaireAllDtoFactory.create(eleve.getPageCahierDeTextes().getCahierDeTextesList());
             resumeDeCoursDtoList = resumeCoursEtTravailAFaireAllDto.getResumeCoursDtoList();
-            travailAfaireDtoList = resumeCoursEtTravailAFaireAllDto.getTravailAfaireDtoList();
+            travailAFaireDtoList = resumeCoursEtTravailAFaireAllDto.getTravailAFaireDtoList();
         }
 
         List<DevoirDto> devoirDtoList =
                 Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
 
-        ResponseEleveDto responseEleveDto = new ResponseEleveDto(
+        EleveDto eleveDto = new EleveDto(
+                EleveDto.DEFAULT_PRENOM,
                 resumeDeCoursDtoList,
-                travailAfaireDtoList,
+                travailAFaireDtoList,
                 vieScolaireDto,
                 devoirDtoList);
 
 
-        log.info("ELEVE DTO IS {}", responseEleveDto.toString());
+        log.info("ELEVE DTO IS {}", eleveDto.toString());
 
-        return responseEleveDto;
+        return Collections.singletonList(eleveDto);
     }
+
+
+
 
     private List<CahierDeTextes> cahierDeTextesListFilterdForWidget(List<CahierDeTextes> listToConvert){
         List<CahierDeTextes> filtered = new ArrayList<>();
