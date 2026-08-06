@@ -19,12 +19,14 @@ import fr.recia.pronote.pronoteapi.model.abs.TitreMessageElementsPageAttribute;
 import fr.recia.pronote.pronoteapi.model.relevedenotes.Devoir;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @JacksonXmlRootElement(localName = "PageReleveDeNotes")
 public class PageReleveDeNotes extends TitreMessageElementsPageAttribute {

@@ -20,9 +20,11 @@ import fr.recia.pronote.pronoteapi.model.messagerie.Discussions;
 import fr.recia.pronote.pronoteapi.model.messagerie.Informations;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @JacksonXmlRootElement(localName = "PageMessagerie")
 public class PageMessagerie extends TitreMessageElementsPageAttribute {

@@ -18,11 +18,13 @@ package fr.recia.pronote.pronoteapi.model.viescolaire;
 import fr.recia.pronote.pronoteapi.model.abs.PageAttribute;
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @JacksonXmlRootElement(localName = "Punition")
 public class Punition extends PageAttribute {

@@ -17,8 +17,10 @@ package fr.recia.pronote.pronoteapi.model.abs;
 
 import jakarta.annotation.Nullable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public abstract class TitreMessageElementsPageAttribute extends PageAttribute {
 
