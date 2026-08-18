@@ -87,7 +87,7 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
                     travailAFaireDtoList,
                     vieScolaireDto,
                     devoirDtoList);
-            log.info("ELEVE DTO IS {}", eleveDto.toString());
+            log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);
 
             eleveDtoList.add(eleveDto);
         }

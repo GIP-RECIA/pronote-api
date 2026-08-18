@@ -71,7 +71,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        log.info("AUTHENTICATE METHOD");
         if (!supports(authentication.getClass())) {
             return null;
         }
@@ -109,7 +108,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
 
         result = this.statelessTicketCache.getByTicketId(ticket);
 
-        log.info("RESULT IS "+result);
         if (result == null) {
             result = this.authenticateNow(authentication);
             result.setDetails(authentication.getDetails());
@@ -154,8 +152,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
      * Récupère l'URL du service à partir de la requête ou de la configuration.
      */
     private String getServiceUrl(Authentication authentication) {
-        log.info("GET SERVICE URL");
-
         ServletRequestAttributes attrs =
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
@@ -165,16 +161,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
 
         HttpServletRequest request = attrs.getRequest();
 
-
-
         String baseUrl = request.getScheme() + "://" +
                 request.getServerName() +
                 (request.getServerPort() == 80 || request.getServerPort() == 443
                         ? ""
                         : ":" + request.getServerPort());
-
-
-
         return baseUrl + casProperties.getCasServiceId();
     }
 

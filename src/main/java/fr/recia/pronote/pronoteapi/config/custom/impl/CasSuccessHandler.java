@@ -51,13 +51,6 @@ public class CasSuccessHandler extends SavedRequestAwareAuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        log.info("Authentification terminé avec succés Utilisateur authentifié : {}", authentication.getName());
-
-
-        log.info("SUCCESS - Session ID = {}", request.getSession(false).getId());
-
-
-
         // URI et type de requête
         String uri = request.getRequestURI();
         String accept = request.getHeader("Accept");

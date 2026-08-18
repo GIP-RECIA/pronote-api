@@ -43,7 +43,7 @@ public class UserAttributesHandler {
 
     if (authentication.getPrincipal() instanceof UserCustomImplementation) {
       UserCustomImplementation userCustomImplementation = (UserCustomImplementation)authentication.getPrincipal();
-      log.info("getAttributeRaw {}, {} ", attributeKey, userCustomImplementation.getUsername());
+      log.trace("getAttributeRaw {}, {} ", attributeKey, userCustomImplementation.getUsername());
 
       return userCustomImplementation.getAttributes().get(attributeKey);
     }

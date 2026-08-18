@@ -77,8 +77,7 @@ public class FetchPronoteServiceImpl implements IFetchPronoteService {
             String uaiCourantTransformedForRequest = transformedUaiForRequest(uaiCourant);
             RestTemplate restTemplate = new RestTemplate();
             String uri = String.format(casProperties.getCasProxyTicketFor(), uaiCourantTransformedForRequest) + "?ticket=" + proxyTicket + "&methode=proxyValidate" ;
-            log.info("using uri {}", uri);
-            log.info("proxy ticket for {}", casProperties.getCasProxyTicketFor());
+            log.trace("Fetching Pronote XML at uri {}", uri);
             ResponseEntity<String> response
                     = restTemplate.postForEntity(uri, String.class, String.class);
             assert response.getBody() != null;

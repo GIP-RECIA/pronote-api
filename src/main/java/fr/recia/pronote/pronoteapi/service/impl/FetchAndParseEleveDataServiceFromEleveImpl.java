@@ -83,7 +83,7 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
                 devoirDtoList);
 
 
-        log.info("ELEVE DTO IS {}", eleveDto.toString());
+        log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);
 
         return Collections.singletonList(eleveDto);
     }
