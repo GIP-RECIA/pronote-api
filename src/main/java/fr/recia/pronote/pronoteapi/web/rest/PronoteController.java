@@ -41,10 +41,6 @@ import java.util.Map;
 @RequestMapping("/api/widgets")
 public class PronoteController {
 
-
-    @Autowired
-    CasProperties casProperties;
-
     @Autowired
     UserAttributesHandler userAttributesHandler;
 
@@ -56,39 +52,6 @@ public class PronoteController {
 
     @Autowired
     ProfilsProperties profilsProperties;
-
-    // todo : dev only
-    @GetMapping(value = "/authenticated", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String,Object>> getWidgets(){
-        Map<String, Object> returnMap = new HashMap<>();
-
-        CasAuthenticationToken token = (CasAuthenticationToken) SecurityContextHolder
-                .getContext()
-                .getAuthentication();
-        assert token != null;
-        final String proxyTicket = token.getAssertion().getPrincipal().getProxyTicketFor(casProperties.getCasProxyTicketFor());
-
-        returnMap.put("token", token);
-
-        returnMap.put("proxyTicket", proxyTicket);
-
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-            String uaiCourant =   userAttributesHandler.getAttribute(UserAttributesHandler.UAI_CURRENT);
-            String uri = String.format(casProperties.getCasProxyTicketFor(), uaiCourant);
-            ResponseEntity<String> response
-                    = restTemplate.postForEntity(uri + "?ticket=" + proxyTicket + "&methode=proxyValidate", String.class, String.class);
-            returnMap.put("response", response.getBody());
-
-        }catch (Exception e){
-            returnMap.put("exception", e.getMessage());
-            return ResponseEntity.internalServerError().body(returnMap);
-
-        }
-
-
-        return ResponseEntity.ok(returnMap);
-    }
 
     @GetMapping(value = "/pronotePage", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PronotePageResponseDto> getPronotePage(){
