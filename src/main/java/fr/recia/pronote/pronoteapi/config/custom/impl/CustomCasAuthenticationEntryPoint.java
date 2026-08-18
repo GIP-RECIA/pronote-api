@@ -28,12 +28,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Slf4j
 public class CustomCasAuthenticationEntryPoint extends CasAuthenticationEntryPoint {
 
-    public CustomCasAuthenticationEntryPoint(AppConfProperties appConfProperties, CasProperties casProperties) {
-        this.appConfProperties = appConfProperties;
+    public CustomCasAuthenticationEntryPoint(CasProperties casProperties) {
         this.casProperties = casProperties;
     }
-
-    private final AppConfProperties appConfProperties;
 
     private final CasProperties casProperties;
 
@@ -59,7 +56,7 @@ public class CustomCasAuthenticationEntryPoint extends CasAuthenticationEntryPoi
         //todo mettre au propre
         return baseUrl
              //   .replace("http", "https")
-                + appConfProperties.getCasServiceId();
+                + casProperties.getCasServiceId();
     }
 
 }

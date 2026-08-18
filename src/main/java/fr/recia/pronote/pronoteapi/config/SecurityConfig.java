@@ -108,8 +108,8 @@ public  class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/health-check").permitAll()
                         .requestMatchers("/api/widgets/**").authenticated()
-                        .requestMatchers(appConfProperties.getCasTicketCallback()).permitAll()
-                        .requestMatchers(appConfProperties.getCasProxyReceptorUrl()).permitAll()
+                        .requestMatchers(casProperties.getCasTicketCallback()).permitAll()
+                        .requestMatchers(casProperties.getCasProxyReceptorUrl()).permitAll()
                         .requestMatchers("/error").permitAll()
                         .anyRequest().denyAll() //todo deny all
                 );
@@ -117,8 +117,8 @@ public  class SecurityConfig {
     }
 
     public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
-        CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CustomCasAuthenticationEntryPoint(appConfProperties, casProperties);
-        casAuthenticationEntryPoint.setLoginUrl(this.appConfProperties.getCasServerLoginUrl()); //old concatenation
+        CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CustomCasAuthenticationEntryPoint(casProperties);
+        casAuthenticationEntryPoint.setLoginUrl(this.casProperties.getCasServerLoginUrl()); //old concatenation
         casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
         return casAuthenticationEntryPoint;
     }
@@ -127,7 +127,7 @@ public  class SecurityConfig {
     @Bean
     public ServiceProperties serviceProperties() {
         ServiceProperties serviceProperties = new ServiceProperties();
-        serviceProperties.setService(appConfProperties.getCasServiceId());
+        serviceProperties.setService(casProperties.getCasServiceId());
         serviceProperties.setSendRenew(false);
         return serviceProperties;
     }
@@ -149,16 +149,16 @@ public  class SecurityConfig {
 
     @Bean
     public CustomAuthenticationProvider customAuthProvider(ServiceProperties serviceProperties) {
-        CustomAuthenticationProvider provider = new CustomAuthenticationProvider(appConfProperties);
+        CustomAuthenticationProvider provider = new CustomAuthenticationProvider(casProperties);
         provider.setServiceProperties(serviceProperties);
 
-        Cas20ProxyTicketValidator validator = new CustomCas20ProxyTicketValidator(appConfProperties.getCasServerUrl(), casProperties);
-        validator.setProxyCallbackUrl(appConfProperties.getCasProxyTicketCallback());
+        Cas20ProxyTicketValidator validator = new CustomCas20ProxyTicketValidator(casProperties.getCasServerUrl(), casProperties);
+        validator.setProxyCallbackUrl(casProperties.getCasProxyTicketCallback());
         validator.setProxyGrantingTicketStorage(pgtStorage());
 
         provider.setTicketValidator(validator);
         provider.setAuthenticationUserDetailsService(customUserDetailsService());
-        provider.setKey(appConfProperties.getCasProviderKey());
+        provider.setKey(casProperties.getCasProviderKey());
         return provider;
     }
 
@@ -171,9 +171,9 @@ public  class SecurityConfig {
     public CasAuthenticationFilter casAuthenticationFilter(AuthenticationManager authenticationManager) {
         CasAuthenticationFilter filter = new CasAuthenticationFilter();
         filter.setAuthenticationManager(authenticationManager);
-        filter.setFilterProcessesUrl(appConfProperties.getCasTicketCallback());
+        filter.setFilterProcessesUrl(casProperties.getCasTicketCallback());
         filter.setProxyGrantingTicketStorage(pgtStorage());
-        filter.setProxyReceptorUrl(appConfProperties.getCasProxyReceptorUrl());
+        filter.setProxyReceptorUrl(casProperties.getCasProxyReceptorUrl());
         filter.setAuthenticationSuccessHandler(casSuccessHandler);
         return filter;
     }

@@ -33,6 +33,22 @@ import java.util.List;
 @NoArgsConstructor
 public class CasProperties {
 
+    private String casServiceId;
+
+    private String casServerUrl;
+
+    private String casServerLoginUrl;
+
+    private String casProviderKey;
+
+    private String casTicketCallback;
+
+    private  String casProxyReceptorUrl;
+
+    private  String casProxyTicketCallback;
+
+    private String casProxyTicketFor;
+
     List<String> authorizedDomains;
 
     @PostConstruct
@@ -43,7 +59,15 @@ public class CasProperties {
     @Override
     public String toString() {
         return "CasProperties{" +
-                "authorizedDomains=" + authorizedDomains +
+                "casServiceId='" + casServiceId + '\'' +
+                ", casServerUrl='" + casServerUrl + '\'' +
+                ", casServerLoginUrl='" + casServerLoginUrl + '\'' +
+                ", casProviderKey='" + casProviderKey + '\'' +
+                ", casTicketCallback='" + casTicketCallback + '\'' +
+                ", casProxyReceptorUrl='" + casProxyReceptorUrl + '\'' +
+                ", casProxyTicketCallback='" + casProxyTicketCallback + '\'' +
+                ", casProxyTicketFor='" + casProxyTicketFor + '\'' +
+                ", authorizedDomains=" + authorizedDomains +
                 '}';
     }
 }

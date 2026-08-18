@@ -15,7 +15,7 @@
  */
 package fr.recia.pronote.pronoteapi.web.rest;
 
-import fr.recia.pronote.pronoteapi.config.bean.AppConfProperties;
+import fr.recia.pronote.pronoteapi.config.bean.CasProperties;
 import fr.recia.pronote.pronoteapi.config.bean.ProfilsProperties;
 import fr.recia.pronote.pronoteapi.dto.PronotePageResponseDto;
 import fr.recia.pronote.pronoteapi.dto.PronoteWidgetSummaryResponseDto;
@@ -43,7 +43,7 @@ public class PronoteController {
 
 
     @Autowired
-    AppConfProperties appConfProperties;
+    CasProperties casProperties;
 
     @Autowired
     UserAttributesHandler userAttributesHandler;
@@ -66,7 +66,7 @@ public class PronoteController {
                 .getContext()
                 .getAuthentication();
         assert token != null;
-        final String proxyTicket = token.getAssertion().getPrincipal().getProxyTicketFor(appConfProperties.getCasProxyTicketFor());
+        final String proxyTicket = token.getAssertion().getPrincipal().getProxyTicketFor(casProperties.getCasProxyTicketFor());
 
         returnMap.put("token", token);
 
@@ -75,7 +75,7 @@ public class PronoteController {
         try {
             RestTemplate restTemplate = new RestTemplate();
             String uaiCourant =   userAttributesHandler.getAttribute(UserAttributesHandler.UAI_CURRENT);
-            String uri = String.format(appConfProperties.getCasProxyTicketFor(), uaiCourant);
+            String uri = String.format(casProperties.getCasProxyTicketFor(), uaiCourant);
             ResponseEntity<String> response
                     = restTemplate.postForEntity(uri + "?ticket=" + proxyTicket + "&methode=proxyValidate", String.class, String.class);
             returnMap.put("response", response.getBody());

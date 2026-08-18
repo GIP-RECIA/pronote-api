@@ -15,7 +15,7 @@
  */
 package fr.recia.pronote.pronoteapi.service.impl;
 
-import fr.recia.pronote.pronoteapi.config.bean.AppConfProperties;
+import fr.recia.pronote.pronoteapi.config.bean.CasProperties;
 import fr.recia.pronote.pronoteapi.exception.PronoteXmlFetchException;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
 import fr.recia.pronote.pronoteapi.util.UserAttributesHandler;
@@ -32,7 +32,7 @@ import org.springframework.web.client.RestTemplate;
 public class FetchPronoteServiceImpl implements IFetchPronoteService {
 
     @Autowired
-    AppConfProperties appConfProperties;
+    CasProperties casProperties;
 
     @Autowired
     UserAttributesHandler userAttributesHandler;
@@ -45,12 +45,12 @@ public class FetchPronoteServiceImpl implements IFetchPronoteService {
         String uaiCourant =   userAttributesHandler.getAttribute(UserAttributesHandler.UAI_CURRENT);
 
         assert token != null;
-        final String proxyTicket = token.getAssertion().getPrincipal().getProxyTicketFor(String.format( appConfProperties.getCasProxyTicketFor(), uaiCourant));
+        final String proxyTicket = token.getAssertion().getPrincipal().getProxyTicketFor(String.format( casProperties.getCasProxyTicketFor(), uaiCourant));
         try {
             RestTemplate restTemplate = new RestTemplate();
-            String uri = String.format(appConfProperties.getContactUri(), uaiCourant) + "?ticket=" + proxyTicket + "&methode=proxyValidate" ;
+            String uri = String.format(casProperties.getCasProxyTicketFor(), uaiCourant) + "?ticket=" + proxyTicket + "&methode=proxyValidate" ;
             log.info("using uri {}", uri);
-            log.info("proxy ticket for {}", appConfProperties.getCasProxyTicketFor());
+            log.info("proxy ticket for {}", casProperties.getCasProxyTicketFor());
             ResponseEntity<String> response
                     = restTemplate.postForEntity(uri, String.class, String.class);
             assert response.getBody() != null;

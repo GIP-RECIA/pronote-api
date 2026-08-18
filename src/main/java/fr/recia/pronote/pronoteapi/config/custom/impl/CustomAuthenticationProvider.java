@@ -15,7 +15,7 @@
  */
 package fr.recia.pronote.pronoteapi.config.custom.impl;
 
-import fr.recia.pronote.pronoteapi.config.bean.AppConfProperties;
+import fr.recia.pronote.pronoteapi.config.bean.CasProperties;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apereo.cas.client.validation.Assertion;
@@ -28,7 +28,6 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.*;
-import org.springframework.security.cas.web.CasAuthenticationFilter;
 import org.springframework.security.core.*;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
@@ -52,12 +51,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
     private String SPRING_SECURITY_SERVICE_URL_ATTR = "SPRING_SECURITY_SERVICE_URL_ATTR";
 
-    private final AppConfProperties appConfProperties;
+    private final CasProperties casProperties;
 
 
-    public CustomAuthenticationProvider(AppConfProperties appConfProperties) {
+    public CustomAuthenticationProvider(CasProperties casProperties) {
         log.info("IN CONTROLLER CustomAuthenticationProvider");
-        this.appConfProperties = appConfProperties;
+        this.casProperties = casProperties;
     }
 
     @Override
@@ -176,7 +175,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
 
 
 
-        return baseUrl + appConfProperties.getCasServiceId();
+        return baseUrl + casProperties.getCasServiceId();
     }
 
     /**

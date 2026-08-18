@@ -24,36 +24,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Map;
+
 
 @ConfigurationProperties(prefix = "app.conf")
 @Data
 @Validated
 @Slf4j
-@AllArgsConstructor
 @NoArgsConstructor
 public class AppConfProperties {
-
-    private String casServiceId;
-
-    private String casServerUrl;
-
-    private String casServerLoginUrl;
-
-    private String casProviderKey;
-
-    private String casTicketCallback;
-
-    private  String casProxyReceptorUrl;
-
-    private  String casProxyTicketCallback;
-
-    private String casProxyTicketFor;
-
-    private String casAttributesKeyCurrentEtab;
-
-    private String authorizedDomains;
-
-    private String contactUri;
 
     @PostConstruct
     public void setupAndDebug() {
