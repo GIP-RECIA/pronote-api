@@ -87,29 +87,4 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
 
         return Collections.singletonList(eleveDto);
     }
-
-
-
-
-    private List<CahierDeTextes> cahierDeTextesListFilterdForWidget(List<CahierDeTextes> listToConvert){
-        List<CahierDeTextes> filtered = new ArrayList<>();
-        Instant max = Instant.now().plus(3, ChronoUnit.DAYS);
-        Instant min = Instant.now().minus(1, ChronoUnit.DAYS);
-
-        for(CahierDeTextes cahierDeTextes : listToConvert){
-
-            Instant toUse = max;
-            int value = cahierDeTextes.getDate().toInstant().get(ChronoField.DAY_OF_WEEK);
-
-            if(value == 0 || value == 6){
-                toUse = toUse.plus(2, ChronoUnit.DAYS);
-            }
-
-            if(cahierDeTextes.getDate().toInstant().isBefore(toUse) && cahierDeTextes.getDate().toInstant().isAfter(min)){
-                filtered.add(cahierDeTextes);
-            }
-        }
-        return filtered;
-    }
-
 }
