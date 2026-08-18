@@ -17,13 +17,17 @@ package fr.recia.pronote.pronoteapi.config.bean;
 
 
 import jakarta.annotation.PostConstruct;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -34,9 +38,50 @@ import java.util.Map;
 @NoArgsConstructor
 public class AppConfProperties {
 
+
+    @Getter(AccessLevel.NONE)
+    List<UaiToName> uaiReplacementListRequest;
+
+    @Getter(AccessLevel.NONE)
+    List<UaiToName> uaiReplacementListProxyTicketFor;
+
+    Map<String, String> uaiReplacementMapRequest;
+
+    Map<String, String> uaiReplacementMapProxyTicketFor;
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    static
+    class UaiToName {
+
+        String uai;
+        String name;
+    }
+
     @PostConstruct
     public void setupAndDebug() {
+
+        uaiReplacementMapRequest = new HashMap<>();
+        for(UaiToName uaiToName : uaiReplacementListRequest){
+            uaiReplacementMapRequest.put(uaiToName.uai, uaiToName.name);
+        }
+
+        uaiReplacementMapProxyTicketFor = new HashMap<>();
+        for(UaiToName uaiToName : uaiReplacementListProxyTicketFor){
+            uaiReplacementMapProxyTicketFor.put(uaiToName.uai, uaiToName.name);
+        }
+
         log.debug("AppConfProperties {}", this);
     }
 
+    @Override
+    public String toString() {
+        return "AppConfProperties{" +
+                "uaiReplacementListRequest=" + uaiReplacementListRequest +
+                ", uaiReplacementListProxyTicketFor=" + uaiReplacementListProxyTicketFor +
+                ", uaiReplacementMapRequest=" + uaiReplacementMapRequest +
+                ", uaiReplacementMapProxyTicketFor=" + uaiReplacementMapProxyTicketFor +
+                '}';
+    }
 }
