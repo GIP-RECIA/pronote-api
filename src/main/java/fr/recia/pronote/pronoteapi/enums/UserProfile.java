@@ -15,6 +15,8 @@
  */
 package fr.recia.pronote.pronoteapi.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum UserProfile {
         eleve("Eleve"),
         parent("Parent");
@@ -24,4 +26,10 @@ public enum UserProfile {
         UserProfile(String label) {
             this.label = label;
         }
+
+        @JsonValue
+        public String getLabel() {
+            return label;
+        }
+
     }
