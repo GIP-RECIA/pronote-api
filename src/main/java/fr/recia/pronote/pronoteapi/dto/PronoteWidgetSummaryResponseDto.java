@@ -64,7 +64,7 @@ public class PronoteWidgetSummaryResponseDto {
                 int sanctions = Objects.nonNull(eleveDto.getVieScolaireDto().getSanctionList())  ? eleveDto.getVieScolaireDto().getSanctionList().size() : 0;
 
                 summaryElementList.add(new SummaryElement(
-                        SummaryElement.Description.absences_et_retards,
+                        SummaryElement.Description.punitions_et_sanctions,
                         punitions + sanctions));
 
             }else {
