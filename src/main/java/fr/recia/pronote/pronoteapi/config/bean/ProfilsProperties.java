@@ -25,49 +25,30 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
-@ConfigurationProperties(prefix = "app.cas")
+
+@ConfigurationProperties(prefix = "app.profils")
 @Data
 @Validated
 @Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
-public class CasProperties {
+public class ProfilsProperties {
 
-    private String casServiceId;
+    String eleveProfilName;
 
-    private String casServerUrl;
+    String parentProfilName;
 
-    private String casServerLoginUrl;
-
-    private String casProviderKey;
-
-    private String casTicketCallback;
-
-    private  String casProxyReceptorUrl;
-
-    private  String casProxyTicketCallback;
-
-    private String casProxyTicketFor;
-
-    List<String> authorizedDomains;
+    @Override
+    public String toString() {
+        return "ProfilsProperties{" +
+                "eleveProfilName='" + eleveProfilName + '\'' +
+                ", parentProfilName='" + parentProfilName + '\'' +
+                '}';
+    }
 
     @PostConstruct
     void init(){
         log.info(this.toString());
     }
 
-    @Override
-    public String toString() {
-        return "CasProperties{" +
-                "casServiceId='" + casServiceId + '\'' +
-                ", casServerUrl='" + casServerUrl + '\'' +
-                ", casServerLoginUrl='" + casServerLoginUrl + '\'' +
-                ", casProviderKey='" + casProviderKey + '\'' +
-                ", casTicketCallback='" + casTicketCallback + '\'' +
-                ", casProxyReceptorUrl='" + casProxyReceptorUrl + '\'' +
-                ", casProxyTicketCallback='" + casProxyTicketCallback + '\'' +
-                ", casProxyTicketFor='" + casProxyTicketFor + '\'' +
-                ", authorizedDomains=" + authorizedDomains +
-                '}';
-    }
 }

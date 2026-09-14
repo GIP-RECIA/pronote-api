@@ -15,7 +15,7 @@
  */
 package fr.recia.pronote.pronoteapi.config.custom.impl;
 
-import fr.recia.pronote.pronoteapi.config.bean.AppConfProperties;
+import fr.recia.pronote.pronoteapi.config.bean.CasProperties;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apereo.cas.client.validation.Assertion;
@@ -28,7 +28,6 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.*;
-import org.springframework.security.cas.web.CasAuthenticationFilter;
 import org.springframework.security.core.*;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
@@ -52,12 +51,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
     private String SPRING_SECURITY_SERVICE_URL_ATTR = "SPRING_SECURITY_SERVICE_URL_ATTR";
 
-    private final AppConfProperties appConfProperties;
+    private final CasProperties casProperties;
 
 
-    public CustomAuthenticationProvider(AppConfProperties appConfProperties) {
+    public CustomAuthenticationProvider(CasProperties casProperties) {
         log.info("IN CONTROLLER CustomAuthenticationProvider");
-        this.appConfProperties = appConfProperties;
+        this.casProperties = casProperties;
     }
 
     @Override
@@ -72,7 +71,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        log.info("AUTHENTICATE METHOD");
         if (!supports(authentication.getClass())) {
             return null;
         }
@@ -110,7 +108,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
 
         result = this.statelessTicketCache.getByTicketId(ticket);
 
-        log.info("RESULT IS "+result);
         if (result == null) {
             result = this.authenticateNow(authentication);
             result.setDetails(authentication.getDetails());
@@ -155,8 +152,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
      * Récupère l'URL du service à partir de la requête ou de la configuration.
      */
     private String getServiceUrl(Authentication authentication) {
-        log.info("GET SERVICE URL");
-
         ServletRequestAttributes attrs =
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
@@ -166,17 +161,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
 
         HttpServletRequest request = attrs.getRequest();
 
-
-
         String baseUrl = request.getScheme() + "://" +
                 request.getServerName() +
                 (request.getServerPort() == 80 || request.getServerPort() == 443
                         ? ""
                         : ":" + request.getServerPort());
-
-
-
-        return baseUrl + appConfProperties.getCasServiceId();
+        return baseUrl + casProperties.getCasServiceId();
     }
 
     /**

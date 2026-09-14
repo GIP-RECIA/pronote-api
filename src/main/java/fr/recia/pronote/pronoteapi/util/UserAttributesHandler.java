@@ -34,7 +34,7 @@ public class UserAttributesHandler {
   @Autowired
   private HttpSession session;
 
-
+  public static final String ENT_PERSON_PROFILS = "ENTPersonProfils";
   public static final String UAI_CURRENT = "ESCOUAICourant";
   public static final String UID = "uid";
 
@@ -43,7 +43,7 @@ public class UserAttributesHandler {
 
     if (authentication.getPrincipal() instanceof UserCustomImplementation) {
       UserCustomImplementation userCustomImplementation = (UserCustomImplementation)authentication.getPrincipal();
-      log.info("getAttributeRaw {}, {} ", attributeKey, userCustomImplementation.getUsername());
+      log.trace("getAttributeRaw {}, {} ", attributeKey, userCustomImplementation.getUsername());
 
       return userCustomImplementation.getAttributes().get(attributeKey);
     }

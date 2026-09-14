@@ -13,17 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi;
+package fr.recia.pronote.pronoteapi.dto.viescolaire;
 
-import fr.recia.pronote.pronoteapi.model.relevedenotes.Devoir;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import tools.jackson.dataformat.xml.XmlMapper;
+import fr.recia.pronote.pronoteapi.model.viescolaire.Observation;
+import lombok.Data;
 
-@SpringBootTest
-class PronoteApiApplicationTests {
+import java.time.LocalDateTime;
 
-	@Test
-	void contextLoads() {
-	}
+@Data
+public class ObservationDto {
+
+    public ObservationDto(Observation observation){
+        this.date = observation.getDate();
+        this.demandeur = observation.getDemandeur();
+        this.matiere = observation.getMatiere();
+        this.observation = observation.getObservation();
+    }
+
+    protected LocalDateTime date;
+
+    protected String demandeur;
+
+    protected String matiere;
+
+    protected String observation;
+
 }

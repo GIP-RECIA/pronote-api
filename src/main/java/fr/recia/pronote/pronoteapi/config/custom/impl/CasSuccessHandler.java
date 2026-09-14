@@ -21,6 +21,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -49,15 +50,8 @@ public class CasSuccessHandler extends SavedRequestAwareAuthenticationSuccessHan
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
-                                        HttpServletResponse response,
-                                        Authentication authentication) throws IOException, ServletException {
-        log.info("Authentification terminé avec succés Utilisateur authentifié : {}", authentication.getName());
-
-
-        log.info("SUCCESS - Session ID = {}", request.getSession(false).getId());
-
-
-
+                                        @NonNull HttpServletResponse response,
+                                        @NonNull Authentication authentication) throws IOException, ServletException {
         // URI et type de requête
         String uri = request.getRequestURI();
         String accept = request.getHeader("Accept");

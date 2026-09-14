@@ -13,17 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi;
+package fr.recia.pronote.pronoteapi.model.abs;
 
-import fr.recia.pronote.pronoteapi.model.relevedenotes.Devoir;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import tools.jackson.dataformat.xml.XmlMapper;
+import jakarta.annotation.Nullable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-@SpringBootTest
-class PronoteApiApplicationTests {
+@EqualsAndHashCode(callSuper = true)
+@Data
+public abstract class TitreMessageElementsPageAttribute extends PageAttribute {
 
-	@Test
-	void contextLoads() {
-	}
+    @JacksonXmlProperty(localName = "Titre")
+    protected String titre;
+
+    @Nullable
+    @JacksonXmlProperty(localName = "Message")
+    protected String message;
+
 }

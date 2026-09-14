@@ -1,0 +1,78 @@
+/*
+ * Copyright © ${project.inceptionYear} GIP-RECIA (https://www.recia.fr/)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package fr.recia.pronote.pronoteapi.dto;
+
+import fr.recia.pronote.pronoteapi.dto.viescolaire.AbsenceDto;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.ObservationDto;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.PassageInfirmerieDto;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.PunitionDto;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.RetardDto;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.SanctionDto;
+import fr.recia.pronote.pronoteapi.model.PageVieScolaire;
+import lombok.Data;
+
+import java.util.List;
+import java.util.Objects;
+
+@Data
+public class VieScolaireDto {
+
+    public VieScolaireDto(PageVieScolaire pageVieScolaire){
+
+        if(Objects.isNull(pageVieScolaire)){
+            return;
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getAbsenceList())){
+            this.absenceList = pageVieScolaire.getAbsenceList().stream().map(AbsenceDto::new).toList();
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getRetardList())){
+            this.retardList = pageVieScolaire.getRetardList().stream().map(RetardDto::new).toList();
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getPassageInfirmerieList())){
+            this.passageInfirmerieList = pageVieScolaire.getPassageInfirmerieList().stream().map(PassageInfirmerieDto::new).toList();
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getPunitionList())){
+            this.punitionList = pageVieScolaire.getPunitionList().stream().map(PunitionDto::new).toList();
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getSanctionList())){
+            this.sanctionList = pageVieScolaire.getSanctionList().stream().map(SanctionDto::new).toList();
+        }
+
+        if(Objects.nonNull(pageVieScolaire.getObservation())){
+            this.observationList = pageVieScolaire.getObservation().stream().map(ObservationDto::new).toList();
+        }
+
+
+    }
+
+    protected List<AbsenceDto> absenceList;
+
+    protected List<RetardDto> retardList;
+
+    protected List<PassageInfirmerieDto> passageInfirmerieList;
+
+    protected List<PunitionDto> punitionList;
+
+    protected List<SanctionDto> sanctionList;
+
+    protected List<ObservationDto> observationList;
+
+}
