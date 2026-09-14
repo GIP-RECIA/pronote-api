@@ -49,15 +49,15 @@ class ResumeCoursEtTravailAFaireAllDtoFactoryTest {
         ResumeCoursEtTravailAFaireAllDto result = factory.create(List.of(coursMaths, coursFrancais));
 
         assertThat(result.getResumeCoursDtoList()).hasSize(2);
-        assertThat(result.getResumeCoursDtoList().get(0).getMatiere()).isEqualTo("Mathématiques");
-        assertThat(result.getResumeCoursDtoList().get(1).getMatiere()).isEqualTo("Français");
+        assertThat(result.getResumeCoursDtoList().getFirst().getMatiere()).isEqualTo("Mathématiques");
+        assertThat(result.getResumeCoursDtoList().getLast().getMatiere()).isEqualTo("Français");
 
         assertThat(result.getTravailAFaireDtoList()).hasSize(1);
-        TravailAFaireDto travailAFaireDto = result.getTravailAFaireDtoList().get(0);
+        TravailAFaireDto travailAFaireDto = result.getTravailAFaireDtoList().getFirst();
         assertThat(travailAFaireDto.getDescriptif()).isEqualTo("Exercices p.42");
         assertThat(travailAFaireDto.getMatiere()).isEqualTo("Mathématiques");
         // le travail à faire doit être lié à l'id généré pour le résumé de SON cours
-        assertThat(travailAFaireDto.getCoursId()).isEqualTo(result.getResumeCoursDtoList().get(0).getId());
+        assertThat(travailAFaireDto.getCoursId()).isEqualTo(result.getResumeCoursDtoList().getFirst().getId());
     }
 
     @Test
