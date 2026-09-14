@@ -7,6 +7,7 @@ application-local*.yaml
 application-*.yaml
 !application.yaml
 !application.example
+!application-ci.yaml
 
 ### STS ###
 .apt_generated

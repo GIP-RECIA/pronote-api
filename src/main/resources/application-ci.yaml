@@ -1,0 +1,24 @@
+app:
+  cas:
+    casServiceId: "/pronote-api/login/cas"
+    casServerUrl: "https://cas.example.test/cas"
+    casServerLoginUrl: "${app.cas.casServerUrl}/login"
+    casProviderKey: "casProviderKeyPronoteApiCi"
+    casTicketCallback: "/login/cas"
+    casProxyReceptorUrl: "/login/cas/proxyreceptor"
+    casProxyTicketCallback: "/pronote-api${app.cas.casProxyReceptorUrl}"
+    casProxyTicketFor: "https://%s.index-education.example/pronote/donneesUtilisateur"
+    authorizedDomains:
+      - localhost
+  profils:
+    eleve-profil-name: National_ELV
+    parent-profil-name: National_TUT
+
+spring:
+  redis:
+    namespace: ci
+
+redis:
+  hostName: localhost
+  port: 6379
+  databaseIndex: 0
