@@ -115,16 +115,17 @@ class PronoteControllerTest {
 
 
     @Test
-    void getPronotePage_forUnexpectedProfil_returns500WithMessage() throws Exception {
+    void getPronotePage_forUnexpectedProfil_returns403WithMessage() throws Exception {
         authenticateAs("National_INCONNU", "xuser");
         when(profilsProperties.getEleveProfilName()).thenReturn("National_ELV");
         when(profilsProperties.getParentProfilName()).thenReturn("National_TUT");
 
         mockMvc.perform(get("/api/widgets/pronotePage"))
-                .andExpect(status().isInternalServerError())
+                .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.message").value("National_INCONNU"));
 
         verifyNoInteractions(eleveService);
         verifyNoInteractions(parentService);
     }
+
 }
