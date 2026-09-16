@@ -48,6 +48,10 @@ public class EleveDto {
     MessagerieDto messagerieDto;
     @Nullable
     CompetencesDto competencesDto;
+    @Nullable
+    String etablissement;
+    @Nullable
+    String iCal;
 
     public List<IWidgetCountable> countableComponents() {
         return Stream.of(vieScolaireDto, messagerieDto, competencesDto)

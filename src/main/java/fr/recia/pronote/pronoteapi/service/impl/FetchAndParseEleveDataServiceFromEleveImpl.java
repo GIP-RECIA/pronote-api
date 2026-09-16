@@ -71,6 +71,9 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
         MessagerieDto messagerieDto = Objects.nonNull(eleve.getPageMessagerie()) ? new MessagerieDto(eleve.getPageMessagerie()) : null;
         CompetencesDto competencesDto = Objects.nonNull(eleve.getPageCompetences()) ? new CompetencesDto(eleve.getPageCompetences()) : null;
 
+        String etablissement = Objects.nonNull(eleve.getPagePronoteList()) && !eleve.getPagePronoteList().isEmpty()
+                ? eleve.getPagePronoteList().getFirst().getNom() : null;
+
         EleveDto eleveDto = EleveDto.builder()
                 .resumeDeCoursDtoList(resumeDeCoursDtoList)
                 .travailAFaireDtoList(travailAFaireDtoList)
@@ -78,6 +81,8 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
                 .devoirDtoList(devoirDtoList)
                 .messagerieDto(messagerieDto)
                 .competencesDto(competencesDto)
+                .etablissement(etablissement)
+                .iCal(eleve.getICal())
                 .build();
 
 

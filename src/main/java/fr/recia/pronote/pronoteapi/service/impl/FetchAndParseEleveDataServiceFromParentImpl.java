@@ -72,6 +72,9 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
                     Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
             CompetencesDto competencesDto = Objects.nonNull(eleve.getPageCompetences()) ? new CompetencesDto(eleve.getPageCompetences()) : null;
 
+            String etablissement = Objects.nonNull(eleve.getPagePronoteList()) && !eleve.getPagePronoteList().isEmpty()
+                    ? eleve.getPagePronoteList().getFirst().getNom() : null;
+
             EleveDto eleveDto = EleveDto.builder()
                     .prenom(eleve.getPrenom())
                     .nom(eleve.getNom())
@@ -79,6 +82,8 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
                     .travailAFaireDtoList(travailAFaireDtoList)
                     .vieScolaireDto(vieScolaireDto)
                     .competencesDto(competencesDto)
+                    .etablissement(etablissement)
+                    .iCal(eleve.getICal())
                     .devoirDtoList(devoirDtoList).build();
             log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);
 
