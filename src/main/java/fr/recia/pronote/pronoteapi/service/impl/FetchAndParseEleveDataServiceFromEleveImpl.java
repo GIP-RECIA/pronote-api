@@ -70,7 +70,6 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
                 Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
 
         EleveDto eleveDto = EleveDto.builder()
-                .prenom(EleveDto.DEFAULT_PRENOM)
                 .resumeDeCoursDtoList(resumeDeCoursDtoList)
                 .travailAFaireDtoList(travailAFaireDtoList)
                 .vieScolaireDto(vieScolaireDto)

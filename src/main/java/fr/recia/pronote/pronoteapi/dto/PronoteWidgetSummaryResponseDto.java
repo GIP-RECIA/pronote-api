@@ -15,15 +15,24 @@
  */
 package fr.recia.pronote.pronoteapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.*;
 
 public class PronoteWidgetSummaryResponseDto extends ArrayList<PronoteWidgetSummaryResponseDto.EleveSummary> {
 
     public PronoteWidgetSummaryResponseDto(List<EleveDto> eleveDtoList) {
         for (EleveDto eleveDto : eleveDtoList) {
-            Identity id = new Identity(eleveDto.getPrenom(), eleveDto.getNom());
+            Identity id = buildIdentity(eleveDto);
             this.add(new EleveSummary(id, buildItems(eleveDto)));
         }
+    }
+
+    private static Identity buildIdentity(EleveDto eleveDto) {
+        if (eleveDto.getPrenom() == null && eleveDto.getNom() == null) {
+            return null;
+        }
+        return new Identity(eleveDto.getPrenom(), eleveDto.getNom());
     }
 
     private static Map<String, Integer> buildItems(EleveDto eleveDto) {
@@ -46,5 +55,5 @@ public class PronoteWidgetSummaryResponseDto extends ArrayList<PronoteWidgetSumm
 
     public record Identity(String firstname, String lastname) {}
 
-    public record EleveSummary(Identity id, Map<String, Integer> items) {}
+    public record EleveSummary(@JsonInclude(JsonInclude.Include.NON_NULL) Identity id, Map<String, Integer> items) {}
 }

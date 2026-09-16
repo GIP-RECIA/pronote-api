@@ -83,7 +83,7 @@ class PronoteControllerTest {
         when(profilsProperties.getEleveProfilName()).thenReturn("National_ELV");
         when(profilsProperties.getParentProfilName()).thenReturn("National_TUT");
         when(eleveService.getDto("jdupont")).thenReturn(
-                List.of(EleveDto.builder().prenom(EleveDto.DEFAULT_PRENOM).build()));
+                List.of(EleveDto.builder().build()));
 
         mockMvc.perform(get("/api/widgets/pronotePage"))
                 .andExpect(status().isOk())

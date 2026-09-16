@@ -29,8 +29,6 @@ import java.util.List;
 @Builder
 public class EleveDto {
 
-    public static final String DEFAULT_PRENOM = "DEFAULT";
-
     String prenom;
     @Nullable
     String nom;
