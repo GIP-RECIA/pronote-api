@@ -69,12 +69,13 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
         List<DevoirDto> devoirDtoList =
                 Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
 
-        EleveDto eleveDto = new EleveDto(
-                EleveDto.DEFAULT_PRENOM,
-                resumeDeCoursDtoList,
-                travailAFaireDtoList,
-                vieScolaireDto,
-                devoirDtoList);
+        EleveDto eleveDto = EleveDto.builder()
+                .prenom(EleveDto.DEFAULT_PRENOM)
+                .resumeDeCoursDtoList(resumeDeCoursDtoList)
+                .travailAFaireDtoList(travailAFaireDtoList)
+                .vieScolaireDto(vieScolaireDto)
+                .devoirDtoList(devoirDtoList)
+                .build();
 
 
         log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);

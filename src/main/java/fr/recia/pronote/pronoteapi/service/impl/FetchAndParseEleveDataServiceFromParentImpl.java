@@ -70,14 +70,13 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
             List<DevoirDto> devoirDtoList =
                     Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
 
-            EleveDto eleveDto = new EleveDto(
-                    // prenom is used as a key in front-end, so if two sibling have the same firstname, it allow to differenciate them
-                    // the front should truncate everything after le the $ (included)
-                    eleve.getPrenom() + "$" + UUID.randomUUID(),
-                    resumeDeCoursDtoList,
-                    travailAFaireDtoList,
-                    vieScolaireDto,
-                    devoirDtoList);
+            EleveDto eleveDto = EleveDto.builder()
+                    .prenom(eleve.getPrenom())
+                    .nom(eleve.getNom())
+                    .resumeDeCoursDtoList(resumeDeCoursDtoList)
+                    .travailAFaireDtoList(travailAFaireDtoList)
+                    .vieScolaireDto(vieScolaireDto)
+                    .devoirDtoList(devoirDtoList).build();
             log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);
 
             eleveDtoList.add(eleveDto);

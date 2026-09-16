@@ -49,7 +49,7 @@ class FetchAndParseEleveDataServiceFromParentImplTest {
     private final ResumeCoursEtTravailAFaireAllDtoFactory factory = new ResumeCoursEtTravailAFaireAllDtoFactory();
 
     @Test
-    void getDto_withTwoChildrenSharingTheSameFirstName_disambiguatesThemWithASuffix() {
+    void getDto_withTwoChildrenSharingTheSameFirstName_keepsBothAsSeparateEntries() {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(XML_DEUX_ENFANTS_MEME_PRENOM);
 
         FetchAndParseEleveDataServiceFromParentImpl service =
@@ -58,12 +58,7 @@ class FetchAndParseEleveDataServiceFromParentImplTest {
         List<EleveDto> result = service.getDto("some-uid");
 
         assertThat(result).hasSize(2);
-
-        EleveDto premier = result.getFirst();
-        EleveDto second = result.getLast();
-
-        assertThat(premier.getPrenom()).startsWith("Lucas$");
-        assertThat(second.getPrenom()).startsWith("Lucas$");
-        assertThat(premier.getPrenom()).isNotEqualTo(second.getPrenom());
+        assertThat(result).extracting(EleveDto::getPrenom).containsExactly("Lucas", "Lucas");
+        assertThat(result).extracting(EleveDto::getNom).containsExactly("Martin", "Martin");
     }
 }

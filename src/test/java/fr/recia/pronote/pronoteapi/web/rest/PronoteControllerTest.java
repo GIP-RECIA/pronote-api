@@ -83,7 +83,7 @@ class PronoteControllerTest {
         when(profilsProperties.getEleveProfilName()).thenReturn("National_ELV");
         when(profilsProperties.getParentProfilName()).thenReturn("National_TUT");
         when(eleveService.getDto("jdupont")).thenReturn(
-                List.of(new EleveDto(EleveDto.DEFAULT_PRENOM, null, null, null, null)));
+                List.of(EleveDto.builder().prenom(EleveDto.DEFAULT_PRENOM).build()));
 
         mockMvc.perform(get("/api/widgets/pronotePage"))
                 .andExpect(status().isOk())
@@ -99,8 +99,8 @@ class PronoteControllerTest {
         when(profilsProperties.getEleveProfilName()).thenReturn("National_ELV");
         when(profilsProperties.getParentProfilName()).thenReturn("National_TUT");
         when(parentService.getDto("pmartin")).thenReturn(List.of(
-                new EleveDto("Alice$abc", null, null, null, null),
-                new EleveDto("Bob$def", null, null, null, null)
+                EleveDto.builder().prenom("Alice$abc").build(),
+                EleveDto.builder().prenom("Bob$def").build()
         ));
 
         mockMvc.perform(get("/api/widgets/pronotePage"))

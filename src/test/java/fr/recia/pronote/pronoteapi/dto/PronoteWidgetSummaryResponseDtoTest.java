@@ -15,17 +15,8 @@
  */
 package fr.recia.pronote.pronoteapi.dto;
 
-import fr.recia.pronote.pronoteapi.dto.viescolaire.AbsenceDto;
-import fr.recia.pronote.pronoteapi.dto.viescolaire.PassageInfirmerieDto;
-import fr.recia.pronote.pronoteapi.dto.viescolaire.PunitionDto;
-import fr.recia.pronote.pronoteapi.dto.viescolaire.RetardDto;
-import fr.recia.pronote.pronoteapi.dto.viescolaire.SanctionDto;
-import fr.recia.pronote.pronoteapi.enums.UserProfile;
-import fr.recia.pronote.pronoteapi.model.viescolaire.Absence;
-import fr.recia.pronote.pronoteapi.model.viescolaire.PassageInfirmerie;
-import fr.recia.pronote.pronoteapi.model.viescolaire.Punition;
-import fr.recia.pronote.pronoteapi.model.viescolaire.Retard;
-import fr.recia.pronote.pronoteapi.model.viescolaire.Sanction;
+import fr.recia.pronote.pronoteapi.dto.viescolaire.*;
+import fr.recia.pronote.pronoteapi.model.viescolaire.*;
 import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.Test;
 
@@ -36,31 +27,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PronoteWidgetSummaryResponseDtoTest {
 
-    private int countFor(List<PronoteWidgetSummaryResponseDto.SummaryElement> elements,
-                         PronoteWidgetSummaryResponseDto.SummaryElement.Description description) {
-        return elements.stream()
-                .filter(e -> e.getDescription() == description)
-                .findFirst()
-                .orElseThrow()
-                .getCount();
-    }
-
     @Test
     void constructor_withFullVieScolaire_sumsAbsencesRetardsAndPunitionsSanctions() {
         VieScolaireDto vieScolaireDto = createVieScolaireDto();
 
-        EleveDto eleveDto = new EleveDto("Alice", null, null, vieScolaireDto,
-                List.of(new DevoirDto(), new DevoirDto(), new DevoirDto()));
+        EleveDto eleveDto = EleveDto.builder()
+                .prenom("Alice")
+                .vieScolaireDto(vieScolaireDto)
+                .devoirDtoList(List.of(new DevoirDto(), new DevoirDto(), new DevoirDto()))
+                .build();
 
         PronoteWidgetSummaryResponseDto summary =
-                new PronoteWidgetSummaryResponseDto(UserProfile.eleve, List.of(eleveDto));
+                new PronoteWidgetSummaryResponseDto(List.of(eleveDto));
 
-        List<PronoteWidgetSummaryResponseDto.SummaryElement> elements = summary.getData().get("Alice");
+        Map<String, Integer> items = summary.getFirst().items();
 
-        assertThat(countFor(elements, PronoteWidgetSummaryResponseDto.SummaryElement.Description.devoirs)).isEqualTo(3);
-        assertThat(countFor(elements, PronoteWidgetSummaryResponseDto.SummaryElement.Description.visites_infirmerie)).isEqualTo(1);
-        assertThat(countFor(elements, PronoteWidgetSummaryResponseDto.SummaryElement.Description.absences_et_retards)).isEqualTo(3);
-        assertThat(countFor(elements, PronoteWidgetSummaryResponseDto.SummaryElement.Description.punitions_et_sanctions)).isEqualTo(3);
+        assertThat(items)
+                .containsEntry("devoirs", 3)
+                .containsEntry("visites_infirmerie", 1)
+                .containsEntry("absences_et_retards", 3)
+                .containsEntry("punitions_et_sanctions", 3);
     }
 
     private static @NonNull VieScolaireDto createVieScolaireDto() {
@@ -75,28 +61,29 @@ class PronoteWidgetSummaryResponseDtoTest {
 
     @Test
     void constructor_withoutVieScolaire_defaultsToZeroForVieScolaireCounts() {
-        EleveDto eleveDto = new EleveDto("Bob", null, null, null, null);
+        EleveDto eleveDto = EleveDto.builder().prenom("Bob").build();
 
         PronoteWidgetSummaryResponseDto summary =
-                new PronoteWidgetSummaryResponseDto(UserProfile.eleve, List.of(eleveDto));
+                new PronoteWidgetSummaryResponseDto(List.of(eleveDto));
 
-        List<PronoteWidgetSummaryResponseDto.SummaryElement> elements = summary.getData().get("Bob");
+        Map<String, Integer> items = summary.getFirst().items();
 
-        assertThat(countFor(elements, PronoteWidgetSummaryResponseDto.SummaryElement.Description.devoirs)).isZero();
-        assertThat(countFor(elements, PronoteWidgetSummaryResponseDto.SummaryElement.Description.visites_infirmerie)).isZero();
-        assertThat(countFor(elements, PronoteWidgetSummaryResponseDto.SummaryElement.Description.absences_et_retards)).isZero();
-        assertThat(countFor(elements, PronoteWidgetSummaryResponseDto.SummaryElement.Description.punitions_et_sanctions)).isZero();
+        assertThat(items)
+                .containsEntry("devoirs", 0)
+                .containsEntry("visites_infirmerie", 0)
+                .containsEntry("absences_et_retards", 0)
+                .containsEntry("punitions_et_sanctions", 0);
     }
 
     @Test
     void constructor_withMultipleEleves_keysDataByPrenom() {
-        EleveDto alice = new EleveDto("Alice", null, null, null, null);
-        EleveDto bob = new EleveDto("Bob", null, null, null, null);
-
+        EleveDto alice = EleveDto.builder().prenom("Alice").build();
+        EleveDto bob = EleveDto.builder().prenom("Bob").build();
         PronoteWidgetSummaryResponseDto summary =
-                new PronoteWidgetSummaryResponseDto(UserProfile.parent, List.of(alice, bob));
+                new PronoteWidgetSummaryResponseDto(List.of(alice, bob));
 
-        Map<String, List<PronoteWidgetSummaryResponseDto.SummaryElement>> data = summary.getData();
-        assertThat(data).containsOnlyKeys("Alice", "Bob");
+        assertThat(summary)
+                .extracting(eleveSummary -> eleveSummary.id().firstname())
+                .containsExactly("Alice", "Bob");
     }
 }
