@@ -22,6 +22,7 @@ import fr.recia.pronote.pronoteapi.dto.VieScolaireDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
 import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
+import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
 import fr.recia.pronote.pronoteapi.model.Eleve;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
 import lombok.RequiredArgsConstructor;
@@ -39,9 +40,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndParseEleveDataService {
 
-
     private final FetchPronoteServiceImpl fetchPronoteService;
-
     private final ResumeCoursEtTravailAFaireAllDtoFactory resumeCoursEtTravailAFaireAllDtoFactory;
 
     @Override
@@ -54,14 +53,13 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
 
         Eleve eleve = xmlMapper.readValue(xml, Eleve.class);
 
-
         VieScolaireDto vieScolaireDto = Objects.nonNull(eleve.getPageVieScolaire()) ? new VieScolaireDto(eleve.getPageVieScolaire()) : null;
 
         List<ResumeDeCoursDto> resumeDeCoursDtoList = null;
         List<TravailAFaireDto> travailAFaireDtoList = null;
 
-        if(Objects.nonNull(eleve.getPageCahierDeTextes()) && Objects.nonNull(eleve.getPageCahierDeTextes().getCahierDeTextesList())){
-            ResumeCoursEtTravailAFaireAllDto  resumeCoursEtTravailAFaireAllDto = resumeCoursEtTravailAFaireAllDtoFactory.create(eleve.getPageCahierDeTextes().getCahierDeTextesList());
+        if (Objects.nonNull(eleve.getPageCahierDeTextes()) && Objects.nonNull(eleve.getPageCahierDeTextes().getCahierDeTextesList())) {
+            ResumeCoursEtTravailAFaireAllDto resumeCoursEtTravailAFaireAllDto = resumeCoursEtTravailAFaireAllDtoFactory.create(eleve.getPageCahierDeTextes().getCahierDeTextesList());
             resumeDeCoursDtoList = resumeCoursEtTravailAFaireAllDto.getResumeCoursDtoList();
             travailAFaireDtoList = resumeCoursEtTravailAFaireAllDto.getTravailAFaireDtoList();
         }
@@ -69,11 +67,14 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
         List<DevoirDto> devoirDtoList =
                 Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
 
+        MessagerieDto messagerieDto = Objects.nonNull(eleve.getPageMessagerie()) ? new MessagerieDto(eleve.getPageMessagerie()) : null;
+
         EleveDto eleveDto = EleveDto.builder()
                 .resumeDeCoursDtoList(resumeDeCoursDtoList)
                 .travailAFaireDtoList(travailAFaireDtoList)
                 .vieScolaireDto(vieScolaireDto)
                 .devoirDtoList(devoirDtoList)
+                .messagerieDto(messagerieDto)
                 .build();
 
 

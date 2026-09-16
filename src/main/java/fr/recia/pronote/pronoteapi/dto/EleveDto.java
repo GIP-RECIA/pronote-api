@@ -18,11 +18,14 @@ package fr.recia.pronote.pronoteapi.dto;
 import jakarta.annotation.Nullable;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
+import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @Getter
 @Setter
@@ -40,6 +43,14 @@ public class EleveDto {
     VieScolaireDto vieScolaireDto;
     @Nullable
     List<DevoirDto> devoirDtoList;
+    @Nullable
+    MessagerieDto messagerieDto;
+
+    public List<IWidgetCountable> countableComponents() {
+        return Stream.of(vieScolaireDto, messagerieDto)
+                .filter(Objects::nonNull)
+                .toList();
+    }
 
     @Override
     public String toString() {

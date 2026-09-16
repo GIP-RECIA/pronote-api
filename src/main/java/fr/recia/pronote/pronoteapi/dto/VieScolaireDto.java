@@ -24,11 +24,13 @@ import fr.recia.pronote.pronoteapi.dto.viescolaire.SanctionDto;
 import fr.recia.pronote.pronoteapi.model.PageVieScolaire;
 import lombok.Data;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Data
-public class VieScolaireDto {
+public class VieScolaireDto implements IWidgetCountable{
 
     public VieScolaireDto(PageVieScolaire pageVieScolaire){
 
@@ -75,4 +77,16 @@ public class VieScolaireDto {
 
     protected List<ObservationDto> observationList;
 
+    @Override
+    public Map<String, Integer> widgetCounts() {
+        Map<String, Integer> counts = new LinkedHashMap<>();
+        counts.put("visites_infirmerie", passageInfirmerieList != null ? passageInfirmerieList.size() : 0);
+        int absences = absenceList != null ? absenceList.size() : 0;
+        int retards = retardList != null ? retardList.size() : 0;
+        counts.put("absences_et_retards", absences + retards);
+        int punitions = punitionList != null ? punitionList.size() : 0;
+        int sanctions = sanctionList != null ? sanctionList.size() : 0;
+        counts.put("punitions_et_sanctions", punitions + sanctions);
+        return counts;
+    }
 }

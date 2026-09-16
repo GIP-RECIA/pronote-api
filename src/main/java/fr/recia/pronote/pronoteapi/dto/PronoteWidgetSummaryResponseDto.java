@@ -36,15 +36,15 @@ public class PronoteWidgetSummaryResponseDto extends ArrayList<PronoteWidgetSumm
     }
 
     private static Map<String, Integer> buildItems(EleveDto eleveDto) {
-        VieScolaireDto vieScolaireDto = eleveDto.getVieScolaireDto();
-
         Map<String, Integer> items = new LinkedHashMap<>();
         items.put("devoirs", sizeOrZero(eleveDto.getDevoirDtoList()));
-        items.put("visites_infirmerie", vieScolaireDto == null ? 0 : sizeOrZero(vieScolaireDto.getPassageInfirmerieList()));
-        items.put("absences_et_retards", vieScolaireDto == null ? 0 :
-                sizeOrZero(vieScolaireDto.getAbsenceList()) + sizeOrZero(vieScolaireDto.getRetardList()));
-        items.put("punitions_et_sanctions", vieScolaireDto == null ? 0 :
-                sizeOrZero(vieScolaireDto.getPunitionList()) + sizeOrZero(vieScolaireDto.getSanctionList()));
+        items.put("visites_infirmerie", 0);
+        items.put("absences_et_retards", 0);
+        items.put("punitions_et_sanctions", 0);
+
+        for (IWidgetCountable countable : eleveDto.countableComponents()) {
+            items.putAll(countable.widgetCounts());
+        }
 
         return items;
     }
