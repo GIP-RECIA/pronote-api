@@ -15,87 +15,45 @@
  */
 package fr.recia.pronote.pronoteapi.dto;
 
-import fr.recia.pronote.pronoteapi.enums.UserProfile;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-@Getter
-@Setter
-public class PronoteWidgetSummaryResponseDto {
+public class PronoteWidgetSummaryResponseDto extends ArrayList<PronoteWidgetSummaryResponseDto.EleveSummary> {
 
-
-    private final UserProfile profil;
-
-    private final Map<String, List<SummaryElement>> data;
-
-    public PronoteWidgetSummaryResponseDto(UserProfile profil, List<EleveDto> eleveDtoList) {
-        this.profil = profil;
-        this.data = new HashMap<>();
-
+    public PronoteWidgetSummaryResponseDto(List<EleveDto> eleveDtoList) {
         for (EleveDto eleveDto : eleveDtoList) {
-
-            List<SummaryElement> summaryElementList = new ArrayList<>();
-
-            summaryElementList.add(new SummaryElement(
-                    SummaryElement.Description.devoirs,
-                    Objects.nonNull( eleveDto.getDevoirDtoList()) ?  eleveDto.getDevoirDtoList().size() : 0));
-
-            if(Objects.nonNull(eleveDto.getVieScolaireDto())){
-                summaryElementList.add(new SummaryElement(
-                        SummaryElement.Description.visites_infirmerie,
-                        Objects.nonNull(eleveDto.getVieScolaireDto().getPassageInfirmerieList())  ? eleveDto.getVieScolaireDto().getPassageInfirmerieList().size() : 0));
-
-                int absences = Objects.nonNull(eleveDto.getVieScolaireDto().getAbsenceList())  ? eleveDto.getVieScolaireDto().getAbsenceList().size() : 0;
-                int retards = Objects.nonNull(eleveDto.getVieScolaireDto().getRetardList())  ? eleveDto.getVieScolaireDto().getRetardList().size() : 0;
-
-                summaryElementList.add(new SummaryElement(
-                        SummaryElement.Description.absences_et_retards,
-                        absences + retards));
-
-                int punitions = Objects.nonNull(eleveDto.getVieScolaireDto().getPunitionList())  ? eleveDto.getVieScolaireDto().getPunitionList().size() : 0;
-
-                int sanctions = Objects.nonNull(eleveDto.getVieScolaireDto().getSanctionList())  ? eleveDto.getVieScolaireDto().getSanctionList().size() : 0;
-
-                summaryElementList.add(new SummaryElement(
-                        SummaryElement.Description.punitions_et_sanctions,
-                        punitions + sanctions));
-
-            }else {
-                summaryElementList.add(new SummaryElement(SummaryElement.Description.visites_infirmerie, 0));
-                summaryElementList.add(new SummaryElement(SummaryElement.Description.absences_et_retards, 0));
-                summaryElementList.add(new SummaryElement(SummaryElement.Description.punitions_et_sanctions, 0));
-            }
-            data.put(eleveDto.getPrenom(), summaryElementList);
+            Identity id = buildIdentity(eleveDto);
+            this.add(new EleveSummary(id, buildItems(eleveDto)));
         }
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class SummaryElement {
-
-        Description description;
-        int count;
-
-        public enum Description {
-            devoirs("devoirs"),
-            visites_infirmerie("visites_infirmerie"),
-            messages_non_lu("messages_non_lu"),
-            absences_et_retards("absences_et_retards"),
-            punitions_et_sanctions("punitions_et_sanctions");
-
-            public final String label;
-
-            Description(String label) {
-                this.label = label;
-            }
+    private static Identity buildIdentity(EleveDto eleveDto) {
+        if (eleveDto.getPrenom() == null && eleveDto.getNom() == null) {
+            return null;
         }
+        return new Identity(eleveDto.getPrenom(), eleveDto.getNom());
     }
+
+    private static Map<String, Integer> buildItems(EleveDto eleveDto) {
+        VieScolaireDto vieScolaireDto = eleveDto.getVieScolaireDto();
+
+        Map<String, Integer> items = new LinkedHashMap<>();
+        items.put("devoirs", sizeOrZero(eleveDto.getDevoirDtoList()));
+        items.put("visites_infirmerie", vieScolaireDto == null ? 0 : sizeOrZero(vieScolaireDto.getPassageInfirmerieList()));
+        items.put("absences_et_retards", vieScolaireDto == null ? 0 :
+                sizeOrZero(vieScolaireDto.getAbsenceList()) + sizeOrZero(vieScolaireDto.getRetardList()));
+        items.put("punitions_et_sanctions", vieScolaireDto == null ? 0 :
+                sizeOrZero(vieScolaireDto.getPunitionList()) + sizeOrZero(vieScolaireDto.getSanctionList()));
+
+        return items;
+    }
+
+    private static int sizeOrZero(List<?> list) {
+        return Objects.isNull(list) ? 0 : list.size();
+    }
+
+    public record Identity(String firstname, String lastname) {}
+
+    public record EleveSummary(@JsonInclude(JsonInclude.Include.NON_NULL) Identity id, Map<String, Integer> items) {}
 }

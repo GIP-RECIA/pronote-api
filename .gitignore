@@ -3,6 +3,11 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+application-local*.yaml
+application-*.yaml
+!application.yaml
+!application.example
+!application-ci.yaml
 
 ### STS ###
 .apt_generated

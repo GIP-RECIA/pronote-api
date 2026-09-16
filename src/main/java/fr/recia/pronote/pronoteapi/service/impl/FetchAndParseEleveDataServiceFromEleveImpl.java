@@ -16,39 +16,33 @@
 package fr.recia.pronote.pronoteapi.service.impl;
 
 import fr.recia.pronote.pronoteapi.dto.DevoirDto;
-import fr.recia.pronote.pronoteapi.dto.ResumeCoursEtTravailAFaireAllDto;
-import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.EleveDto;
-import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
+import fr.recia.pronote.pronoteapi.dto.ResumeCoursEtTravailAFaireAllDto;
 import fr.recia.pronote.pronoteapi.dto.VieScolaireDto;
+import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
+import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
 import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
 import fr.recia.pronote.pronoteapi.model.Eleve;
-import fr.recia.pronote.pronoteapi.model.cahierdetextes.CahierDeTextes;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tools.jackson.dataformat.xml.XmlMapper;
 
-import java.time.Instant;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndParseEleveDataService {
 
 
-    @Autowired
-    FetchPronoteServiceImpl fetchPronoteService;
+    private final FetchPronoteServiceImpl fetchPronoteService;
 
-    @Autowired
-    ResumeCoursEtTravailAFaireAllDtoFactory resumeCoursEtTravailAFaireAllDtoFactory;
+    private final ResumeCoursEtTravailAFaireAllDtoFactory resumeCoursEtTravailAFaireAllDtoFactory;
 
     @Override
     @Cacheable(value = "dtoListCache", key = "#uid")
@@ -75,12 +69,12 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
         List<DevoirDto> devoirDtoList =
                 Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
 
-        EleveDto eleveDto = new EleveDto(
-                EleveDto.DEFAULT_PRENOM,
-                resumeDeCoursDtoList,
-                travailAFaireDtoList,
-                vieScolaireDto,
-                devoirDtoList);
+        EleveDto eleveDto = EleveDto.builder()
+                .resumeDeCoursDtoList(resumeDeCoursDtoList)
+                .travailAFaireDtoList(travailAFaireDtoList)
+                .vieScolaireDto(vieScolaireDto)
+                .devoirDtoList(devoirDtoList)
+                .build();
 
 
         log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);

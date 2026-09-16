@@ -15,10 +15,10 @@
  */
 package fr.recia.pronote.pronoteapi.dto;
 
+import jakarta.annotation.Nullable;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
-import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,12 +26,12 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@Builder
 public class EleveDto {
 
-    final  public static  String DEFAULT_PRENOM = "DEFAULT";
-
     String prenom;
+    @Nullable
+    String nom;
     @Nullable
     List<ResumeDeCoursDto> resumeDeCoursDtoList;
     @Nullable
