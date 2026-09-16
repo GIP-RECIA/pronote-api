@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Pronote API</name>
+	<inceptionYear>2026</inceptionYear>
 	<description>Pronote API</description>
 	<url/>
 	<licenses>
