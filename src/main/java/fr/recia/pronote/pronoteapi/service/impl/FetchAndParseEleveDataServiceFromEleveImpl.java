@@ -21,6 +21,7 @@ import fr.recia.pronote.pronoteapi.dto.ResumeCoursEtTravailAFaireAllDto;
 import fr.recia.pronote.pronoteapi.dto.VieScolaireDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
+import fr.recia.pronote.pronoteapi.dto.competences.CompetencesDto;
 import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
 import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
 import fr.recia.pronote.pronoteapi.model.Eleve;
@@ -68,6 +69,7 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
                 Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
 
         MessagerieDto messagerieDto = Objects.nonNull(eleve.getPageMessagerie()) ? new MessagerieDto(eleve.getPageMessagerie()) : null;
+        CompetencesDto competencesDto = Objects.nonNull(eleve.getPageCompetences()) ? new CompetencesDto(eleve.getPageCompetences()) : null;
 
         EleveDto eleveDto = EleveDto.builder()
                 .resumeDeCoursDtoList(resumeDeCoursDtoList)
@@ -75,6 +77,7 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
                 .vieScolaireDto(vieScolaireDto)
                 .devoirDtoList(devoirDtoList)
                 .messagerieDto(messagerieDto)
+                .competencesDto(competencesDto)
                 .build();
 
 

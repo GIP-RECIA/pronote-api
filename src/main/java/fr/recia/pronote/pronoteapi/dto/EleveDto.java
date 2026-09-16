@@ -18,6 +18,7 @@ package fr.recia.pronote.pronoteapi.dto;
 import jakarta.annotation.Nullable;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
+import fr.recia.pronote.pronoteapi.dto.competences.CompetencesDto;
 import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,9 +46,11 @@ public class EleveDto {
     List<DevoirDto> devoirDtoList;
     @Nullable
     MessagerieDto messagerieDto;
+    @Nullable
+    CompetencesDto competencesDto;
 
     public List<IWidgetCountable> countableComponents() {
-        return Stream.of(vieScolaireDto, messagerieDto)
+        return Stream.of(vieScolaireDto, messagerieDto, competencesDto)
                 .filter(Objects::nonNull)
                 .toList();
     }
