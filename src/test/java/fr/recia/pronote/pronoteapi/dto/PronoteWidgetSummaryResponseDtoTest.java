@@ -33,6 +33,7 @@ class PronoteWidgetSummaryResponseDtoTest {
 
         EleveDto eleveDto = EleveDto.builder()
                 .prenom("Alice")
+                .nom("Martin")
                 .vieScolaireDto(vieScolaireDto)
                 .devoirDtoList(List.of(new DevoirDto(), new DevoirDto(), new DevoirDto()))
                 .build();
@@ -43,10 +44,10 @@ class PronoteWidgetSummaryResponseDtoTest {
         Map<String, Integer> items = summary.getFirst().items();
 
         assertThat(items)
-                .containsEntry("devoirs", 3)
-                .containsEntry("visites_infirmerie", 1)
-                .containsEntry("absences_et_retards", 3)
-                .containsEntry("punitions_et_sanctions", 3);
+                .containsEntry(WidgetItemKeys.DEVOIRS, 3)
+                .containsEntry(WidgetItemKeys.VISITES_INFIRMERIE, 1)
+                .containsEntry(WidgetItemKeys.ABSENCES_ET_RETARDS, 3)
+                .containsEntry(WidgetItemKeys.PUNITIONS_ET_SANCTIONS, 3);
     }
 
     private static @NonNull VieScolaireDto createVieScolaireDto() {
@@ -61,7 +62,7 @@ class PronoteWidgetSummaryResponseDtoTest {
 
     @Test
     void constructor_withoutVieScolaire_defaultsToZeroForVieScolaireCounts() {
-        EleveDto eleveDto = EleveDto.builder().prenom("Bob").build();
+        EleveDto eleveDto = EleveDto.builder().prenom("Bob").nom("Dupont").build();
 
         PronoteWidgetSummaryResponseDto summary =
                 new PronoteWidgetSummaryResponseDto(List.of(eleveDto));
@@ -69,21 +70,21 @@ class PronoteWidgetSummaryResponseDtoTest {
         Map<String, Integer> items = summary.getFirst().items();
 
         assertThat(items)
-                .containsEntry("devoirs", 0)
-                .containsEntry("visites_infirmerie", 0)
-                .containsEntry("absences_et_retards", 0)
-                .containsEntry("punitions_et_sanctions", 0);
+                .containsEntry(WidgetItemKeys.DEVOIRS, 0)
+                .containsEntry(WidgetItemKeys.VISITES_INFIRMERIE, 0)
+                .containsEntry(WidgetItemKeys.ABSENCES_ET_RETARDS, 0)
+                .containsEntry(WidgetItemKeys.PUNITIONS_ET_SANCTIONS, 0);
     }
 
     @Test
     void constructor_withMultipleEleves_keysDataByPrenom() {
-        EleveDto alice = EleveDto.builder().prenom("Alice").build();
-        EleveDto bob = EleveDto.builder().prenom("Bob").build();
+        EleveDto alice = EleveDto.builder().prenom("Alice").nom("Martin").build();
+        EleveDto bob = EleveDto.builder().prenom("Bob").nom("Dupont").build();
         PronoteWidgetSummaryResponseDto summary =
                 new PronoteWidgetSummaryResponseDto(List.of(alice, bob));
 
         assertThat(summary)
-                .extracting(eleveSummary -> eleveSummary.id().firstname())
-                .containsExactly("Alice", "Bob");
+                .extracting(PronoteWidgetSummaryResponseDto.EleveSummary::displayName)
+                .containsExactly("Alice Martin", "Bob Dupont");
     }
 }

@@ -16,6 +16,7 @@
 package fr.recia.pronote.pronoteapi.dto.messagerie;
 
 import fr.recia.pronote.pronoteapi.dto.IWidgetCountable;
+import fr.recia.pronote.pronoteapi.dto.WidgetItemKeys;
 import fr.recia.pronote.pronoteapi.model.PageMessagerie;
 import lombok.Data;
 
@@ -37,8 +38,8 @@ public class MessagerieDto implements IWidgetCountable {
     @Override
     public Map<String, Integer> widgetCounts() {
         Map<String, Integer> counts = new java.util.LinkedHashMap<>();
-        counts.put("messages_non_lus", nombreMessagesNonLus);
-        counts.put("informations_non_lues", nombreInformationsNonLus);
+        counts.put(WidgetItemKeys.MESSAGES_NON_LUS, nombreMessagesNonLus);
+        counts.put(WidgetItemKeys.INFORMATIONS_NON_LUES, nombreInformationsNonLus);
         return counts;
     }
 }
