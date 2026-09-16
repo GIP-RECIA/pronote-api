@@ -17,6 +17,7 @@ package fr.recia.pronote.pronoteapi.util;
 
 import fr.recia.pronote.pronoteapi.config.custom.impl.UserCustomImplementation;
 import jakarta.servlet.http.HttpSession;
+import fr.recia.pronote.pronoteapi.exception.MissingUserAttributeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -37,6 +38,7 @@ public class UserAttributesHandler {
   public static final String ENT_PERSON_PROFILS = "ENTPersonProfils";
   public static final String UAI_CURRENT = "ESCOUAICourant";
   public static final String UID = "uid";
+  private static final String MISSING_ATTRIBUTE_MESSAGE_TEMPLATE = "Attribute '%s' not found or not a String: %s";
 
   private Object getAttributeRaw(String attributeKey) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,16 +52,17 @@ public class UserAttributesHandler {
     return null;
   }
 
-  public String getAttribute(String attributeKey){
-
-
+  public String getAttribute(String attributeKey) {
     Object attributeRaw = getAttributeRaw(attributeKey);
 
-    if (attributeRaw instanceof String) {
-      return (String)attributeRaw;
+    if (attributeRaw instanceof String stringValue) {
+      return stringValue;
     }
-//    throw new UserAttributeNotFoundException(attributeKey);
-    throw new RuntimeException(attributeKey);
+
+    if (attributeRaw instanceof List<?> listValue && !listValue.isEmpty() && listValue.getFirst() instanceof String firstValue) {
+      return firstValue;
+    }
+    throw new MissingUserAttributeException(String.format(MISSING_ATTRIBUTE_MESSAGE_TEMPLATE, attributeKey, attributeRaw));
   }
 
   public List<String> getAttributeList(String key) {
