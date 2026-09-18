@@ -1,5 +1,5 @@
 /*
- * Copyright © ${project.inceptionYear} GIP-RECIA (https://www.recia.fr/)
+ * Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,13 @@ import fr.recia.pronote.pronoteapi.dto.viescolaire.SanctionDto;
 import fr.recia.pronote.pronoteapi.model.PageVieScolaire;
 import lombok.Data;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Data
-public class VieScolaireDto {
+public class VieScolaireDto implements IWidgetCountable{
 
     public VieScolaireDto(PageVieScolaire pageVieScolaire){
 
@@ -75,4 +77,16 @@ public class VieScolaireDto {
 
     protected List<ObservationDto> observationList;
 
+    @Override
+    public Map<String, Integer> widgetCounts() {
+        Map<String, Integer> counts = new LinkedHashMap<>();
+        counts.put(WidgetItemKeys.VISITES_INFIRMERIE, passageInfirmerieList != null ? passageInfirmerieList.size() : 0);
+        int absences = absenceList != null ? absenceList.size() : 0;
+        int retards = retardList != null ? retardList.size() : 0;
+        counts.put(WidgetItemKeys.ABSENCES_ET_RETARDS, absences + retards);
+        int punitions = punitionList != null ? punitionList.size() : 0;
+        int sanctions = sanctionList != null ? sanctionList.size() : 0;
+        counts.put(WidgetItemKeys.PUNITIONS_ET_SANCTIONS, punitions + sanctions);
+        return counts;
+    }
 }

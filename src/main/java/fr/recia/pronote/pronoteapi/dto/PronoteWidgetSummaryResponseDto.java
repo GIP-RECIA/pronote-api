@@ -1,5 +1,5 @@
 /*
- * Copyright © ${project.inceptionYear} GIP-RECIA (https://www.recia.fr/)
+ * Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,28 +23,28 @@ public class PronoteWidgetSummaryResponseDto extends ArrayList<PronoteWidgetSumm
 
     public PronoteWidgetSummaryResponseDto(List<EleveDto> eleveDtoList) {
         for (EleveDto eleveDto : eleveDtoList) {
-            Identity id = buildIdentity(eleveDto);
-            this.add(new EleveSummary(id, buildItems(eleveDto)));
+            String displayName = buildDisplayName(eleveDto);
+            this.add(new EleveSummary(displayName, buildItems(eleveDto)));
         }
     }
 
-    private static Identity buildIdentity(EleveDto eleveDto) {
+    private static String buildDisplayName(EleveDto eleveDto) {
         if (eleveDto.getPrenom() == null && eleveDto.getNom() == null) {
             return null;
         }
-        return new Identity(eleveDto.getPrenom(), eleveDto.getNom());
+        return eleveDto.getPrenom() + " " + eleveDto.getNom();
     }
 
     private static Map<String, Integer> buildItems(EleveDto eleveDto) {
-        VieScolaireDto vieScolaireDto = eleveDto.getVieScolaireDto();
-
         Map<String, Integer> items = new LinkedHashMap<>();
-        items.put("devoirs", sizeOrZero(eleveDto.getDevoirDtoList()));
-        items.put("visites_infirmerie", vieScolaireDto == null ? 0 : sizeOrZero(vieScolaireDto.getPassageInfirmerieList()));
-        items.put("absences_et_retards", vieScolaireDto == null ? 0 :
-                sizeOrZero(vieScolaireDto.getAbsenceList()) + sizeOrZero(vieScolaireDto.getRetardList()));
-        items.put("punitions_et_sanctions", vieScolaireDto == null ? 0 :
-                sizeOrZero(vieScolaireDto.getPunitionList()) + sizeOrZero(vieScolaireDto.getSanctionList()));
+        items.put(WidgetItemKeys.DEVOIRS, sizeOrZero(eleveDto.getDevoirDtoList()));
+        items.put(WidgetItemKeys.VISITES_INFIRMERIE, 0);
+        items.put(WidgetItemKeys.ABSENCES_ET_RETARDS, 0);
+        items.put(WidgetItemKeys.PUNITIONS_ET_SANCTIONS, 0);
+
+        for (IWidgetCountable countable : eleveDto.countableComponents()) {
+            items.putAll(countable.widgetCounts());
+        }
 
         return items;
     }
@@ -53,7 +53,6 @@ public class PronoteWidgetSummaryResponseDto extends ArrayList<PronoteWidgetSumm
         return Objects.isNull(list) ? 0 : list.size();
     }
 
-    public record Identity(String firstname, String lastname) {}
 
-    public record EleveSummary(@JsonInclude(JsonInclude.Include.NON_NULL) Identity id, Map<String, Integer> items) {}
+    public record EleveSummary(@JsonInclude(JsonInclude.Include.NON_NULL) String displayName, Map<String, Integer> items) {}
 }

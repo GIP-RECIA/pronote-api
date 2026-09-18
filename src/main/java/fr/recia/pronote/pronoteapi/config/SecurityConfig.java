@@ -1,5 +1,5 @@
 /*
- * Copyright © ${project.inceptionYear} GIP-RECIA (https://www.recia.fr/)
+ * Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +15,21 @@
  */
 package fr.recia.pronote.pronoteapi.config;
 
+import jakarta.servlet.Filter;
+import jakarta.servlet.http.HttpServletResponse;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import fr.recia.pronote.pronoteapi.config.bean.AppConfProperties;
 import fr.recia.pronote.pronoteapi.config.bean.CasProperties;
-import fr.recia.pronote.pronoteapi.config.custom.impl.CasSuccessHandler;
-import fr.recia.pronote.pronoteapi.config.custom.impl.CustomAuthenticationProvider;
-import fr.recia.pronote.pronoteapi.config.custom.impl.CustomCas20ProxyTicketValidator;
-import fr.recia.pronote.pronoteapi.config.custom.impl.CustomCasAuthenticationEntryPoint;
-import fr.recia.pronote.pronoteapi.config.custom.impl.CustomSessionMappingStorage;
-import fr.recia.pronote.pronoteapi.config.custom.impl.ProxyGrantingTicketRedisImpl;
-import fr.recia.pronote.pronoteapi.config.custom.impl.SessionDebugFilter;
-import fr.recia.pronote.pronoteapi.config.custom.impl.UserCustomImplementation;
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import fr.recia.pronote.pronoteapi.config.custom.impl.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apereo.cas.client.proxy.ProxyGrantingTicketStorage;
 import org.apereo.cas.client.session.SingleSignOutFilter;
 import org.apereo.cas.client.validation.Assertion;
 import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.cas.ServiceProperties;
@@ -46,80 +38,76 @@ import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.RequestCacheConfigurer;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.filter.OncePerRequestFilter;
-import org.xml.sax.InputSource;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.List;
 import java.util.Map;
 
 @Configuration
 @Slf4j
-public  class SecurityConfig {
+@RequiredArgsConstructor
+public class SecurityConfig {
 
-    @Autowired
-    AppConfProperties appConfProperties;
-
-    @Autowired
-    CasProperties casProperties;
-
-    @Autowired
-    CorsConfigurationSource corsConfigurationSource;
-
-    @Autowired
-    private CustomSessionMappingStorage ticketSessionMappingStorage;
-
-    @Autowired
-    private CasSuccessHandler casSuccessHandler;
-
-    @Autowired
-    private SessionDebugFilter sessionDebugFilter;
+    private final AppConfProperties appConfProperties;
+    private final CasProperties casProperties;
+    private final CorsConfigurationSource corsConfigurationSource;
+    private final CustomSessionMappingStorage ticketSessionMappingStorage;
+    private final CasSuccessHandler casSuccessHandler;
+    private final SessionDebugFilter sessionDebugFilter;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http
-            //,
-              //                             CustomAuthenticationProvider customAuthenticationProvider
+    public SecurityFilterChain filterChain(
+            HttpSecurity http,
+            Filter singleSignOutFilter,
+            CasAuthenticationFilter casAuthenticationFilter,
+            CustomAuthenticationProvider customAuthProvider,
+            CasAuthenticationEntryPoint casAuthenticationEntryPoint
     ) throws Exception {
         http
-//                .authenticationProvider(customAuthenticationProvider)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class)
+                .addFilterBefore(singleSignOutFilter, CasAuthenticationFilter.class)
                 .addFilterAfter(sessionDebugFilter, CasAuthenticationFilter.class)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-
-                .authenticationProvider(customAuthProvider(serviceProperties()))
-                .addFilterBefore(casAuthenticationFilter(authenticationManager(customAuthProvider(serviceProperties()))), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(e -> e.authenticationEntryPoint(casAuthenticationEntryPoint()).accessDeniedHandler((req, res, ex) -> {
-                    res.setStatus(403);
-                    res.setContentType("application/json");
-                    res.getWriter().write("{\"error\":\"FORBIDDEN\"}");
+                .authenticationProvider(customAuthProvider)
+                .addFilterBefore(casAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(e -> e.authenticationEntryPoint(casAuthenticationEntryPoint).accessDeniedHandler((req, res, ex) -> {
+                    res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    res.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    res.getWriter().write(new JsonMapper().writeValueAsString(Map.of("message", ex.getMessage())));
                 }))
-//                .requestCache(RequestCacheConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/health-check").permitAll()
                         .requestMatchers("/api/widgets/**").authenticated()
+                        .requestMatchers("/api/config").authenticated()
                         .requestMatchers(casProperties.getCasTicketCallback()).permitAll()
                         .requestMatchers(casProperties.getCasProxyReceptorUrl()).permitAll()
                         .requestMatchers("/error").permitAll()
-                        .anyRequest().denyAll() //todo deny all
+                        .anyRequest().denyAll()
                 );
         return http.build();
     }
 
-    public CasAuthenticationEntryPoint casAuthenticationEntryPoint() {
+    /**
+     * Filtre CAS pour le Single Logout (SLO).
+     */
+    @Bean
+    public Filter singleSignOutFilter() {
+        SingleSignOutFilter.setArtifactParameterName("ticket");
+        SingleSignOutFilter.setLogoutParameterName("logoutRequest");
+        return new SingleSignOutHandlerFilter(ticketSessionMappingStorage);
+    }
+
+    @Bean
+    public CasAuthenticationEntryPoint casAuthenticationEntryPoint(ServiceProperties serviceProperties) {
         CasAuthenticationEntryPoint casAuthenticationEntryPoint = new CustomCasAuthenticationEntryPoint(casProperties);
-        casAuthenticationEntryPoint.setLoginUrl(this.casProperties.getCasServerLoginUrl()); //old concatenation
-        casAuthenticationEntryPoint.setServiceProperties(serviceProperties());
+        casAuthenticationEntryPoint.setLoginUrl(casProperties.getCasServerLoginUrl());
+        casAuthenticationEntryPoint.setServiceProperties(serviceProperties);
         return casAuthenticationEntryPoint;
     }
 
@@ -133,9 +121,9 @@ public  class SecurityConfig {
     }
 
     @Bean
-	public ProxyGrantingTicketStorage pgtStorage(){
-		return new ProxyGrantingTicketRedisImpl();
-	}
+    public ProxyGrantingTicketStorage pgtStorage() {
+        return new ProxyGrantingTicketRedisImpl();
+    }
 
     @Bean
     public AuthenticationUserDetailsService<CasAssertionAuthenticationToken> customUserDetailsService() {
@@ -178,92 +166,4 @@ public  class SecurityConfig {
         return filter;
     }
 
-    /**
-     * Filtre CAS pour le Single Logout (SLO).
-     */
-    @Bean
-    public Filter singleSignOutFilter() {
-        SingleSignOutFilter delegate = new SingleSignOutFilter();
-        delegate.setIgnoreInitConfiguration(true);
-        SingleSignOutFilter.setArtifactParameterName("ticket");
-        SingleSignOutFilter.setLogoutParameterName("logoutRequest");
-
-        return new OncePerRequestFilter() {
-            @Override
-            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                            FilterChain filterChain) throws ServletException, IOException {
-                String logoutRequest = request.getParameter("logoutRequest");
-                String ip = request.getRemoteAddr();
-                String uri = request.getRequestURI();
-                String method = request.getMethod();
-
-                log.debug("[SLO] Requête entrante : {} {} depuis IP={}", method, uri, ip);
-
-                if (logoutRequest != null) {
-                    log.trace("[SLO] URI appelée : {}", uri);
-                    log.trace("[SLO] Adresse IP appelante : {}", ip);
-                    log.trace("[SLO] XML logoutRequest brut :\n{}", logoutRequest);
-
-                    // Parsing XML SAML pour extraire le ticket (SessionIndex)
-                    try {
-
-                        var factory = DocumentBuilderFactory.newInstance();
-
-                        factory.setNamespaceAware(true);
-                        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-                        factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
-                        factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-                        factory.setXIncludeAware(false);
-                        factory.setExpandEntityReferences(false);
-
-                        var builder = factory.newDocumentBuilder();
-                        var doc = builder.parse(new InputSource(new StringReader(logoutRequest)));
-
-                        doc.getDocumentElement().normalize();
-
-                        var nameIdNode = doc.getElementsByTagNameNS("*", "NameID").item(0);
-                        var sessionIndexNode = doc.getElementsByTagNameNS("*", "SessionIndex").item(0);
-
-                        String nameId = nameIdNode != null ? nameIdNode.getTextContent() : "inconnu";
-                        String ticket = sessionIndexNode != null ? sessionIndexNode.getTextContent() : "inconnu";
-
-                        // Lors du logout, le CAS envoie aussi des messages pour invalider les PGT, mais ici on ne traite que les
-                        // SessionTicket, qui commencent par ST
-
-                        int index = ticket.indexOf('-');
-                        boolean isSessionTicket = false;
-
-                        if (index != -1) {
-                            String beforeDash = ticket.substring(0, index + 1);
-                            if("ST-".equals(beforeDash)){
-                                isSessionTicket = true;
-                            }
-                        }
-
-                        if(isSessionTicket){
-                            log.debug("[SLO] Ticket Invalidation Request will be handled: {}", ticket);
-                        }else {
-                            log.debug("[SLO] Ticket Invalidation Request will be ignored: {}", ticket);
-                            filterChain.doFilter(request, response);
-                            return;
-                        }
-
-                        String sessionId = ticketSessionMappingStorage.getSessionIdFromSessionTicket(ticket);
-
-                        log.debug("[SLO] Utilisateur CAS (NameID) : {}", nameId);
-                        log.debug("[SLO] Session id: {}", sessionId);
-
-                        ticketSessionMappingStorage.removeSessionTicket(ticket);
-                        log.debug("[SLO] Le cache associé au mappage ticket-sessionID [{}:{}] a été supprimé avec succès.", ticket, sessionId);
-                        ticketSessionMappingStorage.deleteSessionContext(sessionId);
-                        log.debug("[SLO] Invalidation réussie de la session [{}].", sessionId);
-
-                    } catch (Exception e) {
-                        log.error("[SLO] Erreur de parsing XML logoutRequest", e);
-                    }
-                }
-                filterChain.doFilter(request, response);
-            }
-        };
-    }
 }

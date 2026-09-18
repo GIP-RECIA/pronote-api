@@ -13,20 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi.model;
+package fr.recia.pronote.pronoteapi.dto;
 
-import fr.recia.pronote.pronoteapi.model.abs.PageAttribute;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import java.util.Map;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
-@JacksonXmlRootElement(localName = "PagePronote")
-public class PagePronote extends PageAttribute {
-
-    @JacksonXmlProperty(isAttribute = true, localName = "nom")
-    String nom;
-
+public interface IWidgetCountable {
+    Map<String, Integer> widgetCounts();
 }

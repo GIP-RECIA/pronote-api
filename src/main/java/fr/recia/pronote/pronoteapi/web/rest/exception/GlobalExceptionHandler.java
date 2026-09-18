@@ -1,5 +1,5 @@
 /*
- * Copyright © ${project.inceptionYear} GIP-RECIA (https://www.recia.fr/)
+ * Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package fr.recia.pronote.pronoteapi.web.rest.exception;
 
+import fr.recia.pronote.pronoteapi.exception.MissingUserAttributeException;
 import fr.recia.pronote.pronoteapi.exception.UnexpectedProfilException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +27,21 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final  String MESSAGE = "message";
+
     @ExceptionHandler(UnexpectedProfilException.class)
     public ResponseEntity<Map<String, Object>> handleUnexpectedProfil(UnexpectedProfilException ex) {
         Map<String, Object> body = Map.of(
-                "message", ex.getMessage()
+                MESSAGE, ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(body);
+    }
+
+    @ExceptionHandler(MissingUserAttributeException.class)
+    public ResponseEntity<Map<String, Object>> handleMissingUserAttribute(MissingUserAttributeException ex) {
+        Map<String, Object> body = Map.of(
+                MESSAGE, ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(body);
@@ -38,7 +50,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handle(Exception ex) {
         Map<String, Object> body = Map.of(
-                "message", ex.getMessage()
+                MESSAGE, ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(body);

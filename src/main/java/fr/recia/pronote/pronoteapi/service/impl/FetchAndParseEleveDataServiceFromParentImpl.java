@@ -1,5 +1,5 @@
 /*
- * Copyright © ${project.inceptionYear} GIP-RECIA (https://www.recia.fr/)
+ * Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import fr.recia.pronote.pronoteapi.dto.ResumeCoursEtTravailAFaireAllDto;
 import fr.recia.pronote.pronoteapi.dto.VieScolaireDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
+import fr.recia.pronote.pronoteapi.dto.competences.CompetencesDto;
 import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
 import fr.recia.pronote.pronoteapi.model.EleveFromParent;
 import fr.recia.pronote.pronoteapi.model.Parent;
@@ -69,6 +70,10 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
 
             List<DevoirDto> devoirDtoList =
                     Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
+            CompetencesDto competencesDto = Objects.nonNull(eleve.getPageCompetences()) ? new CompetencesDto(eleve.getPageCompetences()) : null;
+
+            String etablissement = Objects.nonNull(eleve.getPagePronoteList()) && !eleve.getPagePronoteList().isEmpty()
+                    ? eleve.getPagePronoteList().getFirst().getNom() : null;
 
             EleveDto eleveDto = EleveDto.builder()
                     .prenom(eleve.getPrenom())
@@ -76,6 +81,9 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
                     .resumeDeCoursDtoList(resumeDeCoursDtoList)
                     .travailAFaireDtoList(travailAFaireDtoList)
                     .vieScolaireDto(vieScolaireDto)
+                    .competencesDto(competencesDto)
+                    .etablissement(etablissement)
+                    .iCal(eleve.getICal())
                     .devoirDtoList(devoirDtoList).build();
             log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);
 
