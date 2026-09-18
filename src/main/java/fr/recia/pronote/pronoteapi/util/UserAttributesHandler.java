@@ -43,8 +43,8 @@ public class UserAttributesHandler {
   private Object getAttributeRaw(String attributeKey) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    if (authentication.getPrincipal() instanceof UserCustomImplementation) {
-      UserCustomImplementation userCustomImplementation = (UserCustomImplementation)authentication.getPrincipal();
+    if (authentication != null
+            && authentication.getPrincipal() instanceof UserCustomImplementation userCustomImplementation) {
       log.trace("getAttributeRaw {}, {} ", attributeKey, userCustomImplementation.getUsername());
 
       return userCustomImplementation.getAttributes().get(attributeKey);
@@ -62,6 +62,8 @@ public class UserAttributesHandler {
     if (attributeRaw instanceof List<?> listValue && !listValue.isEmpty() && listValue.getFirst() instanceof String firstValue) {
       return firstValue;
     }
+
+    log.error("CAS attribute '{}' missing or invalid (value received: {}) — check this service's attribute release policy in the CAS service registry, this is not an application bug.", attributeKey, attributeRaw);
     throw new MissingUserAttributeException(String.format(MISSING_ATTRIBUTE_MESSAGE_TEMPLATE, attributeKey, attributeRaw));
   }
 
