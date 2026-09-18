@@ -1,0 +1,147 @@
+{
+  "profil": "Eleve",
+  "eleveDtoList": [
+    {
+      "competencesDto": {
+        "nombreEvaluations": 3
+      },
+      "devoirDtoList": [
+        { "note": "14", "bareme": "20", "matiere": "Mathématiques", "date": "2026-09-08T00:00:00.000Z" },
+        { "note": "16.5", "bareme": "20", "matiere": "Français", "date": "2026-09-10T00:00:00.000Z" },
+        { "note": "Abs", "bareme": "20", "matiere": "Physique-Chimie", "date": "2026-09-12T00:00:00.000Z" },
+        { "note": "12", "bareme": "20", "matiere": "Histoire-Géographie", "date": "2026-09-15T00:00:00.000Z" }
+      ],
+      "etablissement": "Page d'accueil",
+      "iCal": "ical/personnel.ics?icalsecurise=58E62091754D95FD3301F54466CA179184FDB96324732A1350AECC073C1482023E1ACAF760206A28D682CE3AD853F6DD&version=2026.2.6&param=F60D95264DD13203F653B60AB4D6FF57",
+      "messagerieDto": {
+        "nombreInformationsNonLus": 5,
+        "nombreMessagesNonLus": 2
+      },
+      "nom": null,
+      "prenom": null,
+      "resumeDeCoursDtoList": [
+        {
+          "id": "b3f1a2c4-1111-4a2b-8c3d-uuid1",
+          "matiere": "Mathématiques",
+          "date": "2026-09-14T00:00:00.000Z",
+          "contenuDeCoursList": [
+            {
+              "titre": "Fonctions affines",
+              "categorie": "Cours",
+              "descriptif": "Introduction à la notion de fonction affine, tracé de droites.",
+              "pieceJointeList": ["cours_fonctions_affines.pdf"],
+              "siteInternet": null
+            }
+          ]
+        },
+        {
+          "id": "b3f1a2c4-2222-4a2b-8c3d-uuid2",
+          "matiere": "Français",
+          "date": "2026-09-15T00:00:00.000Z",
+          "contenuDeCoursList": [
+            {
+              "titre": "Étude d'un extrait de Candide",
+              "categorie": "Cours",
+              "descriptif": "Lecture analytique du chapitre III, l'ironie voltairienne.",
+              "pieceJointeList": null,
+              "siteInternet": null
+            }
+          ]
+        },
+        {
+          "id": "b3f1a2c4-3333-4a2b-8c3d-uuid3",
+          "matiere": "Histoire-Géographie",
+          "date": "2026-09-15T00:00:00.000Z",
+          "contenuDeCoursList": [
+            {
+              "titre": "La Première Guerre mondiale",
+              "categorie": "Cours",
+              "descriptif": "Les grandes phases du conflit, 1914-1918.",
+              "pieceJointeList": null,
+              "siteInternet": ["https://www.histoire.example/1914-1918"]
+            }
+          ]
+        }
+      ],
+      "travailAFaireDtoList": [
+        {
+          "coursId": "b3f1a2c4-1111-4a2b-8c3d-uuid1",
+          "matiere": "Mathématiques",
+          "descriptif": "Exercices p.42 n°3, 5 et 7",
+          "pourLe": "2026-09-19T00:00:00.000Z",
+          "pieceJointeList": ["exercices_p42.pdf"],
+          "siteInternetList": null
+        },
+        {
+          "coursId": "b3f1a2c4-2222-4a2b-8c3d-uuid2",
+          "matiere": "Français",
+          "descriptif": "Rédiger un paragraphe argumenté sur l'ironie voltairienne",
+          "pourLe": "2026-09-21T00:00:00.000Z",
+          "pieceJointeList": null,
+          "siteInternetList": null
+        }
+      ],
+      "vieScolaireDto": {
+        "absenceList": [
+          {
+            "dateDebut": "2026-08-19T08:30:00",
+            "dateFin": "2026-08-19T12:00:00",
+            "estOuverte": false,
+            "justifie": true,
+            "motif": "EXCLUSION TEMPORAIRE"
+          },
+          {
+            "dateDebut": "2026-09-11T08:00:00",
+            "dateFin": "2026-09-11T09:00:00",
+            "estOuverte": false,
+            "justifie": true,
+            "motif": "Rendez-vous médical"
+          },
+          {
+            "dateDebut": "2026-09-14T13:00:00",
+            "dateFin": "2026-09-14T17:00:00",
+            "estOuverte": true,
+            "justifie": false,
+            "motif": ""
+          }
+        ],
+        "observationList": [
+          {
+            "date": "2026-09-13T00:00:00",
+            "demandeur": "M. Martin",
+            "matiere": "SVT",
+            "observation": "Bonne participation, en nette progression."
+          }
+        ],
+        "passageInfirmerieList": [
+          { "date": "2026-09-09T10:30:00" }
+        ],
+        "punitionList": [
+          {
+            "date": "2026-09-05T00:00:00.000Z",
+            "nature": "Retenue",
+            "matiere": "Mathématiques",
+            "motif": "Bavardages répétés",
+            "circonstances": "Pendant le cours"
+          }
+        ],
+        "retardList": [
+          {
+            "date": "2026-09-15T08:05:00",
+            "justifie": false,
+            "motif": "Retard de bus"
+          }
+        ],
+        "sanctionList": [
+          {
+            "date": "2026-06-20T00:00:00.000Z",
+            "nature": "Avertissement",
+            "motif": "Absences répétées non justifiées",
+            "circonstances": "Conseil de discipline",
+            "duree": 0
+          }
+        ]
+      }
+    }
+  ]
+}
