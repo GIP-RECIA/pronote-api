@@ -14,11 +14,20 @@
  * limitations under the License.
  */
 
-@use '@gip-recia/ui/core' as *;
-@use '@gip-recia/ui/functions' as *;
-@use '@gip-recia/ui/mixins' as *;
-@use '@gip-recia/ui/global';
-@use '@gip-recia/ui/components/buttons';
-@use '@gip-recia/ui/components/fields';
-@use '@gip-recia/ui/components/tags';
-@use '@gip-recia/ui/layouts';
+export interface ComponentProperties {
+  componentPath: string
+  props: Record<string, string> | null
+}
+
+export interface ExtendedUportalProperties {
+  header: ComponentProperties | null
+  footer: ComponentProperties | null
+}
+
+export interface FrontProperties {
+  extendedUportal: ExtendedUportalProperties | null
+}
+
+export interface Configuration {
+  front: FrontProperties
+}
