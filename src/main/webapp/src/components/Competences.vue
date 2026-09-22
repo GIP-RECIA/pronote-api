@@ -23,8 +23,10 @@ defineProps<{
 </script>
 
 <template>
-  <section class="competences">
-    <h2>Compétences</h2>
+  <section class="competences" aria-labelledby="competences-heading">
+    <h2 id="competences-heading">
+      Compétences
+    </h2>
 
     <template v-if="competences?.evaluationDtoList?.length">
       <template v-for="(evaluation, i) in competences.evaluationDtoList" :key="i">

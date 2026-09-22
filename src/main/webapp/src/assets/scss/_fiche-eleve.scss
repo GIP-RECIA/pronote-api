@@ -29,6 +29,10 @@
     gap: 2px;
     text-decoration: none;
     color: inherit;
+    &:focus-visible {
+      outline: 4px solid var(--#{$prefix}primary);
+      outline-offset: 2px;
+    }
 
     .num {
       font-size: 1.3rem;

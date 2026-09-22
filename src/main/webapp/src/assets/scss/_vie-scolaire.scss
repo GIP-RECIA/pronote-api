@@ -72,5 +72,9 @@
     font-size: 0.82rem;
     color: var(--#{$prefix}primary);
     cursor: pointer;
+    &:focus-visible {
+      outline: 4px solid var(--#{$prefix}primary);
+      outline-offset: 2px;
+    }
   }
 }

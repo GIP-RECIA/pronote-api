@@ -32,8 +32,10 @@ function formatFullDate(date: string): string {
 </script>
 
 <template>
-  <section class="devoirs">
-    <h2>Relevé de notes</h2>
+  <section class="devoirs" aria-labelledby="releve-notes-heading">
+    <h2 id="releve-notes-heading">
+      Relevé de notes
+    </h2>
 
     <template v-if="sortedDevoirs.length">
       <template v-for="(devoir, i) in sortedDevoirs" :key="i">

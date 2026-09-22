@@ -23,8 +23,10 @@ defineProps<{
 </script>
 
 <template>
-  <section class="r-card messagerie">
-    <h2>Messagerie</h2>
+  <section class="r-card messagerie" aria-labelledby="messagerie-heading">
+    <h2 id="messagerie-heading">
+      Messagerie
+    </h2>
 
     <template v-if="messagerie">
       <div class="msg-row">

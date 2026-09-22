@@ -109,6 +109,11 @@
             a {
               color: var(--#{$prefix}primary);
               word-break: break-all;
+
+              &:focus-visible {
+                outline: 4px solid var(--#{$prefix}primary);
+                outline-offset: 2px;
+              }
             }
           }
         }
@@ -154,10 +159,15 @@
         color: var(--#{$prefix}basic-black-lighter);
       }
 
-      a {
-        color: var(--#{$prefix}primary);
-        word-break: break-all;
-      }
+     a {
+       color: var(--#{$prefix}primary);
+       word-break: break-all;
+
+       &:focus-visible {
+         outline: 4px solid var(--#{$prefix}primary);
+         outline-offset: 2px;
+       }
+     }
     }
 
     .matiere {

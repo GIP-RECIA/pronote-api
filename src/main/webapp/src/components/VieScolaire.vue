@@ -124,8 +124,10 @@ function formatFullDate(date: string): string {
 </script>
 
 <template>
-  <section class="vie-scolaire r-card">
-    <h2>Vie scolaire</h2>
+  <section class="vie-scolaire r-card" aria-labelledby="vie-scolaire-heading">
+    <h2 id="vie-scolaire-heading">
+      Vie scolaire
+    </h2>
     <template v-if="entries.length">
       <template v-for="(entry, i) in visibleEntries" :key="i">
         <hr v-if="i > 0">
