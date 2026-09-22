@@ -30,6 +30,7 @@ defineProps<{
       <template v-for="(evaluation, i) in competences.evaluationDtoList" :key="i">
         <hr v-if="i > 0">
         <div class="evaluation">
+          <span class="code">{{ evaluation.competence }}</span>
           <span class="matiere">{{ evaluation.matiere }}</span>
           <span class="niveau">{{ evaluation.niveauDAcquisition ?? 'Non renseigné' }}</span>
           <span class="intitule">{{ evaluation.intitule }}</span>

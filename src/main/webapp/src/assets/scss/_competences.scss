@@ -48,4 +48,10 @@
       color: var(--#{$prefix}basic-black-lighter);
     }
   }
+
+  .code {
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--#{$prefix}basic-black-lighter);
+  }
 }

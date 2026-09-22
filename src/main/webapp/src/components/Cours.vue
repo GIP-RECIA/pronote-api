@@ -92,12 +92,12 @@ const groupedByDay = computed<DayGroup[]>(() => {
                     class="attachments"
                   >
                     <li v-for="(piece, p) in contenu.pieceJointeList ?? []" :key="`pj-${p}`">
-                      <FontAwesomeIcon :icon="faPaperclip" class="attach-icon" />
+                      <FontAwesomeIcon :icon="faPaperclip" class="attach-icon" aria-hidden="true" />
                       <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer">Pièce jointe {{ p + 1
                       }}</a>
                     </li>
                     <li v-for="(site, s) in contenu.siteInternetList ?? []" :key="`site-${s}`">
-                      <FontAwesomeIcon :icon="faLink" class="attach-icon" />
+                      <FontAwesomeIcon :icon="faLink" class="attach-icon" aria-hidden="true" />
                       <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer">{{ site }}</a>
                     </li>
                   </ul>
@@ -123,11 +123,11 @@ const groupedByDay = computed<DayGroup[]>(() => {
           <span class="due">À rendre le {{ formatFullDate(taf.pourLe) }}</span>
           <ul v-if="(taf.pieceJointeList?.length ?? 0) + (taf.siteInternetList?.length ?? 0) > 0" class="attachments">
             <li v-for="(piece, p) in taf.pieceJointeList ?? []" :key="`pj-${p}`">
-              <FontAwesomeIcon :icon="faPaperclip" class="attach-icon" />
+              <FontAwesomeIcon :icon="faPaperclip" class="attach-icon" aria-hidden="true" />
               <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer">Pièce jointe {{ p + 1 }}</a>
             </li>
             <li v-for="(site, s) in taf.siteInternetList ?? []" :key="`site-${s}`">
-              <FontAwesomeIcon :icon="faLink" class="attach-icon" />
+              <FontAwesomeIcon :icon="faLink" class="attach-icon" aria-hidden="true" />
               <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer">{{ site }}</a>
             </li>
           </ul>

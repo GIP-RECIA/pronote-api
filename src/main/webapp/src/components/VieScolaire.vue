@@ -26,7 +26,7 @@ import {
   faSuitcaseMedical,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps<{
   vieScolaire: VieScolaire | null
@@ -36,6 +36,14 @@ interface TimelineEntry {
   date: string
   label: string
   icon: IconDefinition
+  meta?: string
+}
+
+function formatTimeRange(start: string, end: string): string {
+  const opts: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
+  const startTime = new Date(start).toLocaleTimeString('fr-FR', opts)
+  const endTime = new Date(end).toLocaleTimeString('fr-FR', opts)
+  return `${startTime} – ${endTime}`
 }
 
 const entries = computed<TimelineEntry[]>(() => {
@@ -48,13 +56,18 @@ const entries = computed<TimelineEntry[]>(() => {
   for (const absence of vs.absenceList ?? []) {
     result.push({
       date: absence.dateDebut,
-      label: `Absence${absence.justifie ? '' : ' — non justifiée'} : ${absence.motif || 'sans motif'}`,
+      label: `Absence${absence.justifie ? '' : ' - non justifiée'} : ${absence.motif || 'sans motif'}`,
       icon: faCalendarXmark,
+      meta: `${formatTimeRange(absence.dateDebut, absence.dateFin)}${absence.estOuverte ? ' · en cours' : ''}`,
     })
   }
 
   for (const retard of vs.retardList ?? []) {
-    result.push({ date: retard.date, label: `Retard — ${retard.motif}`, icon: faClock })
+    result.push({
+      date: retard.date,
+      label: `Retard${retard.justifie ? '' : ' - non justifié'} : ${retard.motif}`,
+      icon: faClock,
+    })
   }
 
   for (const passage of vs.passageInfirmerieList ?? []) {
@@ -62,19 +75,48 @@ const entries = computed<TimelineEntry[]>(() => {
   }
 
   for (const punition of vs.punitionList ?? []) {
-    result.push({ date: punition.date, label: `Punition — ${punition.motif}`, icon: faGavel })
+    const details = [punition.matiere, punition.circonstances].filter(Boolean).join(' · ')
+    result.push({
+      date: punition.date,
+      label: `${punition.nature} - ${punition.motif}`,
+      icon: faGavel,
+      meta: details || undefined,
+    })
   }
 
   for (const sanction of vs.sanctionList ?? []) {
-    result.push({ date: sanction.date, label: `Sanction — ${sanction.motif}`, icon: faScaleBalanced })
+    const details = [
+      sanction.circonstances,
+      sanction.duree ? `${sanction.duree} jour${sanction.duree > 1 ? 's' : ''}` : null,
+    ].filter(Boolean).join(' · ')
+    result.push({
+      date: sanction.date,
+      label: `${sanction.nature} - ${sanction.motif}`,
+      icon: faScaleBalanced,
+      meta: details || undefined,
+    })
   }
 
   for (const observation of vs.observationList ?? []) {
-    result.push({ date: observation.date, label: `Observation (${observation.matiere}) — ${observation.observation}`, icon: faCommentDots })
+    result.push({
+      date: observation.date,
+      label: `Observation (${observation.matiere}) - ${observation.observation}`,
+      icon: faCommentDots,
+      meta: observation.demandeur ? `Signalée par ${observation.demandeur}` : undefined,
+    })
   }
 
   return result.sort((a, b) => b.date.localeCompare(a.date))
 })
+
+const VISIBLE_COUNT = 5
+const expanded = ref(false)
+
+const visibleEntries = computed(() =>
+  expanded.value ? entries.value : entries.value.slice(0, VISIBLE_COUNT),
+)
+
+const hiddenCount = computed(() => entries.value.length - VISIBLE_COUNT)
 
 function formatFullDate(date: string): string {
   return new Date(date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -85,16 +127,20 @@ function formatFullDate(date: string): string {
   <section class="vie-scolaire r-card">
     <h2>Vie scolaire</h2>
     <template v-if="entries.length">
-      <template v-for="(entry, i) in entries" :key="i">
+      <template v-for="(entry, i) in visibleEntries" :key="i">
         <hr v-if="i > 0">
         <div class="entry">
-          <FontAwesomeIcon :icon="entry.icon" class="icon" />
+          <FontAwesomeIcon :icon="entry.icon" class="icon" aria-hidden="true" />
           <div class="txt">
             <span class="label">{{ entry.label }}</span>
             <span class="date">{{ formatFullDate(entry.date) }}</span>
+            <span v-if="entry.meta" class="meta">{{ entry.meta }}</span>
           </div>
         </div>
       </template>
+      <button v-if="!expanded && hiddenCount > 0" type="button" class="show-more" @click="expanded = true">
+        Afficher {{ hiddenCount }} événement{{ hiddenCount > 1 ? 's' : '' }} de plus
+      </button>
     </template>
     <p v-else>
       Aucun événement
