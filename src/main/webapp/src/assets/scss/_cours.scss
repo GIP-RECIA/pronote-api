@@ -1,0 +1,181 @@
+/**
+ * Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@use '@gip-recia/ui/core/variables' as *;
+@use '@gip-recia/ui/functions' as *;
+
+.cours {
+  hr {
+    border: none;
+    border-top: 1px solid var(--#{$prefix}stroke);
+    margin: 10px 0;
+  }
+
+  .day-group {
+    padding: 10px 0;
+
+    .day-heading {
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-transform: capitalize;
+      margin-bottom: 8px;
+    }
+
+    .day-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-left: 14px;
+      padding-left: 12px;
+      border-left: 2px solid var(--#{$prefix}stroke);
+
+      .matiere-block {
+        position: relative;
+
+        .matiere {
+          font-weight: 600;
+          font-size: 0.88rem;
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: -16px;
+          top: 0.6em;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--#{$prefix}primary);
+        }
+
+
+        .contenus {
+          margin-top: 2px;
+          font-size: 0.82rem;
+
+          .contenu {
+            margin-bottom: 4px;
+          }
+
+          .contenu-main {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            font-weight: bold;
+          }
+
+          .categorie {
+            font-weight: 600;
+            font-size: 0.66rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--#{$prefix}basic-black-lighter);
+          }
+
+          .attachments {
+            list-style: none;
+            margin: 4px 0 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+
+            li {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              font-size: 0.78rem;
+            }
+
+            .attach-icon {
+              flex: none;
+              width: 11px;
+              color: var(--#{$prefix}basic-black-lighter);
+            }
+
+            a {
+              color: var(--#{$prefix}primary);
+              word-break: break-all;
+            }
+          }
+        }
+
+      }
+    }
+  }
+}
+
+.travail-a-faire {
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--#{$prefix}stroke);
+    margin: 10px 0;
+  }
+
+  .taf-item {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0 8px 12px;
+    border-left: 2px solid var(--#{$prefix}stroke);
+
+    .attachments {
+      list-style: none;
+      margin: 6px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.78rem;
+      }
+
+      .attach-icon {
+        flex: none;
+        width: 11px;
+        color: var(--#{$prefix}basic-black-lighter);
+      }
+
+      a {
+        color: var(--#{$prefix}primary);
+        word-break: break-all;
+      }
+    }
+
+    .matiere {
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+
+    .desc {
+      font-size: 0.85rem;
+      margin-top: 2px;
+    }
+
+    .due {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--#{$prefix}primary);
+      margin-top: 6px;
+    }
+  }
+}

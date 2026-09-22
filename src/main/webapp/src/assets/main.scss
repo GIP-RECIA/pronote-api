@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+@use 'ress/dist/ress.min.css';
 @use '@gip-recia/ui/core' as *;
 @use '@gip-recia/ui/functions' as *;
 @use '@gip-recia/ui/mixins' as *;
@@ -22,3 +22,29 @@
 @use '@gip-recia/ui/components/fields';
 @use '@gip-recia/ui/components/tags';
 @use '@gip-recia/ui/layouts';
+@use 'scss/fiche-eleve';
+@use 'scss/cours';
+@use 'scss/messagerie';
+@use 'scss/devoirs';
+@use 'scss/competences';
+@use 'scss/vie-scolaire';
+
+.r-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: var(--#{$prefix}shadow-neutral) HEXToRGBA($black, 0.1);
+  padding: 16px;
+  > footer {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+}
+
+extended-uportal-header {
+  display: block;
+  height: var(--recia-header-height);
+}

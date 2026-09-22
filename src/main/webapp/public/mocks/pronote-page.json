@@ -1,147 +1,442 @@
 {
-  "profil": "Eleve",
+  "profil": "Parent",
   "eleveDtoList": [
     {
+      "prenom": "Titouan$123456789123456789",
+      "nom": "Dupont",
+      "etablissement": "Collège Jean Moulin",
       "competencesDto": {
-        "nombreEvaluations": 3
+        "nombreEvaluations": 3,
+        "evaluationDtoList": [
+          {
+            "competence": "D1.3",
+            "matiere": "Maths",
+            "intitule": "Résoudre un problème en utilisant des outils mathématiques",
+            "niveauDAcquisition": "Acquis",
+            "date": "2026-07-08"
+          },
+          {
+            "competence": "D1.1",
+            "matiere": "Français",
+            "intitule": "Comprendre un texte littéraire et l'interpréter",
+            "niveauDAcquisition": "En cours d'acquisition",
+            "date": "2026-07-05"
+          },
+          {
+            "competence": "D4",
+            "matiere": "Physique-Chimie",
+            "intitule": "Mener une démarche scientifique",
+            "niveauDAcquisition": "Non acquis",
+            "date": "2026-07-11"
+          }
+        ]
       },
-      "devoirDtoList": [
-        { "note": "14", "bareme": "20", "matiere": "Mathématiques", "date": "2026-09-08T00:00:00.000Z" },
-        { "note": "16.5", "bareme": "20", "matiere": "Français", "date": "2026-09-10T00:00:00.000Z" },
-        { "note": "Abs", "bareme": "20", "matiere": "Physique-Chimie", "date": "2026-09-12T00:00:00.000Z" },
-        { "note": "12", "bareme": "20", "matiere": "Histoire-Géographie", "date": "2026-09-15T00:00:00.000Z" }
-      ],
-      "etablissement": "Page d'accueil",
-      "iCal": "ical/personnel.ics?icalsecurise=58E62091754D95FD3301F54466CA179184FDB96324732A1350AECC073C1482023E1ACAF760206A28D682CE3AD853F6DD&version=2026.2.6&param=F60D95264DD13203F653B60AB4D6FF57",
       "messagerieDto": {
         "nombreInformationsNonLus": 5,
         "nombreMessagesNonLus": 2
       },
-      "nom": null,
-      "prenom": null,
+      "iCal": "ical/personnel.ics?icalsecurise=58E62091754D95FD3301F54466CA179184FDB96324732A1350AECC073C1482023E1ACAF760206A28D682CE3AD853F6DD&version=2026.2.6&param=F60D95264DD13203F653B60AB4D6FF57",
       "resumeDeCoursDtoList": [
         {
-          "id": "b3f1a2c4-1111-4a2b-8c3d-uuid1",
-          "matiere": "Mathématiques",
-          "date": "2026-09-14T00:00:00.000Z",
+          "id": "1",
+          "matiere": "Maths",
+          "date": "2026-07-06",
           "contenuDeCoursList": [
             {
-              "titre": "Fonctions affines",
-              "categorie": "Cours",
-              "descriptif": "Introduction à la notion de fonction affine, tracé de droites.",
-              "pieceJointeList": ["cours_fonctions_affines.pdf"],
-              "siteInternet": null
+              "titre": "Cours sur les intégrales",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à faire une équation différencielle sur les intégrales d'une fonction polynomiale de degré 8.",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": ["www.example.website.fr"]
+            },
+            {
+              "titre": "Cours sur les dérivée",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à déterminé le sens d'une courbe grace à la dérivée.",
+              "pieceJointeList": null,
+              "siteInternetList": ["www.example.website.fr", "www.another.website.fr"]
             }
           ]
         },
         {
-          "id": "b3f1a2c4-2222-4a2b-8c3d-uuid2",
-          "matiere": "Français",
-          "date": "2026-09-15T00:00:00.000Z",
+          "id": "1",
+          "matiere": "Maths",
+          "date": "2026-07-09",
           "contenuDeCoursList": [
             {
-              "titre": "Étude d'un extrait de Candide",
-              "categorie": "Cours",
-              "descriptif": "Lecture analytique du chapitre III, l'ironie voltairienne.",
+              "titre": "Cours sur les intégrales",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à faire une équation différencielle sur les intégrales d'une fonction polynomiale de degré 8.",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": ["www.example.website.fr"]
+            },
+            {
+              "titre": "Cours sur les dérivée",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à déterminé le sens d'une courbe grace à la dérivée.",
               "pieceJointeList": null,
-              "siteInternet": null
+              "siteInternetList": ["www.example.website.fr", "www.another.website.fr"]
             }
           ]
         },
         {
-          "id": "b3f1a2c4-3333-4a2b-8c3d-uuid3",
-          "matiere": "Histoire-Géographie",
-          "date": "2026-09-15T00:00:00.000Z",
+          "id": "1",
+          "matiere": "Maths",
+          "date": "2026-07-08",
           "contenuDeCoursList": [
             {
-              "titre": "La Première Guerre mondiale",
-              "categorie": "Cours",
-              "descriptif": "Les grandes phases du conflit, 1914-1918.",
+              "titre": "Cours sur les intégrales",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à faire une équation différencielle sur les intégrales d'une fonction polynomiale de degré 8.",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": ["www.example.website.fr"]
+            },
+            {
+              "titre": "Cours sur les dérivée",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à déterminé le sens d'une courbe grace à la dérivée.",
               "pieceJointeList": null,
-              "siteInternet": ["https://www.histoire.example/1914-1918"]
+              "siteInternetList": ["www.example.website.fr", "www.another.website.fr"]
+            }
+          ]
+        },
+        {
+          "id": "1",
+          "matiere": "Maths",
+          "date": "2026-07-10",
+          "contenuDeCoursList": [
+            {
+              "titre": "Cours sur les intégrales",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à faire une équation différencielle sur les intégrales d'une fonction polynomiale de degré 8.",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": ["www.example.website.fr"]
+            },
+            {
+              "titre": "Cours sur les dérivée",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à déterminé le sens d'une courbe grace à la dérivée.",
+              "pieceJointeList": null,
+              "siteInternetList": ["www.example.website.fr", "www.another.website.fr"]
+            }
+          ]
+        },
+        {
+          "id": "1",
+          "matiere": "Maths",
+          "date": "2026-07-11",
+          "contenuDeCoursList": [
+            {
+              "titre": "Cours sur les intégrales",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à faire une équation différencielle sur les intégrales d'une fonction polynomiale de degré 8.",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": ["www.example.website.fr"]
+            },
+            {
+              "titre": "Cours sur les dérivée",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à déterminé le sens d'une courbe grace à la dérivée.",
+              "pieceJointeList": null,
+              "siteInternetList": ["www.example.website.fr", "www.another.website.fr"]
+            }
+          ]
+        },
+        {
+          "id": "47",
+          "matiere": "Physiques",
+          "date": "2026-07-11",
+          "contenuDeCoursList": [
+            {
+              "titre": "Cours sur les équations horaires",
+              "categorie": "TP non noté",
+              "descriptif": "L'évolution d'une trajectoire",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": ["www.example.website.fr"]
+            }
+          ]
+        },
+        {
+          "id": "1",
+          "matiere": "Maths",
+          "date": "2026-07-01",
+          "contenuDeCoursList": [
+            {
+              "titre": "Cours sur les intégrales",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à faire une équation différencielle sur les intégrales d'une fonction polynomiale de degré 8.",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": ["www.example.website.fr"]
+            },
+            {
+              "titre": "Cours sur les dérivée",
+              "categorie": "Cours important",
+              "descriptif": "Apprendre à déterminé le sens d'une courbe grace à la dérivée.",
+              "pieceJointeList": null,
+              "siteInternetList": ["www.example.website.fr", "www.another.website.fr"]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "matiere": "Géo",
+          "date": "2026-07-05",
+          "contenuDeCoursList": [
+            {
+              "titre": "Cours sur les fleuves",
+              "categorie": "Cours important",
+              "descriptif": "Le tigre, et l'oeuf rate.",
+              "pieceJointeList": [
+                "www.depot.piece-jointe.com/123456789ABCDEF",
+                "www.depot.piece-jointe.com/123456789ABCDEF",
+                "www.depot.piece-jointe.com/123456789ABCDEF"
+              ],
+              "siteInternetList": ["www.example.website.fr"]
             }
           ]
         }
       ],
       "travailAFaireDtoList": [
         {
-          "coursId": "b3f1a2c4-1111-4a2b-8c3d-uuid1",
-          "matiere": "Mathématiques",
-          "descriptif": "Exercices p.42 n°3, 5 et 7",
-          "pourLe": "2026-09-19T00:00:00.000Z",
-          "pieceJointeList": ["exercices_p42.pdf"],
-          "siteInternetList": null
+          "coursId": "1",
+          "matiere": "Maths",
+          "descriptif": "Exo 1 à 4 page 42",
+          "pourLe": "2026-09-24",
+          "pieceJointeList": [
+            "www.depot.piece-jointe.com/123456789ABCDEF",
+            "www.depot.piece-jointe.com/123456789ABCDEF",
+            "www.depot.piece-jointe.com/123456789ABCDEF"
+          ],
+          "siteInternetList": ["www.example.website.fr"]
         },
         {
-          "coursId": "b3f1a2c4-2222-4a2b-8c3d-uuid2",
-          "matiere": "Français",
-          "descriptif": "Rédiger un paragraphe argumenté sur l'ironie voltairienne",
-          "pourLe": "2026-09-21T00:00:00.000Z",
-          "pieceJointeList": null,
-          "siteInternetList": null
+          "coursId": "2",
+          "matiere": "Géo",
+          "descriptif": "Rédaction sur la mondialisation",
+          "pourLe": "2026-09-26",
+          "pieceJointeList": [
+            "www.depot.piece-jointe.com/123456789ABCDEF",
+            "www.depot.piece-jointe.com/123456789ABCDEF",
+            "www.depot.piece-jointe.com/123456789ABCDEF"
+          ],
+          "siteInternetList": ["www.example.website.fr"]
         }
       ],
       "vieScolaireDto": {
         "absenceList": [
           {
-            "dateDebut": "2026-08-19T08:30:00",
-            "dateFin": "2026-08-19T12:00:00",
+            "dateDebut": "2026-09-07T08:30:00",
+            "dateFin": "2026-09-07T12:30:00",
             "estOuverte": false,
-            "justifie": true,
-            "motif": "EXCLUSION TEMPORAIRE"
-          },
-          {
-            "dateDebut": "2026-09-11T08:00:00",
-            "dateFin": "2026-09-11T09:00:00",
-            "estOuverte": false,
-            "justifie": true,
-            "motif": "Rendez-vous médical"
-          },
-          {
-            "dateDebut": "2026-09-14T13:00:00",
-            "dateFin": "2026-09-14T17:00:00",
-            "estOuverte": true,
             "justifie": false,
-            "motif": ""
-          }
-        ],
-        "observationList": [
+            "motif": "Aquaponey"
+          },
           {
-            "date": "2026-09-13T00:00:00",
-            "demandeur": "M. Martin",
-            "matiere": "SVT",
-            "observation": "Bonne participation, en nette progression."
-          }
-        ],
-        "passageInfirmerieList": [
-          { "date": "2026-09-09T10:30:00" }
-        ],
-        "punitionList": [
-          {
-            "date": "2026-09-05T00:00:00.000Z",
-            "nature": "Retenue",
-            "matiere": "Mathématiques",
-            "motif": "Bavardages répétés",
-            "circonstances": "Pendant le cours"
+            "dateDebut": "2026-09-08T08:30:00",
+            "dateFin": "2026-09-08T12:30:00",
+            "estOuverte": false,
+            "justifie": false,
+            "motif": "Aquaponey"
           }
         ],
         "retardList": [
           {
-            "date": "2026-09-15T08:05:00",
+            "date": "2026-07-05T08:43:35",
             "justifie": false,
-            "motif": "Retard de bus"
+            "motif": "Panne de reveil"
+          },
+          {
+            "date": "2026-07-06T08:43:35",
+            "justifie": false,
+            "motif": "Panne de reveil"
+          },
+          {
+            "date": "2026-07-07T08:43:35",
+            "justifie": false,
+            "motif": "Panne de reveil"
+          }
+        ],
+        "passageInfirmerieList": [
+          { "date": "2026-07-09T08:43:04" },
+          { "date": "2026-07-09T08:57:22" },
+          { "date": "2026-07-09T09:14:51" }
+        ],
+        "punitionList": [
+          {
+            "date": "2026-07-05",
+            "matiere": "Maths",
+            "nature": "Placeholder nature",
+            "motif": "carreaux",
+            "circonstances": "circonstances agravantes"
+          },
+          {
+            "date": "2026-07-08",
+            "matiere": "Maths",
+            "nature": "Placeholder nature",
+            "motif": "carreaux",
+            "circonstances": "circonstances agravantes"
           }
         ],
         "sanctionList": [
           {
-            "date": "2026-06-20T00:00:00.000Z",
-            "nature": "Avertissement",
-            "motif": "Absences répétées non justifiées",
-            "circonstances": "Conseil de discipline",
+            "date": "2026-07-08",
+            "nature": "Placeholder nature",
+            "motif": "carreaux",
+            "circonstances": "circonstances agravantes",
             "duree": 0
           }
+        ],
+        "observationList": [
+          {
+            "date": "2026-07-05",
+            "demandeur": "professeur A",
+            "matiere": "Maths",
+            "observation": "Eleve dissipé"
+          }
         ]
-      }
+      },
+      "devoirDtoList": [
+        { "note": "16", "bareme": "20", "matiere": "SVT", "date": "2026-07-05" },
+        { "note": "14", "bareme": "20", "matiere": "Maths", "date": "2026-07-03" },
+        { "note": "16", "bareme": "20", "matiere": "GMSI", "date": "2026-07-08" },
+        { "note": "8", "bareme": "20", "matiere": "LV3 - Latin", "date": "2026-07-06" },
+        { "note": "7", "bareme": "10", "matiere": "LV2 - Espagnol", "date": "2026-07-02" },
+        { "note": "13", "bareme": "20", "matiere": "LV1 - Anglais", "date": "2026-07-14" }
+      ]
+    },
+    {
+      "prenom": "Gérard$123456789123456789",
+      "resumeDeCoursDtoList": [
+        {
+          "id": "3",
+          "matiere": "LV1 - Anglais",
+          "date": "2026-07-09",
+          "contenuDeCoursList": [
+            {
+              "titre": "Cours sur les états des USA",
+              "categorie": "Cours important",
+              "descriptif": "Lesson about capitals of the USA.",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": ["www.example.website.fr"]
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "matiere": "LV1 - Anglais",
+          "date": "2026-07-11",
+          "contenuDeCoursList": [
+            {
+              "titre": "Present perfect vs preterit",
+              "categorie": "Cours important",
+              "descriptif": "Différences d'usage entre les deux temps du passé.",
+              "pieceJointeList": null,
+              "siteInternetList": ["www.example.website.fr"]
+            }
+          ]
+        },
+        {
+          "id": "4",
+          "matiere": "SVT",
+          "date": "2026-07-08",
+          "contenuDeCoursList": [
+            {
+              "titre": "La reproduction chez les mammifères",
+              "categorie": "Cours important",
+              "descriptif": "Cycle de reproduction et fécondation.",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": null
+            }
+          ]
+        },
+        {
+          "id": "5",
+          "matiere": "Histoire-Géo",
+          "date": "2026-07-05",
+          "contenuDeCoursList": [
+            {
+              "titre": "La décolonisation",
+              "categorie": "Cours important",
+              "descriptif": "Les grandes étapes de la décolonisation après 1945.",
+              "pieceJointeList": null,
+              "siteInternetList": ["www.example.website.fr"]
+            }
+          ]
+        },
+        {
+          "id": "5",
+          "matiere": "Histoire-Géo",
+          "date": "2026-07-10",
+          "contenuDeCoursList": [
+            {
+              "titre": "Exercice de cartographie",
+              "categorie": "TP non noté",
+              "descriptif": "Réalisation d'une carte des flux migratoires.",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": null
+            }
+          ]
+        },
+        {
+          "id": "6",
+          "matiere": "Physique-Chimie",
+          "date": "2026-07-11",
+          "contenuDeCoursList": [
+            {
+              "titre": "Les réactions acido-basiques",
+              "categorie": "Cours important",
+              "descriptif": "Notion de pH et réactions acide-base.",
+              "pieceJointeList": ["www.depot.piece-jointe.com/123456789ABCDEF"],
+              "siteInternetList": ["www.example.website.fr"]
+            }
+          ]
+        }
+      ],
+      "travailAFaireDtoList": [
+        {
+          "coursId": "3",
+          "matiere": "LV1 - Anglais",
+          "descriptif": "Vocabulaire du chapitre 3",
+          "pourLe": "2026-09-23",
+          "pieceJointeList": ["www.depot.piece-jointe.com/987654321FEDCBA"],
+          "siteInternetList": ["www.example.website.fr"]
+        }
+      ],
+      "vieScolaireDto": {
+        "absenceList": [
+          {
+            "dateDebut": "2026-07-14T08:00:00",
+            "dateFin": "2026-07-14T10:00:00",
+            "estOuverte": false,
+            "justifie": true,
+            "motif": "Rendez-vous orthodontiste"
+          }
+        ],
+        "retardList": [
+          {
+            "date": "2026-07-10T08:12:00",
+            "justifie": true,
+            "motif": "Bus en retard"
+          }
+        ],
+        "passageInfirmerieList": [],
+        "punitionList": [],
+        "sanctionList": [],
+        "observationList": [
+          {
+            "date": "2026-07-11T00:00:00",
+            "demandeur": "Mme Petit",
+            "matiere": "LV1 - Anglais",
+            "observation": "Très bon investissement à l'oral."
+          }
+        ]
+      },
+      "devoirDtoList": [
+        { "note": "18", "bareme": "20", "matiere": "LV1 - Anglais", "date": "2026-07-04" },
+        { "note": "9", "bareme": "20", "matiere": "Maths", "date": "2026-07-02" },
+        { "note": "15", "bareme": "20", "matiere": "Histoire-Géo", "date": "2026-07-07" },
+        { "note": "12", "bareme": "20", "matiere": "Physiques", "date": "2026-07-10" }
+      ]
     }
   ]
 }

@@ -14,29 +14,30 @@
  * limitations under the License.
  */
 
-export interface DevoirDto {
+export interface Devoir {
   note: string
   bareme: string
   matiere: string
   date: string
 }
 
-export interface ContenuDeCoursDto {
+export interface ContenuDeCours {
   titre: string | null
   categorie: string | null
   descriptif: string | null
   pieceJointeList: string[] | null
-  siteInternet: string[] | null
+  siteInternetList: string[] | null
 }
 
-export interface ResumeDeCoursDto {
+export interface ResumeDeCours {
   id: string
   matiere: string
   date: string
-  contenuDeCoursList: ContenuDeCoursDto[] | null
+  categorie: string
+  contenuDeCoursList: ContenuDeCours[] | null
 }
 
-export interface TravailAFaireDto {
+export interface TravailAFaire {
   coursId: string
   matiere: string
   descriptif: string | null
@@ -45,7 +46,7 @@ export interface TravailAFaireDto {
   siteInternetList: string[] | null
 }
 
-export interface AbsenceDto {
+export interface Absence {
   dateDebut: string
   dateFin: string
   estOuverte: boolean
@@ -53,17 +54,17 @@ export interface AbsenceDto {
   motif: string
 }
 
-export interface RetardDto {
+export interface Retard {
   date: string
   justifie: boolean
   motif: string
 }
 
-export interface PassageInfirmerieDto {
+export interface PassageInfirmerie {
   date: string
 }
 
-export interface PunitionDto {
+export interface Punition {
   date: string
   nature: string
   matiere: string | null
@@ -71,7 +72,7 @@ export interface PunitionDto {
   circonstances: string | null
 }
 
-export interface SanctionDto {
+export interface Sanction {
   date: string
   nature: string
   motif: string
@@ -79,45 +80,54 @@ export interface SanctionDto {
   duree: number | null
 }
 
-export interface ObservationDto {
+export interface Observation {
   date: string
   demandeur: string
   matiere: string
   observation: string
 }
 
-export interface VieScolaireDto {
-  absenceList: AbsenceDto[] | null
-  retardList: RetardDto[] | null
-  passageInfirmerieList: PassageInfirmerieDto[] | null
-  punitionList: PunitionDto[] | null
-  sanctionList: SanctionDto[] | null
-  observationList: ObservationDto[] | null
+export interface VieScolaire {
+  absenceList: Absence[] | null
+  retardList: Retard[] | null
+  passageInfirmerieList: PassageInfirmerie[] | null
+  punitionList: Punition[] | null
+  sanctionList: Sanction[] | null
+  observationList: Observation[] | null
 }
 
-export interface MessagerieDto {
+export interface Messagerie {
   nombreMessagesNonLus: number
   nombreInformationsNonLus: number
 }
 
-export interface CompetencesDto {
-  nombreEvaluations: number
+export interface Evaluation {
+  competence: string
+  matiere: string
+  intitule: string
+  niveauDAcquisition: string | null
+  date: string
 }
 
-export interface EleveDto {
+export interface Competences {
+  nombreEvaluations: number
+  evaluationDtoList: Evaluation[] | null
+}
+
+export interface Eleve {
   prenom: string | null
   nom: string | null
-  resumeDeCoursDtoList: ResumeDeCoursDto[] | null
-  travailAFaireDtoList: TravailAFaireDto[] | null
-  vieScolaireDto: VieScolaireDto | null
-  devoirDtoList: DevoirDto[] | null
-  messagerieDto: MessagerieDto | null
-  competencesDto: CompetencesDto | null
+  resumeDeCoursDtoList: ResumeDeCours[] | null
+  travailAFaireDtoList: TravailAFaire[] | null
+  vieScolaireDto: VieScolaire | null
+  devoirDtoList: Devoir[] | null
+  messagerieDto: Messagerie | null
+  competencesDto: Competences | null
   etablissement: string | null
   iCal: string | null
 }
 
 export interface PronotePageResponse {
   profil: 'Eleve' | 'Parent'
-  eleveDtoList: EleveDto[]
+  eleveDtoList: Eleve[]
 }

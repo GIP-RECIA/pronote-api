@@ -39,7 +39,7 @@ export default defineConfig(({ mode }) => {
         template: {
           compilerOptions: {
             isCustomElement: tag =>
-              ['r-filters', 'extended-uportal-header', 'extended-uportal-footer'].includes(tag),
+              ['r-filters', 'r-tablist', 'r-tabpanel', 'r-page-layout', 'extended-uportal-header', 'extended-uportal-footer'].includes(tag),
           },
         },
       }),

@@ -18,7 +18,10 @@
 import type { PronotePageResponse } from '@/types/pronote'
 import { onMounted, ref } from 'vue'
 import { fetchPronotePage } from '@/api/pronote'
+import FicheEleve from '@/components/FicheEleve.vue'
 import { initConfiguration, useConfiguration } from '@/composables/useConfiguration'
+import '@gip-recia/ui-webcomponents/dist/r-tabs.js'
+import '@gip-recia/ui-webcomponents/dist/r-page-layout.js'
 
 const { configuration, isInit } = useConfiguration()
 
@@ -27,6 +30,12 @@ const appName = __APP_NAME__
 const data = ref<PronotePageResponse | null>(null)
 const error = ref<string | null>(null)
 const loading = ref(true)
+
+// TODO: remplacer par la vraie URL de retour vers le portail ENT
+const backLink = {
+  href: '#',
+  name: 'Retour au portail',
+}
 
 onMounted(async () => {
   initConfiguration()
@@ -53,58 +62,27 @@ onMounted(async () => {
 
   <main>
     <div class="container">
-      <p>a</p>
-      <p>a</p>
-      <p>a</p>
-      <p>a</p>
-
-      <p v-if="loading">
-        Chargement...
-      </p>
-      <p v-else-if="error">
-        Erreur : {{ error }}
-      </p>
-      <template v-else-if="data">
-        <div v-for="(eleve, index) in data.eleveDtoList" :key="index">
-          <h1>{{ eleve.prenom ?? 'Élève' }} {{ eleve.nom ?? '' }}</h1>
-          <p v-if="eleve.etablissement">
-            {{ eleve.etablissement }}
-          </p>
-
-          <section>
-            <h2>Devoirs</h2>
-            <ul v-if="eleve.devoirDtoList">
-              <li v-for="(devoir, i) in eleve.devoirDtoList" :key="i">
-                {{ devoir.matiere }} — {{ devoir.note }}/{{ devoir.bareme }}
-              </li>
-            </ul>
-            <p v-else>
-              Aucun devoir
-            </p>
-          </section>
-
-          <section v-if="eleve.vieScolaireDto?.absenceList">
-            <h2>Absences</h2>
-            <ul>
-              <li v-for="(absence, i) in eleve.vieScolaireDto.absenceList" :key="i">
-                Du {{ absence.dateDebut }} — {{ absence.justifie ? 'justifiée' : 'non justifiée' }}
-                <span v-if="absence.motif">({{ absence.motif }})</span>
-              </li>
-            </ul>
-          </section>
-
-          <section v-if="eleve.messagerieDto">
-            <h2>Messagerie</h2>
-            <p>{{ eleve.messagerieDto.nombreMessagesNonLus }} messages non lus</p>
-            <p>{{ eleve.messagerieDto.nombreInformationsNonLus }} informations non lues</p>
-          </section>
-
-          <section v-if="eleve.competencesDto">
-            <h2>Compétences</h2>
-            <p>{{ eleve.competencesDto.nombreEvaluations }} évaluations</p>
-          </section>
-        </div>
-      </template>
+      <r-page-layout page-title="Détail Pronote" :back-link.prop="backLink">
+        <p v-if="loading">
+          Chargement...
+        </p>
+        <p v-else-if="error">
+          Erreur : {{ error }}
+        </p>
+        <template v-else-if="data && data.eleveDtoList.length > 1">
+          <r-tablist
+            id-prefix="eleves" :tabs="data.eleveDtoList.map(eleve => eleve.prenom ?? 'Élève')" active-tab="0"
+            switch-tabpanel
+          />
+          <r-tabpanel
+            v-for="(eleve, index) in data.eleveDtoList" :key="index" id-prefix="eleves" :index.attr="index"
+            :active.attr="index === 0 ? true : undefined"
+          >
+            <FicheEleve :eleve="eleve" />
+          </r-tabpanel>
+        </template>
+        <FicheEleve v-else-if="data && data.eleveDtoList[0]" :eleve="data.eleveDtoList[0]" />
+      </r-page-layout>
     </div>
   </main>
 
