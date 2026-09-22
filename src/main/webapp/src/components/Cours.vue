@@ -67,8 +67,10 @@ const groupedByDay = computed<DayGroup[]>(() => {
 </script>
 
 <template>
-  <section class="cours r-card">
-    <h2>Cours récents</h2>
+  <section class="cours r-card" aria-labelledby="cours-recents-heading">
+    <h2 id="cours-recents-heading">
+      Cours récents
+    </h2>
     <template v-if="groupedByDay.length">
       <template v-for="(group, i) in groupedByDay" :key="group.date">
         <hr v-if="i > 0">
@@ -78,7 +80,9 @@ const groupedByDay = computed<DayGroup[]>(() => {
           </h3>
           <div class="day-content">
             <div v-for="(resume, j) in group.resumes" :key="`${resume.id}-${j}`" class="matiere-block">
-              <span class="matiere">{{ resume.matiere }}</span>
+              <h4 class="matiere">
+                {{ resume.matiere }}
+              </h4>
               <div v-if="resume.contenuDeCoursList" class="contenus">
                 <div v-for="(contenu, k) in resume.contenuDeCoursList" :key="k" class="contenu">
                   <div class="contenu-main">
@@ -93,12 +97,17 @@ const groupedByDay = computed<DayGroup[]>(() => {
                   >
                     <li v-for="(piece, p) in contenu.pieceJointeList ?? []" :key="`pj-${p}`">
                       <FontAwesomeIcon :icon="faPaperclip" class="attach-icon" aria-hidden="true" />
-                      <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer">Pièce jointe {{ p + 1
-                      }}</a>
+                      <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer">
+                        Pièce jointe {{ p + 1 }}
+                        <span class="sr-only"> (ouvre dans un nouvel onglet)</span>
+                      </a>
                     </li>
                     <li v-for="(site, s) in contenu.siteInternetList ?? []" :key="`site-${s}`">
                       <FontAwesomeIcon :icon="faLink" class="attach-icon" aria-hidden="true" />
-                      <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer">{{ site }}</a>
+                      <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer">
+                        {{ site }}
+                        <span class="sr-only"> (ouvre dans un nouvel onglet)</span>
+                      </a>
                     </li>
                   </ul>
                 </div>
@@ -112,23 +121,33 @@ const groupedByDay = computed<DayGroup[]>(() => {
       Aucun cours récent
     </p>
   </section>
-  <section class="travail-a-faire r-card">
-    <h2>Travail à faire</h2>
+  <section class="travail-a-faire r-card" aria-labelledby="travail-a-faire-heading">
+    <h2 id="travail-a-faire-heading">
+      Travail à faire
+    </h2>
     <template v-if="travailAFaireList && travailAFaireList.length">
       <template v-for="(taf, i) in travailAFaireList" :key="i">
         <hr v-if="i > 0">
         <div class="taf-item">
-          <span class="matiere">{{ taf.matiere }}</span>
+          <h3 class="matiere">
+            {{ taf.matiere }}
+          </h3>
           <span class="desc">{{ taf.descriptif }}</span>
           <span class="due">À rendre le {{ formatFullDate(taf.pourLe) }}</span>
           <ul v-if="(taf.pieceJointeList?.length ?? 0) + (taf.siteInternetList?.length ?? 0) > 0" class="attachments">
             <li v-for="(piece, p) in taf.pieceJointeList ?? []" :key="`pj-${p}`">
               <FontAwesomeIcon :icon="faPaperclip" class="attach-icon" aria-hidden="true" />
-              <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer">Pièce jointe {{ p + 1 }}</a>
+              <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer">
+                Pièce jointe {{ p + 1 }}
+                <span class="sr-only"> (ouvre dans un nouvel onglet)</span>
+              </a>
             </li>
             <li v-for="(site, s) in taf.siteInternetList ?? []" :key="`site-${s}`">
               <FontAwesomeIcon :icon="faLink" class="attach-icon" aria-hidden="true" />
-              <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer">{{ site }}</a>
+              <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer">
+                {{ site }}
+                <span class="sr-only"> (ouvre dans un nouvel onglet)</span>
+              </a>
             </li>
           </ul>
         </div>
