@@ -158,3 +158,181 @@ const groupedByDay = computed<DayGroup[]>(() => {
     </p>
   </section>
 </template>
+
+<style lang="scss" scoped>
+@use '@gip-recia/ui/core/variables' as *;
+@use '@gip-recia/ui/functions' as *;
+
+.cours {
+  hr {
+    border: none;
+    border-top: 1px solid var(--#{$prefix}stroke);
+    margin: 10px 0;
+  }
+
+  .day-group {
+    padding: 10px 0;
+
+    .day-heading {
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-transform: capitalize;
+      margin-bottom: 8px;
+    }
+
+    .day-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-left: 14px;
+      padding-left: 12px;
+      border-left: 2px solid var(--#{$prefix}stroke);
+
+      .matiere-block {
+        position: relative;
+
+        .matiere {
+          margin: 0;
+          font-weight: 600;
+          font-size: 0.88rem;
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: -16px;
+          top: 0.418em;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--#{$prefix}stroke);
+        }
+
+        .contenus {
+          margin-top: 2px;
+          font-size: 0.82rem;
+
+          .contenu {
+            margin-bottom: 4px;
+          }
+
+          .contenu-main {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            font-weight: bold;
+          }
+
+          .categorie {
+            font-weight: 600;
+            font-size: 0.66rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--#{$prefix}basic-black-lighter);
+          }
+
+          .attachments {
+            list-style: none;
+            margin: 4px 0 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+
+            li {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              font-size: 0.78rem;
+            }
+
+            .attach-icon {
+              flex: none;
+              width: 11px;
+              color: var(--#{$prefix}primary);
+            }
+
+            a {
+              color: inherit;
+              word-break: break-all;
+
+              &:focus-visible {
+                outline: 4px solid var(--#{$prefix}primary);
+                outline-offset: 2px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.travail-a-faire {
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--#{$prefix}stroke);
+    margin: 10px 0;
+  }
+
+  .taf-item {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0 8px 12px;
+    border-left: 2px solid var(--#{$prefix}stroke);
+
+    .attachments {
+      list-style: none;
+      margin: 6px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.78rem;
+      }
+
+      .attach-icon {
+        flex: none;
+        width: 11px;
+        color: var(--#{$prefix}primary);
+      }
+
+      a {
+        color: inherit;
+        word-break: break-all;
+
+        &:focus-visible {
+          outline: 4px solid var(--#{$prefix}primary);
+          outline-offset: 2px;
+        }
+      }
+    }
+
+    .matiere {
+      margin: 0;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+
+    .desc {
+      font-size: 0.85rem;
+      margin-top: 2px;
+    }
+
+    .due {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--#{$prefix}primary);
+      margin-top: 6px;
+    }
+  }
+}
+</style>
