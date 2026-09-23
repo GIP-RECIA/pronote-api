@@ -19,27 +19,55 @@ import type { Messagerie } from '@/types/pronote'
 
 defineProps<{
   messagerie: Messagerie | null
+  index: number
 }>()
 </script>
 
 <template>
-  <section class="r-card messagerie" aria-labelledby="messagerie-heading">
-    <h2 id="messagerie-heading">
+  <section class="r-card messagerie" :aria-labelledby="`messagerie-heading-${index}`">
+    <h2 :id="`messagerie-heading-${index}`">
       Messagerie
     </h2>
 
-    <template v-if="messagerie">
-      <div class="msg-row">
-        <span>Messages non lus</span>
-        <strong>{{ messagerie.nombreMessagesNonLus }}</strong>
+    <div class="stats">
+      <div class="stat">
+        <span class="num">{{ messagerie?.nombreMessagesNonLus ?? 0 }}</span>
+        <span class="lbl">messages non lus</span>
       </div>
-      <div class="msg-row">
-        <span>Informations non lues</span>
-        <strong>{{ messagerie.nombreInformationsNonLus }}</strong>
+      <div class="stat">
+        <span class="num">{{ messagerie?.nombreInformationsNonLus ?? 0 }}</span>
+        <span class="lbl">informations non lues</span>
       </div>
-    </template>
-    <p v-else>
-      Aucune messagerie disponible.
-    </p>
+    </div>
   </section>
 </template>
+
+<style lang="scss" scoped>
+@use '@gip-recia/ui/core/variables' as *;
+
+.messagerie {
+  .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .stat {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+
+    .num {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--#{$prefix}primary);
+    }
+
+    .lbl {
+      font-size: 0.78rem;
+      color: var(--#{$prefix}basic-black-lighter);
+    }
+  }
+}
+</style>

@@ -16,6 +16,8 @@
 
 <script setup lang="ts">
 import type { Eleve } from '@/types/pronote'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed } from 'vue'
 import Competences from '@/components/Competences.vue'
 import Cours from '@/components/Cours.vue'
@@ -27,13 +29,6 @@ const props = defineProps<{
   eleve: Eleve
   index: number
 }>()
-
-const messagerieCount = computed(() => {
-  const m = props.eleve.messagerieDto
-  if (!m)
-    return 0
-  return m.nombreMessagesNonLus + m.nombreInformationsNonLus
-})
 
 const competencesCount = computed(() => props.eleve.competencesDto?.nombreEvaluations ?? 0)
 
@@ -55,11 +50,11 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
 
 <template>
   <article class="fiche-eleve">
-    <a v-if="eleve.iCal" :href="eleve.iCal" class="btn-secondary small agenda-link">
-      Ajouter à mon agenda
-    </a>
-
     <div class="stats-strip">
+      <a v-if="eleve.iCal" :href="eleve.iCal" class="btn-secondary small agenda-link">
+        <FontAwesomeIcon :icon="faPlus" aria-hidden="true" />
+        Ajouter à mon agenda
+      </a>
       <a :href="`#devoirs-${index}`" class="stat-tile r-card">
         <span class="num">{{ devoirsCount }}</span>
         <span class="lbl">notes reçues</span>
@@ -71,10 +66,6 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
       <a :href="`#travail-a-faire-${index}`" class="stat-tile r-card">
         <span class="num">{{ travailAFaireCount }}</span>
         <span class="lbl">travaux à faire</span>
-      </a>
-      <a :href="`#messagerie-${index}`" class="stat-tile r-card">
-        <span class="num">{{ messagerieCount }}</span>
-        <span class="lbl">messages / infos non lus</span>
       </a>
       <a :href="`#competences-${index}`" class="stat-tile r-card">
         <span class="num">{{ competencesCount }}</span>
@@ -91,6 +82,9 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
       </div>
 
       <div class="sidebar-col">
+        <div :id="`messagerie-${index}`" tabindex="-1">
+          <Messagerie :messagerie="eleve.messagerieDto" :index="index" />
+        </div>
         <div :id="`devoirs-${index}`" class="r-card">
           <Devoirs :devoirs="eleve.devoirDtoList" :index="index" />
         </div>
@@ -99,9 +93,6 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
         </div>
         <div :id="`vie-scolaire-${index}`" tabindex="-1">
           <VieScolaire :vie-scolaire="eleve.vieScolaireDto" :index="index" />
-        </div>
-        <div :id="`messagerie-${index}`" tabindex="-1">
-          <Messagerie :messagerie="eleve.messagerieDto" :index="index" />
         </div>
       </div>
     </div>
@@ -143,8 +134,8 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
   }
 
   .agenda-link {
-    display: inline-block;
-    margin-bottom: 16px;
+    justify-self: start;
+    align-self: center;
   }
 
   .layout {
