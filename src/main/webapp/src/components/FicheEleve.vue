@@ -50,11 +50,16 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
 
 <template>
   <article class="fiche-eleve">
+    <a
+      :href="eleve.iCal ?? undefined" class="btn-secondary small agenda-link"
+      :class="{ 'agenda-link--hidden': !eleve.iCal }"
+      :aria-hidden="!eleve.iCal || undefined"
+    >
+      <FontAwesomeIcon :icon="faPlus" aria-hidden="true" />
+      Ajouter à mon agenda
+    </a>
+
     <div class="stats-strip">
-      <a v-if="eleve.iCal" :href="eleve.iCal" class="btn-secondary small agenda-link">
-        <FontAwesomeIcon :icon="faPlus" aria-hidden="true" />
-        Ajouter à mon agenda
-      </a>
       <a :href="`#devoirs-${index}`" class="stat-tile r-card">
         <span class="num">{{ devoirsCount }}</span>
         <span class="lbl">notes reçues</span>
@@ -134,8 +139,12 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
   }
 
   .agenda-link {
-    justify-self: start;
-    align-self: center;
+    display: inline-flex;
+    margin-bottom: 16px;
+
+    &--hidden {
+      visibility: hidden;
+    }
   }
 
   .layout {
