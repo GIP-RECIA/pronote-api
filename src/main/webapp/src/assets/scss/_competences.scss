@@ -1,0 +1,57 @@
+/**
+ * Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@use '@gip-recia/ui/core/variables' as *;
+@use '@gip-recia/ui/functions' as *;
+
+.competences {
+  hr {
+    border: none;
+    border-top: 1px solid var(--#{$prefix}stroke);
+    margin: 10px 0;
+  }
+
+  .evaluation {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: 8px;
+    padding: 6px 0;
+
+    .matiere {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .niveau {
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--#{$prefix}primary);
+    }
+
+    .intitule {
+      flex-basis: 100%;
+      font-size: 0.82rem;
+      color: var(--#{$prefix}basic-black-lighter);
+    }
+  }
+
+  .code {
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--#{$prefix}basic-black-lighter);
+  }
+}

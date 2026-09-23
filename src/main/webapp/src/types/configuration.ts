@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,17 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi.config.bean;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+export interface ComponentProperties {
+  componentPath: string
+  props: Record<string, string> | null
+}
 
-import java.util.List;
+export interface ExtendedUportalProperties {
+  header: ComponentProperties | null
+  footer: ComponentProperties | null
+}
 
-@ConfigurationProperties(prefix = "app.cors")
-@Data
-public class CorsProperties {
-    private List<String> allowedOrigins;
-    private boolean allowCredentials;
-    private boolean enable;
+export interface FrontProperties {
+  extendedUportal: ExtendedUportalProperties | null
+}
+
+export interface Configuration {
+  front: FrontProperties
 }

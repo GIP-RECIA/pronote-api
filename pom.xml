@@ -161,19 +161,18 @@
 				<artifactId>license-maven-plugin</artifactId>
 				<version>4.1</version>
 				<configuration>
-					<properties>
-						<owner>GIP-RECIA</owner>
-						<website>https://www.recia.fr/</website>
-					</properties>
-					<header>etc/header.template</header>
-					<includes>
-						<include>**/*.java</include>
-						<include>src/**/*.xml</include>
-						<include>**/*.properties</include>
-						<include>**/*.yml</include>
-						<include>**/*.css</include>
-					</includes>
 					<strictCheck>true</strictCheck>
+					<licenseSets>
+						<licenseSet>
+							<header>etc/header.template</header>
+							<includes>
+								<include>src/**/*.java</include>
+							</includes>
+							<excludes>
+								<exclude>**/dist/**</exclude>
+							</excludes>
+						</licenseSet>
+					</licenseSets>
 				</configuration>
 			</plugin>
 			<plugin>

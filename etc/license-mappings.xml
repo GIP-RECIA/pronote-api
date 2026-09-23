@@ -5,7 +5,7 @@
     <artifact>
         <groupId>fr.recia.pronote</groupId>
         <artifactId>pronote-api</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
         <license>Apache License, Version 2.0</license>
     </artifact>
 </license-lookup>
