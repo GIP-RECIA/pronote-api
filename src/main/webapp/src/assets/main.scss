@@ -48,3 +48,26 @@ extended-uportal-header {
   display: block;
   height: var(--recia-header-height);
 }
+
+main {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.skeleton {
+  display: block;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #e9e9e9 30%, #f6f6f6 50%, #e9e9e9 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}

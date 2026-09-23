@@ -19,6 +19,7 @@ import type { PronotePageResponse } from '@/types/pronote'
 import { onMounted, ref } from 'vue'
 import { fetchPronotePage } from '@/api/pronote'
 import FicheEleve from '@/components/FicheEleve.vue'
+import FicheEleveSkeleton from '@/components/FicheEleveSkeleton.vue'
 import { initConfiguration, useConfiguration } from '@/composables/useConfiguration'
 import '@gip-recia/ui-webcomponents/dist/r-tabs.js'
 import '@gip-recia/ui-webcomponents/dist/r-page-layout.js'
@@ -62,6 +63,7 @@ onMounted(async () => {
   <main>
     <div class="container">
       <r-page-layout page-title="Détail Pronote" :back-link="JSON.stringify(backLink)">
+        <FicheEleveSkeleton v-if="loading" />
         <p v-else-if="error">
           Erreur : {{ error }}
         </p>
