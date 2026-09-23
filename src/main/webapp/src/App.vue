@@ -94,3 +94,9 @@ onMounted(async () => {
     <extended-uportal-footer v-if="isInit" v-bind="configuration!.front.extendedUportal?.footer?.props" />
   </footer>
 </template>
+
+<style scoped>
+r-tabpanel:not([active]) {
+  display: none;
+}
+</style>
