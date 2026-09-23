@@ -31,10 +31,9 @@ const data = ref<PronotePageResponse | null>(null)
 const error = ref<string | null>(null)
 const loading = ref(true)
 
-// TODO: remplacer par la vraie URL de retour vers le portail ENT
 const backLink = {
-  href: '#',
-  name: 'Retour au portail',
+  href: '/portail',
+  name: 'Retour à l\'accueil',
 }
 
 onMounted(async () => {
@@ -62,10 +61,7 @@ onMounted(async () => {
 
   <main>
     <div class="container">
-      <r-page-layout page-title="Détail Pronote" :back-link.prop="backLink">
-        <p v-if="loading">
-          Chargement...
-        </p>
+      <r-page-layout page-title="Détail Pronote" :back-link="JSON.stringify(backLink)">
         <p v-else-if="error">
           Erreur : {{ error }}
         </p>
