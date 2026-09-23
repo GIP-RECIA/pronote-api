@@ -25,6 +25,7 @@ import VieScolaire from '@/components/VieScolaire.vue'
 
 const props = defineProps<{
   eleve: Eleve
+  index: number
 }>()
 
 const messagerieCount = computed(() => {
@@ -49,6 +50,7 @@ const vieScolaireCount = computed(() => {
 })
 
 const travailAFaireCount = computed(() => props.eleve.travailAFaireDtoList?.length ?? 0)
+const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
 </script>
 
 <template>
@@ -58,43 +60,110 @@ const travailAFaireCount = computed(() => props.eleve.travailAFaireDtoList?.leng
     </a>
 
     <div class="stats-strip">
-      <a href="#vie-scolaire" class="stat-tile r-card">
+      <a :href="`#devoirs-${index}`" class="stat-tile r-card">
+        <span class="num">{{ devoirsCount }}</span>
+        <span class="lbl">notes reçues</span>
+      </a>
+      <a :href="`#vie-scolaire-${index}`" class="stat-tile r-card">
         <span class="num">{{ vieScolaireCount }}</span>
         <span class="lbl">événements de vie scolaire</span>
       </a>
-      <a href="#cours" class="stat-tile r-card">
+      <a :href="`#travail-a-faire-${index}`" class="stat-tile r-card">
         <span class="num">{{ travailAFaireCount }}</span>
         <span class="lbl">travaux à faire</span>
       </a>
-      <a href="#messagerie" class="stat-tile r-card">
+      <a :href="`#messagerie-${index}`" class="stat-tile r-card">
         <span class="num">{{ messagerieCount }}</span>
         <span class="lbl">messages / infos non lus</span>
       </a>
-      <a href="#competences" class="stat-tile r-card">
+      <a :href="`#competences-${index}`" class="stat-tile r-card">
         <span class="num">{{ competencesCount }}</span>
         <span class="lbl">évaluations de compétences</span>
       </a>
     </div>
 
     <div class="layout">
-      <div id="cours" class="main-col">
-        <Cours :resume-de-cours-list="eleve.resumeDeCoursDtoList" :travail-a-faire-list="eleve.travailAFaireDtoList" />
+      <div :id="`cours-${index}`" class="main-col" tabindex="-1">
+        <Cours
+          :resume-de-cours-list="eleve.resumeDeCoursDtoList" :travail-a-faire-list="eleve.travailAFaireDtoList"
+          :index="index"
+        />
       </div>
 
       <div class="sidebar-col">
-        <div id="devoirs" class="r-card">
-          <Devoirs :devoirs="eleve.devoirDtoList" />
+        <div :id="`devoirs-${index}`" class="r-card">
+          <Devoirs :devoirs="eleve.devoirDtoList" :index="index" />
         </div>
-        <div id="competences" class="r-card">
-          <Competences :competences="eleve.competencesDto" />
+        <div :id="`competences-${index}`" class="r-card" tabindex="-1">
+          <Competences :competences="eleve.competencesDto" :index="index" />
         </div>
-        <div id="vie-scolaire">
-          <VieScolaire :vie-scolaire="eleve.vieScolaireDto" />
+        <div :id="`vie-scolaire-${index}`" tabindex="-1">
+          <VieScolaire :vie-scolaire="eleve.vieScolaireDto" :index="index" />
         </div>
-        <div id="messagerie">
-          <Messagerie :messagerie="eleve.messagerieDto" />
+        <div :id="`messagerie-${index}`" tabindex="-1">
+          <Messagerie :messagerie="eleve.messagerieDto" :index="index" />
         </div>
       </div>
     </div>
   </article>
 </template>
+
+<style lang="scss" scoped>
+@use 'sass:map';
+@use '@gip-recia/ui/core/variables' as *;
+@use '@gip-recia/ui/functions' as *;
+
+.fiche-eleve {
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .stat-tile {
+    gap: 2px;
+    text-decoration: none;
+    color: inherit;
+    &:focus-visible {
+      outline: 4px solid var(--#{$prefix}primary);
+      outline-offset: 2px;
+    }
+
+    .num {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--#{$prefix}primary);
+    }
+
+    .lbl {
+      font-size: 0.78rem;
+      color: var(--#{$prefix}basic-black-lighter);
+    }
+  }
+
+  .agenda-link {
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  @media (width < map.get($grid-breakpoints, lg)) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sidebar-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+</style>

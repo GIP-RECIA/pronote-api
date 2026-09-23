@@ -78,10 +78,10 @@ onMounted(async () => {
             v-for="(eleve, index) in data.eleveDtoList" :key="index" id-prefix="eleves" :index.attr="index"
             :active.attr="index === 0 ? true : undefined"
           >
-            <FicheEleve :eleve="eleve" />
+            <FicheEleve :eleve="eleve" :index="index" />
           </r-tabpanel>
         </template>
-        <FicheEleve v-else-if="data && data.eleveDtoList[0]" :eleve="data.eleveDtoList[0]" />
+        <FicheEleve v-else-if="data && data.eleveDtoList[0]" :eleve="data.eleveDtoList[0]" :index="0" />
       </r-page-layout>
     </div>
   </main>
