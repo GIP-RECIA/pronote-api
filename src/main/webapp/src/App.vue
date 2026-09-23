@@ -64,6 +64,10 @@ onMounted(async () => {
 
   <main>
     <div class="container">
+      <span class="sr-only" aria-live="polite">
+        {{ loading ? 'Chargement des données…' : '' }}
+      </span>
+
       <r-page-layout page-title="Détail Pronote" :back-link="JSON.stringify(backLink)">
         <FicheEleveSkeleton v-if="loading" />
         <p v-else-if="error">
