@@ -15,12 +15,14 @@
  */
 package fr.recia.pronote.pronoteapi.dto.competences;
 
+import jakarta.annotation.Nullable;
 import fr.recia.pronote.pronoteapi.dto.IWidgetCountable;
 import fr.recia.pronote.pronoteapi.dto.WidgetItemKeys;
 import fr.recia.pronote.pronoteapi.model.PageCompetences;
 import lombok.Data;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -28,10 +30,15 @@ import java.util.Objects;
 public class CompetencesDto implements IWidgetCountable {
 
     Integer nombreEvaluations;
+    @Nullable
+    List<EvaluationDto> evaluationDtoList;
 
     public CompetencesDto(PageCompetences pageCompetences) {
         this.nombreEvaluations = Objects.nonNull(pageCompetences.getEvaluationList())
                 ? pageCompetences.getEvaluationList().size() : 0;
+        this.evaluationDtoList = Objects.nonNull(pageCompetences.getEvaluationList())
+                ? pageCompetences.getEvaluationList().stream().map(EvaluationDto::new).toList()
+                : null;
     }
 
     @Override

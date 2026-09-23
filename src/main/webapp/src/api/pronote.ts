@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi.config.bean;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import type { PronotePageResponse } from '@/types/pronote'
 
-import java.util.List;
+const PRONOTE_PAGE_URL = './public/mocks/pronote-page.json'
 
-@ConfigurationProperties(prefix = "app.cors")
-@Data
-public class CorsProperties {
-    private List<String> allowedOrigins;
-    private boolean allowCredentials;
-    private boolean enable;
+export async function fetchPronotePage(): Promise<PronotePageResponse> {
+  const response = await fetch(PRONOTE_PAGE_URL, { credentials: 'include' })
+
+  if (!response.ok) {
+    throw new Error(`pronotePage request failed: ${response.status}`)
+  }
+
+  return response.json() as Promise<PronotePageResponse>
 }

@@ -18,12 +18,24 @@ package fr.recia.pronote.pronoteapi.config.bean;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.List;
+import java.util.Map;
 
-@ConfigurationProperties(prefix = "app.cors")
 @Data
-public class CorsProperties {
-    private List<String> allowedOrigins;
-    private boolean allowCredentials;
-    private boolean enable;
+@ConfigurationProperties(prefix = "app.front")
+public class FrontProperties {
+
+    private ExtendedUportalProperties extendedUportal;
+
+    @Data
+    public static class ExtendedUportalProperties {
+
+        private ComponentProperties header;
+        private ComponentProperties footer;
+
+        @Data
+        public static class ComponentProperties {
+            private String componentPath;
+            private Map<String, String> props;
+        }
+    }
 }

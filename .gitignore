@@ -1,6 +1,5 @@
-HELP.md
 target/
-.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 application-local*.yaml
@@ -8,6 +7,8 @@ application-*.yaml
 !application.yaml
 !application.example
 !application-ci.yaml
+.env
+!.env.schema
 
 ### STS ###
 .apt_generated
@@ -35,4 +36,26 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+
+### Yarn ###
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
+
+node_modules
+.DS_Store
+dist
+dist-ssr
+coverage
+*.local
+*.tsbuildinfo
+.eslintcache
+
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
