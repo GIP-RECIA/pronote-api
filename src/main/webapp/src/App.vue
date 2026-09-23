@@ -38,7 +38,9 @@ const backLink = {
 }
 
 onMounted(async () => {
-  initConfiguration()
+  initConfiguration().catch((e) => {
+    console.error('Échec du chargement de la configuration extended-uPortal', e)
+  })
 
   try {
     data.value = await fetchPronotePage()
