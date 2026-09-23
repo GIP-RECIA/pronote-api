@@ -23,6 +23,7 @@ import { computed } from 'vue'
 const props = defineProps<{
   resumeDeCoursList: ResumeDeCours[] | null
   travailAFaireList: TravailAFaire[] | null
+  index: number
 }>()
 
 function normalizeUrl(url: string): string {
@@ -67,8 +68,8 @@ const groupedByDay = computed<DayGroup[]>(() => {
 </script>
 
 <template>
-  <section class="cours r-card" aria-labelledby="cours-recents-heading">
-    <h2 id="cours-recents-heading">
+  <section class="cours r-card" :aria-labelledby="`cours-recents-heading-${index}`">
+    <h2 :id="`cours-recents-heading-${index}`">
       Cours récents
     </h2>
     <template v-if="groupedByDay.length">
@@ -121,8 +122,8 @@ const groupedByDay = computed<DayGroup[]>(() => {
       Aucun cours récent
     </p>
   </section>
-  <section class="travail-a-faire r-card" aria-labelledby="travail-a-faire-heading">
-    <h2 id="travail-a-faire-heading">
+  <section :id="`travail-a-faire-${index}`" class="travail-a-faire r-card" :aria-labelledby="`travail-a-faire-heading-${index}`" tabindex="-1">
+    <h2 :id="`travail-a-faire-heading-${index}`">
       Travail à faire
     </h2>
     <template v-if="travailAFaireList && travailAFaireList.length">

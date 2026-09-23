@@ -19,12 +19,13 @@ import type { Competences } from '@/types/pronote'
 
 defineProps<{
   competences: Competences | null
+  index: number
 }>()
 </script>
 
 <template>
-  <section class="competences" aria-labelledby="competences-heading">
-    <h2 id="competences-heading">
+  <section class="competences" :aria-labelledby="`competences-heading-${index}`">
+    <h2 :id="`competences-heading-${index}`">
       Compétences
     </h2>
 

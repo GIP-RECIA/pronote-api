@@ -20,6 +20,7 @@ import { computed } from 'vue'
 
 const props = defineProps<{
   devoirs: Devoir[] | null
+  index: number
 }>()
 
 const sortedDevoirs = computed(() =>
@@ -32,8 +33,8 @@ function formatFullDate(date: string): string {
 </script>
 
 <template>
-  <section class="devoirs" aria-labelledby="releve-notes-heading">
-    <h2 id="releve-notes-heading">
+  <section class="devoirs" :aria-labelledby="`releve-notes-heading-${index}`">
+    <h2 :id="`releve-notes-heading-${index}`">
       Relevé de notes
     </h2>
 
