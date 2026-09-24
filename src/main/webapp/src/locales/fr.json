@@ -1,0 +1,68 @@
+{
+  "app": {
+    "pageTitle": "Détail Pronote",
+    "backToPortal": "Retour à l'accueil",
+    "loading": "Chargement des données…",
+    "error": "Erreur : {message}",
+    "defaultEleveLabel": "Élève"
+  },
+  "ficheEleve": {
+    "addToAgenda": "Ajouter à mon agenda",
+    "stats": {
+      "notesRecues": "notes reçues",
+      "vieScolaire": "événements de vie scolaire",
+      "travauxAFaire": "travaux à faire",
+      "evaluationsCompetences": "évaluations de compétences"
+    }
+  },
+  "cours": {
+    "heading": "Cours récents",
+    "empty": "Aucun cours récent",
+    "travailAFaireHeading": "Travail à faire",
+    "travailAFaireEmpty": "Aucun travail à faire",
+    "pieceJointe": "Pièce jointe {n}",
+    "opensInNewTab": "(ouvre dans un nouvel onglet)",
+    "dueDate": "À rendre le {date}"
+  },
+  "devoirs": {
+    "heading": "Relevé de notes",
+    "empty": "Aucun devoir n'a été noté lors des 7 derniers jours."
+  },
+  "competences": {
+    "heading": "Compétences",
+    "empty": "Aucune évaluation de compétence lors des 7 derniers jours.",
+    "notSpecified": "Non renseigné"
+  },
+  "messagerie": {
+    "heading": "Messagerie",
+    "unreadMessages": "messages non lus",
+    "unreadInfos": "informations non lues"
+  },
+  "vieScolaire": {
+    "heading": "Vie scolaire",
+    "empty": "Aucun événement",
+    "noMotif": "sans motif",
+    "inProgress": "en cours",
+    "filterName": "Catégorie",
+    "filterAll": "Tout ({count})",
+    "filterOption": "{title} ({count})",
+    "categories": {
+      "absences": "Absences",
+      "retards": "Retards",
+      "infirmerie": "Infirmerie",
+      "punitions": "Punitions",
+      "sanction": "Sanction",
+      "observation": "Observation"
+    },
+    "absenceJustified": "Absence : {motif}",
+    "absenceUnjustified": "Absence - non justifiée : {motif}",
+    "retardJustified": "Retard : {motif}",
+    "retardUnjustified": "Retard - non justifié : {motif}",
+    "passageInfirmerie": "Passage infirmerie",
+    "punitionLabel": "{nature} - {motif}",
+    "sanctionLabel": "{nature} - {motif}",
+    "sanctionDuree": "{count} jour | {count} jours",
+    "observationLabel": "Observation ({matiere}) - {observation}",
+    "signaledBy": "Signalée par {demandeur}"
+  }
+}

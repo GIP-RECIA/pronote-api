@@ -19,6 +19,8 @@ import type { ResumeDeCours, TravailAFaire } from '@/types/pronote'
 import { faLink, faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { formatFullDate, formatFullWeekday } from '@/utils/dateUtils'
 
 const props = defineProps<{
   resumeDeCoursList: ResumeDeCours[] | null
@@ -26,25 +28,19 @@ const props = defineProps<{
   index: number
 }>()
 
+const { t, locale } = useI18n()
+
 function normalizeUrl(url: string): string {
   return /^https?:\/\//.test(url) ? url : `https://${url}`
 }
 
 const sortedResumes = computed(() => [...(props.resumeDeCoursList ?? [])].sort((a, b) => b.date.localeCompare(a.date)))
 
-function formatFullWeekday(date: string): string {
-  return new Date(date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
-}
-
 function formatCategorie(categorie: string | null): string {
   const mapping: Record<string, string> = {
     'Cours important': 'Cours',
   }
   return categorie ? (mapping[categorie] ?? categorie) : ''
-}
-
-function formatFullDate(date: string): string {
-  return new Date(date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 interface DayGroup {
@@ -70,14 +66,14 @@ const groupedByDay = computed<DayGroup[]>(() => {
 <template>
   <section class="cours r-card" :aria-labelledby="`cours-recents-heading-${index}`">
     <h2 :id="`cours-recents-heading-${index}`">
-      Cours récents
+      {{ t('cours.heading') }}
     </h2>
     <template v-if="groupedByDay.length">
       <template v-for="(group, i) in groupedByDay" :key="group.date">
         <hr v-if="i > 0">
         <div class="day-group">
           <h3 class="day-heading">
-            {{ formatFullWeekday(group.date) }}
+            {{ formatFullWeekday(group.date, locale) }}
           </h3>
           <div class="day-content">
             <div v-for="(resume, j) in group.resumes" :key="`${resume.id}-${j}`" class="matiere-block">
@@ -99,15 +95,15 @@ const groupedByDay = computed<DayGroup[]>(() => {
                     <li v-for="(piece, p) in contenu.pieceJointeList ?? []" :key="`pj-${p}`">
                       <FontAwesomeIcon :icon="faPaperclip" class="attach-icon" aria-hidden="true" />
                       <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer">
-                        Pièce jointe {{ p + 1 }}
-                        <span class="sr-only"> (ouvre dans un nouvel onglet)</span>
+                        {{ t('cours.pieceJointe', { n: p + 1 }) }}
+                        <span class="sr-only"> {{ t('cours.opensInNewTab') }}</span>
                       </a>
                     </li>
                     <li v-for="(site, s) in contenu.siteInternetList ?? []" :key="`site-${s}`">
                       <FontAwesomeIcon :icon="faLink" class="attach-icon" aria-hidden="true" />
                       <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer">
                         {{ site }}
-                        <span class="sr-only"> (ouvre dans un nouvel onglet)</span>
+                        <span class="sr-only"> {{ t('cours.opensInNewTab') }}</span>
                       </a>
                     </li>
                   </ul>
@@ -119,12 +115,12 @@ const groupedByDay = computed<DayGroup[]>(() => {
       </template>
     </template>
     <p v-else>
-      Aucun cours récent
+      {{ t('cours.empty') }}
     </p>
   </section>
   <section :id="`travail-a-faire-${index}`" class="travail-a-faire r-card" :aria-labelledby="`travail-a-faire-heading-${index}`" tabindex="-1">
     <h2 :id="`travail-a-faire-heading-${index}`">
-      Travail à faire
+      {{ t('cours.travailAFaireHeading') }}
     </h2>
     <template v-if="travailAFaireList && travailAFaireList.length">
       <template v-for="(taf, i) in travailAFaireList" :key="i">
@@ -134,20 +130,20 @@ const groupedByDay = computed<DayGroup[]>(() => {
             {{ taf.matiere }}
           </h3>
           <span class="desc">{{ taf.descriptif }}</span>
-          <span class="due">À rendre le {{ formatFullDate(taf.pourLe) }}</span>
+          <span class="due">{{ t('cours.dueDate', { date: formatFullDate(taf.pourLe, locale) }) }}</span>
           <ul v-if="(taf.pieceJointeList?.length ?? 0) + (taf.siteInternetList?.length ?? 0) > 0" class="attachments">
             <li v-for="(piece, p) in taf.pieceJointeList ?? []" :key="`pj-${p}`">
               <FontAwesomeIcon :icon="faPaperclip" class="attach-icon" aria-hidden="true" />
               <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer">
-                Pièce jointe {{ p + 1 }}
-                <span class="sr-only"> (ouvre dans un nouvel onglet)</span>
+                {{ t('cours.pieceJointe', { n: p + 1 }) }}
+                <span class="sr-only"> {{ t('cours.opensInNewTab') }}</span>
               </a>
             </li>
             <li v-for="(site, s) in taf.siteInternetList ?? []" :key="`site-${s}`">
               <FontAwesomeIcon :icon="faLink" class="attach-icon" aria-hidden="true" />
               <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer">
                 {{ site }}
-                <span class="sr-only"> (ouvre dans un nouvel onglet)</span>
+                <span class="sr-only"> {{ t('cours.opensInNewTab') }}</span>
               </a>
             </li>
           </ul>
@@ -155,7 +151,7 @@ const groupedByDay = computed<DayGroup[]>(() => {
       </template>
     </template>
     <p v-else>
-      Aucun travail à faire
+      {{ t('cours.travailAFaireEmpty') }}
     </p>
   </section>
 </template>

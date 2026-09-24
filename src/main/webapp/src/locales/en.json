@@ -1,0 +1,68 @@
+{
+  "app": {
+    "pageTitle": "Pronote Details",
+    "backToPortal": "Back to home",
+    "loading": "Loading data…",
+    "error": "Error: {message}",
+    "defaultEleveLabel": "Student"
+  },
+  "ficheEleve": {
+    "addToAgenda": "Add to my calendar",
+    "stats": {
+      "notesRecues": "grades received",
+      "vieScolaire": "school-life events",
+      "travauxAFaire": "assignments due",
+      "evaluationsCompetences": "skill evaluations"
+    }
+  },
+  "cours": {
+    "heading": "Recent classes",
+    "empty": "No recent classes",
+    "travailAFaireHeading": "Assignments due",
+    "travailAFaireEmpty": "No assignments due",
+    "pieceJointe": "Attachment {n}",
+    "opensInNewTab": "(opens in a new tab)",
+    "dueDate": "Due on {date}"
+  },
+  "devoirs": {
+    "heading": "Grade report",
+    "empty": "No grade was recorded in the last 7 days."
+  },
+  "competences": {
+    "heading": "Skills",
+    "empty": "No skill evaluation in the last 7 days.",
+    "notSpecified": "Not specified"
+  },
+  "messagerie": {
+    "heading": "Messages",
+    "unreadMessages": "unread messages",
+    "unreadInfos": "unread notices"
+  },
+  "vieScolaire": {
+    "heading": "School life",
+    "empty": "No events",
+    "noMotif": "no reason given",
+    "inProgress": "in progress",
+    "filterName": "Category",
+    "filterAll": "All ({count})",
+    "filterOption": "{title} ({count})",
+    "categories": {
+      "absences": "Absences",
+      "retards": "Late arrivals",
+      "infirmerie": "Infirmary",
+      "punitions": "Detentions",
+      "sanction": "Sanction",
+      "observation": "Remark"
+    },
+    "absenceJustified": "Absence: {motif}",
+    "absenceUnjustified": "Absence - unjustified: {motif}",
+    "retardJustified": "Late arrival: {motif}",
+    "retardUnjustified": "Late arrival - unjustified: {motif}",
+    "passageInfirmerie": "Infirmary visit",
+    "punitionLabel": "{nature} - {motif}",
+    "sanctionLabel": "{nature} - {motif}",
+    "sanctionDuree": "{count} day | {count} days",
+    "observationLabel": "Remark ({matiere}) - {observation}",
+    "signaledBy": "Reported by {demandeur}"
+  }
+}

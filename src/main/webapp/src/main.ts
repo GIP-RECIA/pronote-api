@@ -16,6 +16,7 @@
 
 import { createApp } from 'vue'
 import App from './App.vue'
+import i18n from './plugins/i18n'
 import './assets/main.scss'
 
 const HEADER_URL = 'https://... (la vraie URL trouvée)'
@@ -31,4 +32,4 @@ function loadExtendedUportalScript(src: string) {
 loadExtendedUportalScript(HEADER_URL)
 loadExtendedUportalScript(FOOTER_URL)
 
-createApp(App).mount('#app')
+createApp(App).use(i18n).mount('#app')

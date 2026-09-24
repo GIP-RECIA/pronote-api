@@ -16,17 +16,20 @@
 
 <script setup lang="ts">
 import type { Competences } from '@/types/pronote'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   competences: Competences | null
   index: number
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
   <section class="competences" :aria-labelledby="`competences-heading-${index}`">
     <h2 :id="`competences-heading-${index}`">
-      Compétences
+      {{ t('competences.heading') }}
     </h2>
 
     <template v-if="competences?.evaluationDtoList?.length">
@@ -35,13 +38,13 @@ defineProps<{
         <div class="evaluation">
           <span class="code">{{ evaluation.competence }}</span>
           <span class="matiere">{{ evaluation.matiere }}</span>
-          <span class="niveau">{{ evaluation.niveauDAcquisition ?? 'Non renseigné' }}</span>
+          <span class="niveau">{{ evaluation.niveauDAcquisition ?? t('competences.notSpecified') }}</span>
           <span class="intitule">{{ evaluation.intitule }}</span>
         </div>
       </template>
     </template>
     <p v-else>
-      Aucune évaluation de compétence lors des 7 derniers jours.
+      {{ t('competences.empty') }}
     </p>
   </section>
 </template>

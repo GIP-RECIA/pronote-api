@@ -16,7 +16,8 @@
 
 <script setup lang="ts">
 import type { PronotePageResponse } from '@/types/pronote'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { fetchPronotePage } from '@/api/pronote'
 import FicheEleve from '@/components/FicheEleve.vue'
 import FicheEleveSkeleton from '@/components/FicheEleveSkeleton.vue'
@@ -25,6 +26,7 @@ import '@gip-recia/ui-webcomponents/dist/r-tabs.js'
 import '@gip-recia/ui-webcomponents/dist/r-page-layout.js'
 
 const { configuration, isInit } = useConfiguration()
+const { t } = useI18n()
 
 const appName = __APP_NAME__
 
@@ -32,10 +34,10 @@ const data = ref<PronotePageResponse | null>(null)
 const error = ref<string | null>(null)
 const loading = ref(true)
 
-const backLink = {
+const backLink = computed(() => ({
   href: '/portail',
-  name: 'Retour à l\'accueil',
-}
+  name: t('app.backToPortal'),
+}))
 
 onMounted(async () => {
   initConfiguration().catch((e) => {
@@ -65,18 +67,18 @@ onMounted(async () => {
   <main>
     <div class="container">
       <span class="sr-only" aria-live="polite">
-        {{ loading ? 'Chargement des données…' : '' }}
+        {{ loading ? t('app.loading') : '' }}
       </span>
 
-      <r-page-layout page-title="Détail Pronote" :back-link="JSON.stringify(backLink)">
+      <r-page-layout :page-title="t('app.pageTitle')" :back-link="JSON.stringify(backLink)">
         <FicheEleveSkeleton v-if="loading" />
         <p v-else-if="error">
-          Erreur : {{ error }}
+          {{ t('app.error', { message: error }) }}
         </p>
         <template v-else-if="data && data.eleveDtoList.length > 1">
           <r-tablist
-            id-prefix="eleves" :tabs="data.eleveDtoList.map(eleve => eleve.prenom ?? 'Élève')" active-tab="0"
-            switch-tabpanel
+            id-prefix="eleves" :tabs="data.eleveDtoList.map(eleve => eleve.prenom ?? t('app.defaultEleveLabel'))"
+            active-tab="0" switch-tabpanel
           />
           <r-tabpanel
             v-for="(eleve, index) in data.eleveDtoList" :key="index" id-prefix="eleves" :index.attr="index"

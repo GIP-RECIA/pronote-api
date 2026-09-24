@@ -16,27 +16,30 @@
 
 <script setup lang="ts">
 import type { Messagerie } from '@/types/pronote'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   messagerie: Messagerie | null
   index: number
 }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
   <section class="r-card messagerie" :aria-labelledby="`messagerie-heading-${index}`">
     <h2 :id="`messagerie-heading-${index}`">
-      Messagerie
+      {{ t('messagerie.heading') }}
     </h2>
 
     <div class="stats">
       <div class="stat">
         <span class="num">{{ messagerie?.nombreMessagesNonLus ?? 0 }}</span>
-        <span class="lbl">messages non lus</span>
+        <span class="lbl">{{ t('messagerie.unreadMessages') }}</span>
       </div>
       <div class="stat">
         <span class="num">{{ messagerie?.nombreInformationsNonLus ?? 0 }}</span>
-        <span class="lbl">informations non lues</span>
+        <span class="lbl">{{ t('messagerie.unreadInfos') }}</span>
       </div>
     </div>
   </section>

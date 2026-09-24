@@ -17,25 +17,25 @@
 <script setup lang="ts">
 import type { Devoir } from '@/types/pronote'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { formatFullDate } from '@/utils/dateUtils'
 
 const props = defineProps<{
   devoirs: Devoir[] | null
   index: number
 }>()
 
+const { t, locale } = useI18n()
+
 const sortedDevoirs = computed(() =>
   [...(props.devoirs ?? [])].sort((a, b) => a.date.localeCompare(b.date)),
 )
-
-function formatFullDate(date: string): string {
-  return new Date(date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
-}
 </script>
 
 <template>
   <section class="devoirs" :aria-labelledby="`releve-notes-heading-${index}`">
     <h2 :id="`releve-notes-heading-${index}`">
-      Relevé de notes
+      {{ t('devoirs.heading') }}
     </h2>
 
     <template v-if="sortedDevoirs.length">
@@ -44,12 +44,12 @@ function formatFullDate(date: string): string {
         <div class="devoir">
           <span class="matiere">{{ devoir.matiere }}</span>
           <span class="note">{{ devoir.note }}/{{ devoir.bareme }}</span>
-          <span class="date">{{ formatFullDate(devoir.date) }}</span>
+          <span class="date">{{ formatFullDate(devoir.date, locale) }}</span>
         </div>
       </template>
     </template>
     <p v-else>
-      Aucun devoir n'a été noté lors des 7 derniers jours.
+      {{ t('devoirs.empty') }}
     </p>
   </section>
 </template>

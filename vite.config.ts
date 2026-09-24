@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, loadEnv } from 'vite'
 import vueDevTools from 'vite-plugin-vue-devtools'
@@ -24,7 +25,8 @@ export default defineConfig(({ mode }) => {
     let version
     const pomXml = readFileSync('./pom.xml', 'utf8')
     parseString(pomXml, (err, result) => {
-      if (err) console.error(err)
+      if (err)
+        console.error(err)
       else version = result.project.version[0]
     })
     return JSON.stringify(version)
@@ -42,6 +44,9 @@ export default defineConfig(({ mode }) => {
               ['r-filters', 'r-tablist', 'r-tabpanel', 'r-page-layout', 'extended-uportal-header', 'extended-uportal-footer'].includes(tag),
           },
         },
+      }),
+      VueI18nPlugin({
+        include: [fileURLToPath(new URL('./src/main/webapp/src/locales/**', import.meta.url))],
       }),
       vueDevTools(),
     ],
