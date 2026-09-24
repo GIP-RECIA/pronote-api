@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<Eleve sessionENT="a1b2c3d4-session-ent-0001" version="1.0">
+
+    <PageCahierDeTextes page="1">
+        <Titre>Cahier de textes</Titre>
+        <Message></Message>
+        <CahierDeTextes page="1">
+            <Matiere>Mathématiques</Matiere>
+            <Date>2026-09-14T00:00:00.000+0000</Date>
+            <ContenuDeCours>
+                <Titre>Fonctions affines</Titre>
+                <Categorie>Cours</Categorie>
+                <Descriptif>Introduction à la notion de fonction affine, tracé de droites.</Descriptif>
+                <PieceJointe>cours_fonctions_affines.pdf</PieceJointe>
+                <SiteInternet>https://www.mathematiques.example/fonctions-affines</SiteInternet>
+            </ContenuDeCours>
+            <TravailAFaire>
+                <Descriptif>Exercices p.42 n°3, 5 et 7</Descriptif>
+                <PourLe>2026-09-17T00:00:00.000+0000</PourLe>
+                <PieceJointe>exercices_p42.pdf</PieceJointe>
+            </TravailAFaire>
+        </CahierDeTextes>
+        <CahierDeTextes page="1">
+            <Matiere>Français</Matiere>
+            <Date>2026-09-15T00:00:00.000+0000</Date>
+            <ContenuDeCours>
+                <Titre>Étude d'un extrait de Candide</Titre>
+                <Categorie>Cours</Categorie>
+                <Descriptif>Lecture analytique du chapitre III.</Descriptif>
+            </ContenuDeCours>
+            <TravailAFaire>
+                <Descriptif>Rédiger un paragraphe argumenté sur l'ironie voltairienne</Descriptif>
+                <PourLe>2026-09-19T00:00:00.000+0000</PourLe>
+            </TravailAFaire>
+        </CahierDeTextes>
+        <CahierDeTextes page="1">
+            <Matiere>Histoire-Géographie</Matiere>
+            <Date>2026-09-15T00:00:00.000+0000</Date>
+            <ContenuDeCours>
+                <Titre>La Première Guerre mondiale</Titre>
+                <Categorie>Cours</Categorie>
+                <Descriptif>Les grandes phases du conflit.</Descriptif>
+            </ContenuDeCours>
+        </CahierDeTextes>
+    </PageCahierDeTextes>
+
+    <PageReleveDeNotes page="2">
+        <Titre>Relevé de notes</Titre>
+        <Message></Message>
+        <Devoir page="2">
+            <Note>14</Note>
+            <Bareme>20</Bareme>
+            <Matiere>Mathématiques</Matiere>
+            <Date>2026-09-08T00:00:00.000+0000</Date>
+        </Devoir>
+        <Devoir page="2">
+            <Note>16.5</Note>
+            <Bareme>20</Bareme>
+            <Matiere>Français</Matiere>
+            <Date>2026-09-10T00:00:00.000+0000</Date>
+        </Devoir>
+        <Devoir page="2">
+            <Note>Abs</Note>
+            <Bareme>20</Bareme>
+            <Matiere>Physique-Chimie</Matiere>
+            <Date>2026-09-12T00:00:00.000+0000</Date>
+        </Devoir>
+    </PageReleveDeNotes>
+
+    <PageVieScolaire page="3">
+        <Titre>Vie scolaire</Titre>
+        <Message></Message>
+        <Absence page="3">
+            <DateDebut>2026-09-11T08:00:00</DateDebut>
+            <DateFin>2026-09-11T09:00:00</DateFin>
+            <EstOuverte>false</EstOuverte>
+            <Justifie>true</Justifie>
+            <Motif>Rendez-vous médical</Motif>
+        </Absence>
+        <Absence page="3">
+            <DateDebut>2026-09-14T13:00:00</DateDebut>
+            <DateFin>2026-09-14T17:00:00</DateFin>
+            <EstOuverte>true</EstOuverte>
+            <Justifie>false</Justifie>
+            <Motif></Motif>
+        </Absence>
+        <Retard page="3">
+            <Date>2026-09-15T08:05:00</Date>
+            <Justifie>false</Justifie>
+            <Motif>Retard de bus</Motif>
+        </Retard>
+        <PassageInfirmerie page="3">
+            <Date>2026-09-09T10:30:00</Date>
+        </PassageInfirmerie>
+        <Punition page="3">
+            <Date>2026-09-05T00:00:00.000+0000</Date>
+            <Nature>Retenue</Nature>
+            <Matiere>Mathématiques</Matiere>
+            <Motif>Bavardages répétés</Motif>
+            <Circonstances>Pendant le cours</Circonstances>
+        </Punition>
+        <Sanction>
+            <Date>2026-06-20T00:00:00.000+0000</Date>
+            <Nature>Avertissement</Nature>
+            <Motif>Absences répétées non justifiées</Motif>
+            <Circonstances>Conseil de discipline</Circonstances>
+            <Duree>0</Duree>
+        </Sanction>
+        <Observation>
+            <Date>2026-09-13T00:00:00</Date>
+            <Demandeur>M. Martin</Demandeur>
+            <Matiere>SVT</Matiere>
+            <observation>Bonne participation, en nette progression.</observation>
+        </Observation>
+    </PageVieScolaire>
+
+    <PageMessagerie page="4">
+        <Titre>Messagerie</Titre>
+        <Message></Message>
+        <Discussions page="4">
+            <NombreMessagesNonLus>2</NombreMessagesNonLus>
+        </Discussions>
+        <Informations page="4">
+            <NombreInformationsNonLus>5</NombreInformationsNonLus>
+        </Informations>
+    </PageMessagerie>
+
+    <PageCompetences page="5">
+        <Titre>Compétences</Titre>
+        <Message></Message>
+        <Evaluation page="5">
+            <Competence>D1.1</Competence>
+            <Item>Comprendre, s'exprimer en utilisant la langue française</Item>
+            <Intitule>Évaluation orale</Intitule>
+            <Matiere>Français</Matiere>
+            <NiveauDAcquisition>
+                <Genre>1</Genre>
+                <Libelle>Acquis</Libelle>
+            </NiveauDAcquisition>
+            <Date>2026-09-10T00:00:00.000+0000</Date>
+        </Evaluation>
+        <Domaine page="5">
+            <Competence>D4</Competence>
+            <Intitule>Les systèmes naturels et les systèmes techniques</Intitule>
+            <Matiere>Physique-Chimie</Matiere>
+            <NiveauDAcquisition>
+                <Genre>3</Genre>
+                <Libelle>En cours d'acquisition</Libelle>
+            </NiveauDAcquisition>
+            <Date>2026-09-12T00:00:00.000+0000</Date>
+        </Domaine>
+        <Item page="5">
+            <Competence>D2</Competence>
+            <Intitule>Coopération et réalisation de projets</Intitule>
+            <Matiere>Technologie</Matiere>
+            <NiveauDAcquisition>
+                <Genre>0</Genre>
+                <Libelle>Expert</Libelle>
+            </NiveauDAcquisition>
+            <Date>2026-09-11T00:00:00.000+0000</Date>
+        </Item>
+    </PageCompetences>
+
+    <PagePronote page="6" nom="Collège Jean Moulin"/>
+
+    <ICal>BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Pronote//EDT//FR
+BEGIN:VEVENT
+SUMMARY:Mathématiques
+DTSTART:20260917T080000Z
+DTEND:20260917T090000Z
+LOCATION:Salle 204
+END:VEVENT
+END:VCALENDAR</ICal>
+
+</Eleve>

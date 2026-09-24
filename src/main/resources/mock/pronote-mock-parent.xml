@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<Parent sessionENT="a1b2c3d4-session-ent-0002" version="1.0">
+
+    <Eleve>
+        <Nom>Dupont</Nom>
+        <Prenom>Lucas</Prenom>
+        <IdentifiantPronote>PRONOTE$0290009C$00012345</IdentifiantPronote>
+
+        <PageCahierDeTextes page="1">
+            <Titre>Cahier de textes</Titre>
+            <Message></Message>
+            <CahierDeTextes page="1">
+                <Matiere>Mathématiques</Matiere>
+                <Date>2026-09-14T00:00:00.000+0000</Date>
+                <ContenuDeCours>
+                    <Titre>Fonctions affines</Titre>
+                    <Categorie>Cours</Categorie>
+                    <Descriptif>Introduction à la notion de fonction affine, tracé de droites.</Descriptif>
+                </ContenuDeCours>
+                <TravailAFaire>
+                    <Descriptif>Exercices p.42 n°3, 5 et 7</Descriptif>
+                    <PourLe>2026-09-17T00:00:00.000+0000</PourLe>
+                </TravailAFaire>
+            </CahierDeTextes>
+        </PageCahierDeTextes>
+
+        <PageReleveDeNotes page="2">
+            <Titre>Relevé de notes</Titre>
+            <Message></Message>
+            <Devoir page="2">
+                <Note>14</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Mathématiques</Matiere>
+                <Date>2026-09-08T00:00:00.000+0000</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>16.5</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Français</Matiere>
+                <Date>2026-09-10T00:00:00.000+0000</Date>
+            </Devoir>
+        </PageReleveDeNotes>
+
+        <PageVieScolaire page="3">
+            <Titre>Vie scolaire</Titre>
+            <Message></Message>
+            <Absence page="3">
+                <DateDebut>2026-09-11T08:00:00</DateDebut>
+                <DateFin>2026-09-11T09:00:00</DateFin>
+                <EstOuverte>false</EstOuverte>
+                <Justifie>true</Justifie>
+                <Motif>Rendez-vous médical</Motif>
+            </Absence>
+            <Retard page="3">
+                <Date>2026-09-15T08:05:00</Date>
+                <Justifie>false</Justifie>
+                <Motif>Retard de bus</Motif>
+            </Retard>
+        </PageVieScolaire>
+
+        <PageCompetences page="5">
+            <Titre>Compétences</Titre>
+            <Message></Message>
+            <Evaluation page="5">
+                <Competence>D1.1</Competence>
+                <Item>Comprendre, s'exprimer en utilisant la langue française</Item>
+                <Intitule>Évaluation orale</Intitule>
+                <Matiere>Français</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>1</Genre>
+                    <Libelle>Acquis</Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-10T00:00:00.000+0000</Date>
+            </Evaluation>
+        </PageCompetences>
+
+        <PagePronote page="6" nom="Collège Jean Moulin"/>
+
+        <ICal>BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Pronote//EDT//FR
+BEGIN:VEVENT
+SUMMARY:Mathématiques
+DTSTART:20260917T080000Z
+DTEND:20260917T090000Z
+LOCATION:Salle 204
+END:VEVENT
+END:VCALENDAR</ICal>
+    </Eleve>
+
+    <Eleve>
+        <Nom>Dupont</Nom>
+        <Prenom>Emma</Prenom>
+        <IdentifiantPronote>PRONOTE$0290009C$00067890</IdentifiantPronote>
+
+        <PageCahierDeTextes page="1">
+            <Titre>Cahier de textes</Titre>
+            <Message></Message>
+            <CahierDeTextes page="1">
+                <Matiere>Anglais</Matiere>
+                <Date>2026-09-15T00:00:00.000+0000</Date>
+                <ContenuDeCours>
+                    <Titre>Present perfect</Titre>
+                    <Categorie>Cours</Categorie>
+                    <Descriptif>Révision de la forme et des usages du present perfect.</Descriptif>
+                </ContenuDeCours>
+                <TravailAFaire>
+                    <Descriptif>Learn irregular verbs list p.15</Descriptif>
+                    <PourLe>2026-09-18T00:00:00.000+0000</PourLe>
+                </TravailAFaire>
+            </CahierDeTextes>
+        </PageCahierDeTextes>
+
+        <PageReleveDeNotes page="2">
+            <Titre>Relevé de notes</Titre>
+            <Message></Message>
+            <Devoir page="2">
+                <Note>Abs</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Physique-Chimie</Matiere>
+                <Date>2026-09-12T00:00:00.000+0000</Date>
+            </Devoir>
+        </PageReleveDeNotes>
+
+        <PageVieScolaire page="3">
+            <Titre>Vie scolaire</Titre>
+            <Message></Message>
+            <PassageInfirmerie page="3">
+                <Date>2026-09-09T10:30:00</Date>
+            </PassageInfirmerie>
+            <Observation>
+                <Date>2026-09-13T00:00:00</Date>
+                <Demandeur>M. Martin</Demandeur>
+                <Matiere>SVT</Matiere>
+                <observation>Bonne participation, en nette progression.</observation>
+            </Observation>
+        </PageVieScolaire>
+
+        <PageCompetences page="5">
+            <Titre>Compétences</Titre>
+            <Message></Message>
+            <Item page="5">
+                <Competence>D2</Competence>
+                <Intitule>Coopération et réalisation de projets</Intitule>
+                <Matiere>Technologie</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>0</Genre>
+                    <Libelle>Expert</Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-11T00:00:00.000+0000</Date>
+            </Item>
+        </PageCompetences>
+
+        <PagePronote page="6" nom="Collège Jean Moulin"/>
+
+        <ICal>BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Pronote//EDT//FR
+BEGIN:VEVENT
+SUMMARY:Anglais
+DTSTART:20260918T100000Z
+DTEND:20260918T110000Z
+LOCATION:Salle 108
+END:VEVENT
+END:VCALENDAR</ICal>
+    </Eleve>
+
+    <PageMessagerie page="4">
+        <Titre>Messagerie</Titre>
+        <Message></Message>
+        <Discussions page="4">
+            <NombreMessagesNonLus>1</NombreMessagesNonLus>
+        </Discussions>
+        <Informations page="4">
+            <NombreInformationsNonLus>3</NombreInformationsNonLus>
+        </Informations>
+    </PageMessagerie>
+
+</Parent>

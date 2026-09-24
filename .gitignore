@@ -48,6 +48,7 @@ build/
 node_modules
 .DS_Store
 dist
+src/main/webapp/public/resource-server/
 dist-ssr
 coverage
 *.local

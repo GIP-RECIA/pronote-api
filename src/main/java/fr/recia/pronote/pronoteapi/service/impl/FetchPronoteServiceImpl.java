@@ -22,6 +22,7 @@ import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
 import fr.recia.pronote.pronoteapi.util.UserAttributesHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +31,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @Slf4j
+@Profile("!mock-no-cas")
 public class FetchPronoteServiceImpl implements IFetchPronoteService {
 
 
