@@ -37,10 +37,7 @@ function normalizeUrl(url: string): string {
 const sortedResumes = computed(() => [...(props.resumeDeCoursList ?? [])].sort((a, b) => b.date.localeCompare(a.date)))
 
 function formatCategorie(categorie: string | null): string {
-  const mapping: Record<string, string> = {
-    'Cours important': 'Cours',
-  }
-  return categorie ? (mapping[categorie] ?? categorie) : ''
+  return categorie ?? ''
 }
 
 interface DayGroup {
