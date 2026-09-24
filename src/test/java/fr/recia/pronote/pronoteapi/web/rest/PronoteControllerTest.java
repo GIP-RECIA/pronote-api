@@ -85,7 +85,7 @@ class PronoteControllerTest {
         when(eleveService.getDto("jdupont")).thenReturn(
                 List.of(EleveDto.builder().build()));
 
-        mockMvc.perform(get("/api/widgets/pronotePage"))
+        mockMvc.perform(get("/api/page"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.profil").value("Eleve"))
                 .andExpect(jsonPath("$.eleveDtoList", hasSize(1)));
@@ -103,7 +103,7 @@ class PronoteControllerTest {
                 EleveDto.builder().prenom("Bob$def").build()
         ));
 
-        mockMvc.perform(get("/api/widgets/pronotePage"))
+        mockMvc.perform(get("/api/page"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.profil").value("Parent"))
                 .andExpect(jsonPath("$.eleveDtoList", hasSize(2)))
@@ -120,7 +120,7 @@ class PronoteControllerTest {
         when(profilsProperties.getEleveProfilName()).thenReturn("National_ELV");
         when(profilsProperties.getParentProfilName()).thenReturn("National_TUT");
 
-        mockMvc.perform(get("/api/widgets/pronotePage"))
+        mockMvc.perform(get("/api/page"))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.message").value("National_INCONNU"));
 

@@ -25,7 +25,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PronotePageResponseDto {
+public class PageResponseDto {
 
     private final UserProfile profil;
 

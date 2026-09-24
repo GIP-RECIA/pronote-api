@@ -84,7 +84,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/health-check").permitAll()
                         .requestMatchers("/api/config").permitAll()
-                        .requestMatchers("/api/widgets/**").authenticated()
+                        .requestMatchers("/api/summary").authenticated()
+                        .requestMatchers("/api/page").authenticated()
                         .requestMatchers(casProperties.getCasTicketCallback()).permitAll()
                         .requestMatchers(casProperties.getCasProxyReceptorUrl()).permitAll()
                         .requestMatchers("/error").permitAll()

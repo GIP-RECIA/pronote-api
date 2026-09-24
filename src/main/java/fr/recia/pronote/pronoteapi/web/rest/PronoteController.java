@@ -16,8 +16,9 @@
 package fr.recia.pronote.pronoteapi.web.rest;
 
 import fr.recia.pronote.pronoteapi.config.bean.ProfilsProperties;
-import fr.recia.pronote.pronoteapi.dto.PronotePageResponseDto;
-import fr.recia.pronote.pronoteapi.dto.PronoteWidgetSummaryResponseDto;
+import fr.recia.pronote.pronoteapi.dto.EleveDto;
+import fr.recia.pronote.pronoteapi.dto.PageResponseDto;
+import fr.recia.pronote.pronoteapi.dto.SummaryResponseDto;
 import fr.recia.pronote.pronoteapi.enums.UserProfile;
 import fr.recia.pronote.pronoteapi.exception.UnexpectedProfilException;
 import fr.recia.pronote.pronoteapi.service.impl.FetchAndParseEleveDataServiceFromEleveImpl;
@@ -30,8 +31,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/widgets")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class PronoteController {
 
@@ -44,27 +47,30 @@ public class PronoteController {
 
     private final ProfilsProperties profilsProperties;
 
-    @GetMapping(value = "/pronotePage", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PronotePageResponseDto> getPronotePage(){
+    private record ResolvedProfile(UserProfile userProfile, List<EleveDto> eleveDtoList) {}
+
+    private ResolvedProfile resolveProfile() {
         String profil = userAttributesHandler.getAttribute(UserAttributesHandler.ENT_PERSON_PROFILS);
-         if(profilsProperties.getEleveProfilName().equals(profil)){
-             return  ResponseEntity.ok(new PronotePageResponseDto(UserProfile.eleve, eleveService.getDto(userAttributesHandler.getAttribute(UserAttributesHandler.UID))));
-         }else if(profilsProperties.getParentProfilName().equals(profil)){
-             return  ResponseEntity.ok(new PronotePageResponseDto(UserProfile.parent, parentService.getDto(userAttributesHandler.getAttribute(UserAttributesHandler.UID))));
-         }else{
+        String uid = userAttributesHandler.getAttribute(UserAttributesHandler.UID);
+
+        if (profilsProperties.getEleveProfilName().equals(profil)) {
+            return new ResolvedProfile(UserProfile.eleve, eleveService.getDto(uid));
+        } else if (profilsProperties.getParentProfilName().equals(profil)) {
+            return new ResolvedProfile(UserProfile.parent, parentService.getDto(uid));
+        } else {
             throw new UnexpectedProfilException(profil);
         }
     }
 
-    @GetMapping(value = "/pronoteWidgetSummary", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PronoteWidgetSummaryResponseDto> getPronoteWidgetSummary(){
-        String profil = userAttributesHandler.getAttribute(UserAttributesHandler.ENT_PERSON_PROFILS);
-        if(profilsProperties.getEleveProfilName().equals(profil)){
-            return  ResponseEntity.ok(new PronoteWidgetSummaryResponseDto(eleveService.getDto(userAttributesHandler.getAttribute(UserAttributesHandler.UID))));
-        }else if(profilsProperties.getParentProfilName().equals(profil)){
-            return  ResponseEntity.ok(new PronoteWidgetSummaryResponseDto(parentService.getDto(userAttributesHandler.getAttribute(UserAttributesHandler.UID))));
-        }else{
-            throw new UnexpectedProfilException(profil);
-        }
+    @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PageResponseDto> getPronotePage(){
+        ResolvedProfile resolved = resolveProfile();
+        return ResponseEntity.ok(new PageResponseDto(resolved.userProfile(), resolved.eleveDtoList()));
+    }
+
+    @GetMapping(value = "/summary", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SummaryResponseDto> getPronoteWidgetSummary(){
+        ResolvedProfile resolved = resolveProfile();
+        return ResponseEntity.ok(new SummaryResponseDto(resolved.eleveDtoList()));
     }
 }
