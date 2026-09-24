@@ -18,6 +18,7 @@ package fr.recia.pronote.pronoteapi.config.custom.impl;
 import fr.recia.pronote.pronoteapi.config.bean.CasProperties;
 import jakarta.servlet.http.HttpServletRequest;
 
+import fr.recia.pronote.pronoteapi.util.LogMasking;
 import org.apereo.cas.client.validation.Assertion;
 import org.apereo.cas.client.validation.TicketValidationException;
 import org.apereo.cas.client.validation.TicketValidator;
@@ -127,11 +128,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
                     authentication.getCredentials().toString(),
                     getServiceUrl(authentication)); // from redis
 
-            if (log.isDebugEnabled())
-                log.debug("authentication : Credentials : " +
-                        authentication.getCredentials().toString() +
-                        "with serviceUrl : " +
-                        getServiceUrl(authentication));
+            log.debug("authentication : Credentials : {} with serviceUrl : {}",
+                    LogMasking.mask(authentication.getCredentials().toString()), getServiceUrl(authentication));
 
             UserDetails userDetails = loadUserByAssertion(assertion);
             this.userDetailsChecker.check(userDetails);

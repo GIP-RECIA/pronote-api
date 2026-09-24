@@ -16,6 +16,7 @@
 package fr.recia.pronote.pronoteapi.config.custom.impl;
 
 import fr.recia.pronote.pronoteapi.config.bean.RedisProperties;
+import fr.recia.pronote.pronoteapi.util.LogMasking;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apereo.cas.client.proxy.ProxyGrantingTicketStorage;
@@ -36,8 +37,8 @@ public class ProxyGrantingTicketRedisImpl implements ProxyGrantingTicketStorage 
 
     @Override
     public void save(final String proxyGrantingTicketIou, final String proxyGrantingTicket) {
-        log.debug("Saving ProxyGrantingTicketIOU and ProxyGrantingTicket combo: [{}, {}]", proxyGrantingTicketIou.substring(0,8),
-                proxyGrantingTicket.substring(0,8));
+        log.debug("Saving ProxyGrantingTicketIOU and ProxyGrantingTicket combo: [{}, {}]",
+                LogMasking.mask(proxyGrantingTicketIou), LogMasking.mask(proxyGrantingTicket));
         saveInRedis(proxyGrantingTicketIou, proxyGrantingTicket);
     }
 
@@ -54,11 +55,11 @@ public class ProxyGrantingTicketRedisImpl implements ProxyGrantingTicketStorage 
         final String proxyGrantingTicket = getFromRedis(proxyGrantingTicketIou);
 
         if (proxyGrantingTicket == null) {
-            log.debug("No Proxy Ticket found for [{}].", proxyGrantingTicketIou);
+            log.debug("No Proxy Ticket found for [{}].", LogMasking.mask(proxyGrantingTicketIou));
             return null;
         }
 
-        log.debug("Returned ProxyGrantingTicket of [{}]", proxyGrantingTicket);
+        log.debug("Returned ProxyGrantingTicket of [{}]", LogMasking.mask(proxyGrantingTicket));
         return proxyGrantingTicket;
     }
 

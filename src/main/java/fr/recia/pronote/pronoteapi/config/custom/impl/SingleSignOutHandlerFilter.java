@@ -20,6 +20,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import fr.recia.pronote.pronoteapi.util.LogMasking;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -51,7 +52,6 @@ public class SingleSignOutHandlerFilter extends OncePerRequestFilter {
         if (logoutRequest != null) {
             log.trace("[SLO] URI appelée : {}", uri);
             log.trace("[SLO] Adresse IP appelante : {}", ip);
-            log.trace("[SLO] XML logoutRequest brut :\n{}", logoutRequest);
 
             try {
                 var factory = DocumentBuilderFactory.newInstance();
@@ -84,9 +84,9 @@ public class SingleSignOutHandlerFilter extends OncePerRequestFilter {
                 }
 
                 if (isSessionTicket) {
-                    log.debug("[SLO] Ticket Invalidation Request will be handled: {}", ticket);
+                    log.debug("[SLO] Ticket Invalidation Request will be handled: {}", LogMasking.mask(ticket));
                 } else {
-                    log.debug("[SLO] Ticket Invalidation Request will be ignored: {}", ticket);
+                    log.debug("[SLO] Ticket Invalidation Request will be ignored: {}", LogMasking.mask(ticket));
                     filterChain.doFilter(request, response);
                     return;
                 }
