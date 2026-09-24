@@ -28,15 +28,67 @@
             <Message></Message>
             <CahierDeTextes page="1">
                 <Matiere>Mathématiques</Matiere>
-                <Date>2026-09-14T00:00:00.000+0000</Date>
+                <Date>2026-09-14</Date>
                 <ContenuDeCours>
                     <Titre>Fonctions affines</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Introduction à la notion de fonction affine, tracé de droites, calcul du coefficient directeur.</Descriptif>
+                    <PieceJointe>cours_fonctions_affines.pdf</PieceJointe>
+                    <PieceJointe>fiche_methode_droites.pdf</PieceJointe>
+                    <SiteInternet>https://www.mathematiques.example/fonctions-affines</SiteInternet>
+                </ContenuDeCours>
+                <ContenuDeCours>
+                    <Titre>Rappel : proportionnalité</Titre>
                     <Categorie>Cours</Categorie>
-                    <Descriptif>Introduction à la notion de fonction affine, tracé de droites.</Descriptif>
+                    <Descriptif>Retour rapide sur les situations de proportionnalité avant d'attaquer les fonctions affines.</Descriptif>
                 </ContenuDeCours>
                 <TravailAFaire>
                     <Descriptif>Exercices p.42 n°3, 5 et 7</Descriptif>
-                    <PourLe>2026-09-17T00:00:00.000+0000</PourLe>
+                    <PourLe>2026-09-17</PourLe>
+                    <PieceJointe>exercices_p42.pdf</PieceJointe>
+                </TravailAFaire>
+            </CahierDeTextes>
+            <CahierDeTextes page="1">
+                <Matiere>Français</Matiere>
+                <Date>2026-09-15</Date>
+                <ContenuDeCours>
+                    <Titre>Étude d'un extrait de Candide</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Lecture analytique du chapitre III, l'ironie voltairienne et la critique de la guerre.</Descriptif>
+                    <SiteInternet>https://www.francais.example/candide-chapitre-3</SiteInternet>
+                    <SiteInternet>https://www.francais.example/ironie-voltairienne</SiteInternet>
+                </ContenuDeCours>
+                <TravailAFaire>
+                    <Descriptif>Rédiger un paragraphe argumenté sur l'ironie voltairienne</Descriptif>
+                    <PourLe>2026-09-19</PourLe>
+                </TravailAFaire>
+                <TravailAFaire>
+                    <Descriptif>Relire le chapitre IV pour la prochaine séance</Descriptif>
+                    <PourLe>2026-09-20</PourLe>
+                </TravailAFaire>
+            </CahierDeTextes>
+            <CahierDeTextes page="1">
+                <Matiere>Histoire-Géographie</Matiere>
+                <Date>2026-09-15</Date>
+                <ContenuDeCours>
+                    <Titre>La Première Guerre mondiale</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Les grandes phases du conflit, de 1914 à 1918.</Descriptif>
+                    <PieceJointe>frise_chronologique_14_18.pdf</PieceJointe>
+                </ContenuDeCours>
+            </CahierDeTextes>
+            <CahierDeTextes page="1">
+                <Matiere>Anglais</Matiere>
+                <Date>2026-09-16</Date>
+                <ContenuDeCours>
+                    <Titre>Present perfect</Titre>
+                    <Categorie>Cours</Categorie>
+                    <Descriptif>Formation et usages du present perfect, différence avec le prétérit.</Descriptif>
+                </ContenuDeCours>
+                <TravailAFaire>
+                    <Descriptif>Apprendre la liste des verbes irréguliers p.15</Descriptif>
+                    <PourLe>2026-09-18</PourLe>
+                    <SiteInternet>https://www.anglais.example/irregular-verbs</SiteInternet>
                 </TravailAFaire>
             </CahierDeTextes>
         </PageCahierDeTextes>
@@ -48,13 +100,31 @@
                 <Note>14</Note>
                 <Bareme>20</Bareme>
                 <Matiere>Mathématiques</Matiere>
-                <Date>2026-09-08T00:00:00.000+0000</Date>
+                <Date>2026-09-08</Date>
             </Devoir>
             <Devoir page="2">
                 <Note>16.5</Note>
                 <Bareme>20</Bareme>
                 <Matiere>Français</Matiere>
-                <Date>2026-09-10T00:00:00.000+0000</Date>
+                <Date>2026-09-10</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>Abs</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Physique-Chimie</Matiere>
+                <Date>2026-09-12</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>15</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Anglais</Matiere>
+                <Date>2026-09-05</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>17</Note>
+                <Bareme>20</Bareme>
+                <Matiere>SVT</Matiere>
+                <Date>2026-09-11</Date>
             </Devoir>
         </PageReleveDeNotes>
 
@@ -68,11 +138,55 @@
                 <Justifie>true</Justifie>
                 <Motif>Rendez-vous médical</Motif>
             </Absence>
+            <Absence page="3">
+                <DateDebut>2026-09-14T13:00:00</DateDebut>
+                <DateFin>2026-09-14T17:00:00</DateFin>
+                <EstOuverte>true</EstOuverte>
+                <Justifie>false</Justifie>
+                <Motif></Motif>
+            </Absence>
             <Retard page="3">
                 <Date>2026-09-15T08:05:00</Date>
                 <Justifie>false</Justifie>
                 <Motif>Retard de bus</Motif>
             </Retard>
+            <Retard page="3">
+                <Date>2026-09-18T08:10:00</Date>
+                <Justifie>true</Justifie>
+                <Motif>Retard de bus, justifié par la famille</Motif>
+            </Retard>
+            <PassageInfirmerie page="3">
+                <Date>2026-09-09T10:30:00</Date>
+            </PassageInfirmerie>
+            <PassageInfirmerie page="3">
+                <Date>2026-09-16T14:15:00</Date>
+            </PassageInfirmerie>
+            <Punition page="3">
+                <Date>2026-09-05</Date>
+                <Nature>Retenue</Nature>
+                <Matiere>Mathématiques</Matiere>
+                <Motif>Bavardages répétés</Motif>
+                <Circonstances>Pendant le cours</Circonstances>
+            </Punition>
+            <Sanction>
+                <Date>2026-06-20</Date>
+                <Nature>Avertissement</Nature>
+                <Motif>Absences répétées non justifiées</Motif>
+                <Circonstances>Conseil de discipline</Circonstances>
+                <Duree>0</Duree>
+            </Sanction>
+            <Observation>
+                <Date>2026-09-13T00:00:00</Date>
+                <Demandeur>M. Martin</Demandeur>
+                <Matiere>SVT</Matiere>
+                <Observation>Bonne participation, en nette progression.</Observation>
+            </Observation>
+            <Observation>
+                <Date>2026-09-17T00:00:00</Date>
+                <Demandeur>Mme Petit</Demandeur>
+                <Matiere>Anglais</Matiere>
+                <Observation>Très bon investissement à l'oral.</Observation>
+            </Observation>
         </PageVieScolaire>
 
         <PageCompetences page="5">
@@ -87,7 +201,40 @@
                     <Genre>1</Genre>
                     <Libelle>Acquis</Libelle>
                 </NiveauDAcquisition>
-                <Date>2026-09-10T00:00:00.000+0000</Date>
+                <Date>2026-09-10</Date>
+            </Evaluation>
+            <Evaluation page="5">
+                <Competence>D4</Competence>
+                <Item>Les systèmes naturels et les systèmes techniques</Item>
+                <Intitule>Mener une démarche scientifique</Intitule>
+                <Matiere>Physique-Chimie</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>3</Genre>
+                    <Libelle>En cours d’acquisition</Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-12</Date>
+            </Evaluation>
+            <Evaluation page="5">
+                <Competence>D2</Competence>
+                <Item>Coopération et réalisation de projets</Item>
+                <Intitule>Travail en équipe</Intitule>
+                <Matiere>Technologie</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>0</Genre>
+                    <Libelle>Expert </Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-11</Date>
+            </Evaluation>
+            <Evaluation page="5">
+                <Competence>D1.3</Competence>
+                <Item>Résoudre un problème en utilisant des outils mathématiques</Item>
+                <Intitule>Contrôle sur les fonctions affines</Intitule>
+                <Matiere>Mathématiques</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>2</Genre>
+                    <Libelle>Presque acquis</Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-08</Date>
             </Evaluation>
         </PageCompetences>
 
