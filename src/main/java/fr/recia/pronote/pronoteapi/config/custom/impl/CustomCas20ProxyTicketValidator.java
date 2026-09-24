@@ -18,21 +18,23 @@ package fr.recia.pronote.pronoteapi.config.custom.impl;
 import fr.recia.pronote.pronoteapi.config.bean.CasProperties;
 import fr.recia.pronote.pronoteapi.exception.InvalidDomainException;
 import jakarta.servlet.http.HttpServletRequest;
+import fr.recia.pronote.pronoteapi.util.LogMasking;
 import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class CustomCas20ProxyTicketValidator extends Cas20ProxyTicketValidator {
+
+    private final CasProperties casProperties;
 
     public CustomCas20ProxyTicketValidator(String casServerUrlPrefix, CasProperties casProperties) {
         super(casServerUrlPrefix);
         this.casProperties = casProperties;
     }
-
-    private final CasProperties casProperties;
 
     @Override
     protected void populateUrlAttributeMap(final Map<String, String> urlParameters) {
@@ -57,14 +59,16 @@ public class CustomCas20ProxyTicketValidator extends Cas20ProxyTicketValidator {
                 .build()
                 .toUriString();
 
-        logger.info("urlParameters map {}", urlParameters.entrySet().toString() );
+        Map<String, String> maskedParameters = new HashMap<>(urlParameters);
+        maskedParameters.computeIfPresent("ticket", (key, value) -> LogMasking.mask(value));
+        logger.debug("urlParameters map {}", maskedParameters);
 
         //todo remove
-      //  urlParameters.put("service", urlParameters.get("service").replace("http", "https"));
+        //  urlParameters.put("service", urlParameters.get("service").replace("http", "https"));
 
         //todo replace
         urlParameters.put("pgtUrl", baseUrl
-               // .replace("http","https")
+                // .replace("http","https")
                 + this.getProxyCallbackUrl());
     }
 }
