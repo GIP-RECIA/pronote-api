@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2017 rel. 3 (x64) (http://www.altova.com) by RAUGEY (INDEX EDUCATION) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.index-education.com/accueilENT" targetNamespace="http://www.index-education.com/accueilENT" elementFormDefault="qualified">
+	<xsd:element name="Professeur" type="TypeProfesseur"/>
+	<xsd:complexType name="TypeProfesseur">
+		<xsd:sequence>
+			<xsd:element name="PageMessagerie" type="TypePageMessagerie" minOccurs="0"/>
+			<xsd:element name="PagePronote" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:attribute name="page" type="xsd:string" use="required"/>
+					<xsd:attribute name="nom" type="xsd:string" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ICal" type="xsd:string"/>
+		</xsd:sequence>
+		<xsd:attribute name="sessionENT" type="xsd:string"/>
+		<xsd:attribute name="version" type="xsd:decimal"/>
+	</xsd:complexType>
+	<xsd:complexType name="TypePageMessagerie">
+		<xsd:sequence>
+			<xsd:element name="Titre" type="xsd:string"/>
+			<xsd:element name="Message" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Discussions" type="TypeDiscussions" minOccurs="0"/>
+			<xsd:element name="Informations" type="TypeInformations" minOccurs="0"/>
+			<xsd:element name="DocumentsCasier" type="TypeDocumentsCasier" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TypeDiscussions">
+		<xsd:sequence>
+			<xsd:element name="NombreMessagesNonLus" type="xsd:integer"/>
+		</xsd:sequence>
+		<xsd:attribute name="page" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="TypeInformations">
+		<xsd:sequence>
+			<xsd:element name="NombreInformationsNonLus" type="xsd:integer"/>
+		</xsd:sequence>
+		<xsd:attribute name="page" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="TypeDocumentsCasier">
+		<xsd:sequence>
+			<xsd:element name="NombreDocumentsCasierNonLus" type="xsd:integer"/>
+		</xsd:sequence>
+		<xsd:attribute name="page" type="xsd:string"/>
+	</xsd:complexType>
+</xsd:schema>
