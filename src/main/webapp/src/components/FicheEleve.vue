@@ -91,7 +91,7 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
 
       <div class="sidebar-col">
         <div :id="`messagerie-${index}`" tabindex="-1">
-          <Messagerie :messagerie="eleve.messagerieDto" :index="index" />
+          <Messagerie v-if="eleve.messagerieDto" :messagerie="eleve.messagerieDto" :index="index" />
         </div>
         <div :id="`devoirs-${index}`" class="r-card">
           <Devoirs :devoirs="eleve.devoirDtoList" :index="index" />
