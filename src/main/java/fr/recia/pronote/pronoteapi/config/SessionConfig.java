@@ -15,7 +15,6 @@
  */
 package fr.recia.pronote.pronoteapi.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -41,20 +40,10 @@ public class SessionConfig {
         return serializer;
     }
 
-    @Autowired
-    LettuceConnectionFactory lettuceConnectionFactory;
-
-
-//    @Bean
-//    ApplicationRunner test(SessionRepository<?> repo) {
-//        return args -> System.out.println(repo.getClass());
-//    }
-
-
     @Bean
-    public RedisOperations<String, Object> sessionRedisOperations() {
+    public RedisOperations<String, Object> sessionRedisOperations(LettuceConnectionFactory lettuceConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(this.lettuceConnectionFactory);
+        redisTemplate.setConnectionFactory(lettuceConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         return redisTemplate;
