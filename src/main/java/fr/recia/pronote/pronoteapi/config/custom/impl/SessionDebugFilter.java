@@ -20,7 +20,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import fr.recia.pronote.pronoteapi.util.LogMasking;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -33,15 +35,15 @@ public class SessionDebugFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
-            HttpServletResponse response,
+            @NonNull HttpServletResponse response,
             FilterChain filterChain)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
 
-        log.info("URI={} SESSION={}",
+        log.debug("URI={} SESSION={}",
                 request.getRequestURI(),
-                session != null ? session.getId() : "NO_SESSION");
+                session != null ? LogMasking.mask(session.getId()) : "NO_SESSION");
 
         filterChain.doFilter(request, response);
     }
