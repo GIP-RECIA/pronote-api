@@ -62,7 +62,6 @@ public class CasProperties {
                 "casServiceId='" + casServiceId + '\'' +
                 ", casServerUrl='" + casServerUrl + '\'' +
                 ", casServerLoginUrl='" + casServerLoginUrl + '\'' +
-                ", casProviderKey='" + casProviderKey + '\'' +
                 ", casTicketCallback='" + casTicketCallback + '\'' +
                 ", casProxyReceptorUrl='" + casProxyReceptorUrl + '\'' +
                 ", casProxyTicketCallback='" + casProxyTicketCallback + '\'' +
