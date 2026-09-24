@@ -27,7 +27,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.authentication.*;
-import org.springframework.security.cas.ServiceProperties;
 import org.springframework.security.cas.authentication.*;
 import org.springframework.security.core.*;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
@@ -48,15 +47,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
     private StatelessTicketCache statelessTicketCache = new NullStatelessTicketCache();
     private String key;
     private TicketValidator ticketValidator;
-    private ServiceProperties serviceProperties;
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
-    private String SPRING_SECURITY_SERVICE_URL_ATTR = "SPRING_SECURITY_SERVICE_URL_ATTR";
-
     private final CasProperties casProperties;
 
 
     public CustomAuthenticationProvider(CasProperties casProperties) {
-        log.info("IN CONTROLLER CustomAuthenticationProvider");
         this.casProperties = casProperties;
     }
 
@@ -76,6 +71,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
             return null;
         }
 
+        // Un token déjà authentifié en amont n'a pas besoin d'être retraité ici.
         if (authentication instanceof UsernamePasswordAuthenticationToken
                 && authentication.isAuthenticated()) {
             return null;
@@ -185,10 +181,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
     public void setAuthenticationUserDetailsService(
             final AuthenticationUserDetailsService<CasAssertionAuthenticationToken> service) {
         this.authenticationUserDetailsService = service;
-    }
-
-    public void setServiceProperties(final ServiceProperties serviceProperties) {
-        this.serviceProperties = serviceProperties;
     }
 
     public void setKey(String key) {
