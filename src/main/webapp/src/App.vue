@@ -76,7 +76,7 @@ onMounted(async () => {
     />
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <div class="container">
       <span class="sr-only" aria-live="polite">
         {{ loading ? t('app.loading') : '' }}
