@@ -31,9 +31,9 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class CustomSessionMappingStorage {
 
-    private RedisProperties redisProperties;
-    private FindByIndexNameSessionRepository<? extends Session> sessionRepository;
-    private RedisTemplate<String, String> redisTemplate;
+    private final RedisProperties redisProperties;
+    private final  FindByIndexNameSessionRepository<? extends Session> sessionRepository;
+    private final RedisTemplate<String, String> redisTemplate;
 
     protected String prefixedKey(String key) {
         return String.format("%1$s:%2$s", redisProperties.getMappingPrefix(), key);

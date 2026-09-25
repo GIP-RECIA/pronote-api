@@ -17,28 +17,20 @@ package fr.recia.pronote.pronoteapi.config;
 
 
 import fr.recia.pronote.pronoteapi.config.bean.RedisProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import org.springframework.data.redis.core.RedisOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.session.FindByIndexNameSessionRepository;
-import org.springframework.session.Session;
-import org.springframework.session.SessionRepository;
-import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import org.springframework.session.data.redis.config.ConfigureRedisAction;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class RedisConfig {
 
-    @Autowired
-    private RedisProperties redisProperties;
+    private final RedisProperties redisProperties;
 
     @Bean
     // Fix exception at launch where redis would require an unnecessary permission

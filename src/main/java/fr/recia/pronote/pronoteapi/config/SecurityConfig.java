@@ -88,6 +88,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/config").permitAll()
                         .requestMatchers("/api/summary").authenticated()
                         .requestMatchers("/api/page").authenticated()
+                        .requestMatchers("/", "/ui/**").authenticated()
                         .requestMatchers(casProperties.getCasTicketCallback()).permitAll()
                         .requestMatchers(casProperties.getCasProxyReceptorUrl()).permitAll()
                         .requestMatchers("/error").permitAll()
