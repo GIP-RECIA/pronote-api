@@ -57,6 +57,18 @@ onMounted(async () => {
 </script>
 
 <template>
+  <nav
+    role="navigation"
+    :aria-label="t('app.quickAccess')"
+    class="skip-links"
+  >
+    <ul>
+      <li>
+        <a href="#main">{{ t('app.skipToContent') }}</a>
+      </li>
+    </ul>
+  </nav>
+
   <header>
     <extended-uportal-header
       v-if="isInit" :service-name="appName"
@@ -64,7 +76,7 @@ onMounted(async () => {
     />
   </header>
 
-  <main>
+  <main id="main">
     <div class="container">
       <span class="sr-only" aria-live="polite">
         {{ loading ? t('app.loading') : '' }}

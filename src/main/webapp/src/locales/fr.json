@@ -4,7 +4,9 @@
     "backToPortal": "Retour à l'accueil",
     "loading": "Chargement des données…",
     "error": "Erreur : {message}",
-    "defaultEleveLabel": "Élève"
+    "defaultEleveLabel": "Élève",
+    "quickAccess": "Accès rapide",
+    "skipToContent": "Contenu"
   },
   "ficheEleve": {
     "addToAgenda": "Ajouter à mon agenda",

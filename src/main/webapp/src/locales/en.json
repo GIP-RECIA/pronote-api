@@ -4,7 +4,9 @@
     "backToPortal": "Back to home",
     "loading": "Loading data…",
     "error": "Error: {message}",
-    "defaultEleveLabel": "Student"
+    "defaultEleveLabel": "Student",
+    "quickAccess": "Quick access",
+    "skipToContent": "Content"
   },
   "ficheEleve": {
     "addToAgenda": "Add to my calendar",
