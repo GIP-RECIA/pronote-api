@@ -18,6 +18,7 @@
 import type { ResumeDeCours, TravailAFaire } from '@/types/pronote'
 import { faLink, faPaperclip } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import DOMPurify from 'dompurify'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { formatFullDate, formatFullWeekday } from '@/utils/dateUtils'
@@ -38,6 +39,10 @@ const sortedResumes = computed(() => [...(props.resumeDeCoursList ?? [])].sort((
 
 function formatCategorie(categorie: string | null): string {
   return categorie ?? ''
+}
+
+function sanitize(html: string | null | undefined): string {
+  return DOMPurify.sanitize(html ?? '')
 }
 
 interface DayGroup {
@@ -82,9 +87,7 @@ const groupedByDay = computed<DayGroup[]>(() => {
                   <div class="contenu-main">
                     <span class="categorie">{{ formatCategorie(contenu.categorie) }}</span> - {{ contenu.titre }}
                   </div>
-                  <p v-if="contenu.descriptif" class="descriptif">
-                    {{ contenu.descriptif }}
-                  </p>
+                  <p v-if="contenu.descriptif" class="descriptif" v-html="sanitize(contenu.descriptif)" />
                   <ul
                     v-if="(contenu.pieceJointeList?.length ?? 0) + (contenu.siteInternetList?.length ?? 0) > 0"
                     class="attachments"
@@ -126,7 +129,7 @@ const groupedByDay = computed<DayGroup[]>(() => {
           <h3 class="matiere">
             {{ taf.matiere }}
           </h3>
-          <span class="desc">{{ taf.descriptif }}</span>
+          <span class="desc" v-html="sanitize(taf.descriptif)" />
           <span class="due">{{ t('cours.dueDate', { date: formatFullDate(taf.pourLe, locale) }) }}</span>
           <ul v-if="(taf.pieceJointeList?.length ?? 0) + (taf.siteInternetList?.length ?? 0) > 0" class="attachments">
             <li v-for="(piece, p) in taf.pieceJointeList ?? []" :key="`pj-${p}`">
