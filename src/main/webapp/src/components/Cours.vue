@@ -228,6 +228,13 @@ const groupedByDay = computed<DayGroup[]>(() => {
             color: var(--#{$prefix}basic-black-lighter);
           }
 
+          .descriptif {
+            :deep(*) {
+              font-family: unset !important;
+              font-size: unset !important;
+            }
+          }
+
           .attachments {
             list-style: none;
             margin: 4px 0 0;
