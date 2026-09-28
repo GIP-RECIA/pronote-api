@@ -59,7 +59,7 @@ class ParentXmlToDtoExplorationTest {
 
         System.out.println("=== /api/page (parent) ===");
         System.out.println(jsonMapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(new PageResponseDto(UserProfile.parent, eleveDtoList)));
+                .writeValueAsString(new PageResponseDto(UserProfile.PARENT, eleveDtoList)));
 
         System.out.println("=== /api/summary (parent) ===");
         System.out.println(jsonMapper.writerWithDefaultPrettyPrinter()

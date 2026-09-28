@@ -59,7 +59,7 @@ class XmlToDtoExplorationTest {
 
         System.out.println("=== /api/page ===");
         System.out.println(jsonMapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(new PageResponseDto(UserProfile.eleve, eleveDtoList)));
+                .writeValueAsString(new PageResponseDto(UserProfile.ELEVE, eleveDtoList)));
 
         System.out.println("=== /api/summary ===");
         System.out.println(jsonMapper.writerWithDefaultPrettyPrinter()

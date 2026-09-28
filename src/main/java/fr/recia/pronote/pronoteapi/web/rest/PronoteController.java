@@ -54,9 +54,9 @@ public class PronoteController {
         String uid = userAttributesHandler.getAttribute(UserAttributesHandler.UID);
 
         if (profilsProperties.getEleveProfilName().equals(profil)) {
-            return new ResolvedProfile(UserProfile.eleve, eleveService.getDto(uid));
+            return new ResolvedProfile(UserProfile.ELEVE, eleveService.getDto(uid));
         } else if (profilsProperties.getParentProfilName().equals(profil)) {
-            return new ResolvedProfile(UserProfile.parent, parentService.getDto(uid));
+            return new ResolvedProfile(UserProfile.PARENT, parentService.getDto(uid));
         } else {
             throw new UnexpectedProfilException(profil);
         }
