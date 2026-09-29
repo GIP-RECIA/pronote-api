@@ -16,8 +16,6 @@
 
 <script setup lang="ts">
 import type { Eleve } from '@/types/pronote'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Competences from '@/components/Competences.vue'
@@ -53,15 +51,6 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
 
 <template>
   <article class="fiche-eleve">
-    <a
-      :href="eleve.iCal ?? undefined" class="btn-secondary small agenda-link"
-      :class="{ 'agenda-link--hidden': !eleve.iCal }"
-      :aria-hidden="!eleve.iCal || undefined"
-    >
-      <FontAwesomeIcon :icon="faPlus" aria-hidden="true" />
-      {{ t('ficheEleve.addToAgenda') }}
-    </a>
-
     <div class="stats-strip">
       <a :href="`#devoirs-${index}`" class="stat-tile r-card">
         <span class="num">{{ devoirsCount }}</span>
