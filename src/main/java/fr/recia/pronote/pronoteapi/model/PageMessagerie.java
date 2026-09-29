@@ -15,19 +15,19 @@
  */
 package fr.recia.pronote.pronoteapi.model;
 
+import jakarta.annotation.Nullable;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import fr.recia.pronote.pronoteapi.model.abs.TitreMessageElementsPageAttribute;
 import fr.recia.pronote.pronoteapi.model.messagerie.Discussions;
 import fr.recia.pronote.pronoteapi.model.messagerie.DocumentsCasier;
 import fr.recia.pronote.pronoteapi.model.messagerie.Informations;
-import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@JacksonXmlRootElement(localName = "PageMessagerie")
+@JsonRootName("PageMessagerie")
 public class PageMessagerie extends TitreMessageElementsPageAttribute {
     // pas le page attribute apparement d'apres le eleve xsd
     // todo voir si créer parent différent

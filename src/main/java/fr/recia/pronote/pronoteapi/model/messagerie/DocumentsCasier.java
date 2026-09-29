@@ -16,15 +16,15 @@
 
 package fr.recia.pronote.pronoteapi.model.messagerie;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
 import fr.recia.pronote.pronoteapi.model.abs.PageAttribute;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@JacksonXmlRootElement(localName = "DocumentsCasier")
+@JsonRootName("DocumentsCasier")
 public class DocumentsCasier extends PageAttribute {
     @JacksonXmlProperty(localName = "NombreDocumentsCasierNonLus")
     protected Integer nombreDocumentsCasierNonLus;

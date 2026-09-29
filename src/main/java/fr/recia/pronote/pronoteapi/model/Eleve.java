@@ -16,15 +16,15 @@
 package fr.recia.pronote.pronoteapi.model;
 
 import jakarta.annotation.Nullable;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.util.List;
 
 @Data
-@JacksonXmlRootElement(localName = "Eleve")
+@JsonRootName("Eleve")
 public class Eleve {
 
     @Nullable
