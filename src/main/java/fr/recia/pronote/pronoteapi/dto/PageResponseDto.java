@@ -16,19 +16,10 @@
 package fr.recia.pronote.pronoteapi.dto;
 
 import fr.recia.pronote.pronoteapi.enums.UserProfile;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class PageResponseDto {
 
-    private final UserProfile profil;
-
-    private final List<EleveDto> eleveDtoList;
+public record PageResponseDto(UserProfile profil, List<EleveDto> eleveDtoList) {
 
 }

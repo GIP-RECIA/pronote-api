@@ -16,17 +16,7 @@
 package fr.recia.pronote.pronoteapi.dto;
 
 import fr.recia.pronote.pronoteapi.enums.UserProfile;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class ProfesseurPageResponseDto {
-
-    private final UserProfile profil;
-
-    private final ProfesseurDto professeurDto;
+public record ProfesseurPageResponseDto(UserProfile profil, ProfesseurDto professeurDto) {
 
 }
