@@ -16,8 +16,6 @@
 
 <script setup lang="ts">
 import type { Professeur } from '@/types/pronote'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
@@ -29,14 +27,6 @@ const { t } = useI18n()
 
 <template>
   <article class="fiche-professeur">
-    <a
-      :href="professeur.iCal ?? undefined" class="btn-secondary small agenda-link"
-      :class="{ 'agenda-link--hidden': !professeur.iCal }" :aria-hidden="!professeur.iCal || undefined"
-    >
-      <FontAwesomeIcon :icon="faPlus" aria-hidden="true" />
-      {{ t('ficheProfesseur.addToAgenda') }}
-    </a>
-
     <section class="r-card messagerie" aria-labelledby="messagerie-heading">
       <h2 id="messagerie-heading">
         {{ t('messagerie.heading') }}
