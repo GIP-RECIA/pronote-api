@@ -29,6 +29,7 @@ import org.apereo.cas.client.validation.Assertion;
 import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -50,6 +51,7 @@ import java.util.Map;
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
+@Profile("!mock-no-cas")
 public class SecurityConfig {
 
     private final AppConfProperties appConfProperties;
@@ -84,7 +86,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/health-check").permitAll()
                         .requestMatchers("/api/config").permitAll()
-                        .requestMatchers("/api/widgets/**").authenticated()
+                        .requestMatchers("/api/summary").authenticated()
+                        .requestMatchers("/api/page").authenticated()
+                        .requestMatchers("/", "/ui/**").authenticated()
                         .requestMatchers(casProperties.getCasTicketCallback()).permitAll()
                         .requestMatchers(casProperties.getCasProxyReceptorUrl()).permitAll()
                         .requestMatchers("/error").permitAll()
@@ -136,9 +140,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CustomAuthenticationProvider customAuthProvider(ServiceProperties serviceProperties) {
+    public CustomAuthenticationProvider customAuthProvider() {
         CustomAuthenticationProvider provider = new CustomAuthenticationProvider(casProperties);
-        provider.setServiceProperties(serviceProperties);
 
         Cas20ProxyTicketValidator validator = new CustomCas20ProxyTicketValidator(casProperties.getCasServerUrl(), casProperties);
         validator.setProxyCallbackUrl(casProperties.getCasProxyTicketCallback());

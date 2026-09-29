@@ -16,14 +16,14 @@
 package fr.recia.pronote.pronoteapi.model.viescolaire;
 
 import jakarta.annotation.Nullable;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.util.Date;
 
 @Data
-@JacksonXmlRootElement(localName = "Sanction")
+@JsonRootName("Sanction")
 public class Sanction {
 
     @JacksonXmlProperty(localName = "Date")

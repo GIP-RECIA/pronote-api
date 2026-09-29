@@ -25,7 +25,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PronoteWidgetSummaryResponseDtoTest {
+class SummaryResponseDtoTest {
 
     @Test
     void constructor_withFullVieScolaire_sumsAbsencesRetardsAndPunitionsSanctions() {
@@ -38,8 +38,8 @@ class PronoteWidgetSummaryResponseDtoTest {
                 .devoirDtoList(List.of(new DevoirDto(), new DevoirDto(), new DevoirDto()))
                 .build();
 
-        PronoteWidgetSummaryResponseDto summary =
-                new PronoteWidgetSummaryResponseDto(List.of(eleveDto));
+        SummaryResponseDto summary =
+                new SummaryResponseDto(List.of(eleveDto));
 
         Map<String, Integer> items = summary.getFirst().items();
 
@@ -64,8 +64,8 @@ class PronoteWidgetSummaryResponseDtoTest {
     void constructor_withoutVieScolaire_defaultsToZeroForVieScolaireCounts() {
         EleveDto eleveDto = EleveDto.builder().prenom("Bob").nom("Dupont").build();
 
-        PronoteWidgetSummaryResponseDto summary =
-                new PronoteWidgetSummaryResponseDto(List.of(eleveDto));
+        SummaryResponseDto summary =
+                new SummaryResponseDto(List.of(eleveDto));
 
         Map<String, Integer> items = summary.getFirst().items();
 
@@ -80,11 +80,11 @@ class PronoteWidgetSummaryResponseDtoTest {
     void constructor_withMultipleEleves_keysDataByPrenom() {
         EleveDto alice = EleveDto.builder().prenom("Alice").nom("Martin").build();
         EleveDto bob = EleveDto.builder().prenom("Bob").nom("Dupont").build();
-        PronoteWidgetSummaryResponseDto summary =
-                new PronoteWidgetSummaryResponseDto(List.of(alice, bob));
+        SummaryResponseDto summary =
+                new SummaryResponseDto(List.of(alice, bob));
 
         assertThat(summary)
-                .extracting(PronoteWidgetSummaryResponseDto.EleveSummary::displayName)
+                .extracting(SummaryResponseDto.EleveSummary::displayName)
                 .containsExactly("Alice Martin", "Bob Dupont");
     }
 }

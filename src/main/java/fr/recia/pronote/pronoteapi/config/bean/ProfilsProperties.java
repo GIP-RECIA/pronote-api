@@ -35,14 +35,15 @@ import java.util.List;
 public class ProfilsProperties {
 
     String eleveProfilName;
-
     String parentProfilName;
+    String professeurProfilName;
 
     @Override
     public String toString() {
         return "ProfilsProperties{" +
                 "eleveProfilName='" + eleveProfilName + '\'' +
                 ", parentProfilName='" + parentProfilName + '\'' +
+                ", professeurProfilName='" + professeurProfilName + '\'' +
                 '}';
     }
 

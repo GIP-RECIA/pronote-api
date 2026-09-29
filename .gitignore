@@ -48,6 +48,7 @@ build/
 node_modules
 .DS_Store
 dist
+src/main/webapp/public/resource-server/
 dist-ssr
 coverage
 *.local
@@ -59,3 +60,4 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/node/

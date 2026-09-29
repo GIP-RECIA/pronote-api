@@ -15,17 +15,17 @@
  */
 package fr.recia.pronote.pronoteapi.model.relevedenotes;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
 import fr.recia.pronote.pronoteapi.model.abs.PageAttribute;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@JacksonXmlRootElement(localName = "Devoir")
+@JsonRootName("Devoir")
 public class Devoir extends PageAttribute {
 
     @JacksonXmlProperty(localName = "Note")

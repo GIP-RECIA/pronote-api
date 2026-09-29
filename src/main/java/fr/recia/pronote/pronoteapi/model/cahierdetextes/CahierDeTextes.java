@@ -15,20 +15,20 @@
  */
 package fr.recia.pronote.pronoteapi.model.cahierdetextes;
 
-import fr.recia.pronote.pronoteapi.model.abs.PageAttribute;
 import jakarta.annotation.Nullable;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import fr.recia.pronote.pronoteapi.model.abs.PageAttribute;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.util.Date;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@JacksonXmlRootElement(localName = "TypeCachierDeTextes")
+@JsonRootName("TypeCachierDeTextes")
 public class CahierDeTextes extends PageAttribute {
 
     @JacksonXmlProperty(localName = "Matiere")
@@ -46,8 +46,6 @@ public class CahierDeTextes extends PageAttribute {
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "TravailAFaire")
     List<TravailAFaire> travailAFaireList;
-
-
 
 
 }

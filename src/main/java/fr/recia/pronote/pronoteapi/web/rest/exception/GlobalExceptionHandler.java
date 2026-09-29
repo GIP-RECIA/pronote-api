@@ -15,44 +15,52 @@
  */
 package fr.recia.pronote.pronoteapi.web.rest.exception;
 
+import fr.recia.pronote.pronoteapi.exception.LostTicketException;
 import fr.recia.pronote.pronoteapi.exception.MissingUserAttributeException;
 import fr.recia.pronote.pronoteapi.exception.UnexpectedProfilException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Map;
+import java.util.Objects;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final  String MESSAGE = "message";
+    private static final String MESSAGE = "message";
+    private static final String DEFAULT_MESSAGE = "Erreur inattendue";
 
     @ExceptionHandler(UnexpectedProfilException.class)
     public ResponseEntity<Map<String, Object>> handleUnexpectedProfil(UnexpectedProfilException ex) {
-        Map<String, Object> body = Map.of(
-                MESSAGE, ex.getMessage()
-        );
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(body);
+        log.warn("Unexpected profil", ex);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(buildErrorBody(ex));
     }
 
     @ExceptionHandler(MissingUserAttributeException.class)
     public ResponseEntity<Map<String, Object>> handleMissingUserAttribute(MissingUserAttributeException ex) {
-        Map<String, Object> body = Map.of(
-                MESSAGE, ex.getMessage()
-        );
-        return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(body);
+        log.warn("Missing user attribute", ex);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(buildErrorBody(ex));
+    }
+
+    @ExceptionHandler(LostTicketException.class)
+    public ResponseEntity<Map<String, Object>> handleLostTicketException(LostTicketException ex) {
+        log.warn("Lost ticket", ex);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(buildErrorBody(ex));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handle(Exception ex) {
-        Map<String, Object> body = Map.of(
-                MESSAGE, ex.getMessage()
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(body);
+        log.error("Unhandled exception", ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(buildErrorBody(ex));
+    }
+
+
+
+    private Map<String, Object> buildErrorBody(Exception ex) {
+        return Map.of(MESSAGE, Objects.requireNonNullElse(ex.getMessage(), DEFAULT_MESSAGE));
     }
 }

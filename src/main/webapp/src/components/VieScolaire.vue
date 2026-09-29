@@ -27,6 +27,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { formatFullDate, formatTimeRange } from '@/utils/dateUtils'
 import '@gip-recia/ui-webcomponents/dist/r-filters.js'
 
 const props = defineProps<{
@@ -61,12 +63,7 @@ interface FilterSection {
   items: FilterItem[]
 }
 
-function formatTimeRange(start: string, end: string): string {
-  const opts: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' }
-  const startTime = new Date(start).toLocaleTimeString('fr-FR', opts)
-  const endTime = new Date(end).toLocaleTimeString('fr-FR', opts)
-  return `${startTime} – ${endTime}`
-}
+const { t, locale } = useI18n()
 
 const categories = computed<Category[]>(() => {
   const vs = props.vieScolaire
@@ -75,17 +72,22 @@ const categories = computed<Category[]>(() => {
 
   const result: Category[] = []
 
-  const absenceEntries: TimelineEntry[] = (vs.absenceList ?? []).map(absence => ({
-    date: absence.dateDebut,
-    label: `Absence${absence.justifie ? '' : ' - non justifiée'} : ${absence.motif || 'sans motif'}`,
-    icon: faCalendarXmark,
-    meta: `${formatTimeRange(absence.dateDebut, absence.dateFin)}${absence.estOuverte ? ' · en cours' : ''}`,
-  }))
+  const absenceEntries: TimelineEntry[] = (vs.absenceList ?? []).map((absence) => {
+    const motif = absence.motif || t('vieScolaire.noMotif')
+    return {
+      date: absence.dateDebut,
+      label: absence.justifie
+        ? t('vieScolaire.absenceJustified', { motif })
+        : t('vieScolaire.absenceUnjustified', { motif }),
+      icon: faCalendarXmark,
+      meta: `${formatTimeRange(absence.dateDebut, absence.dateFin, locale.value)}${absence.estOuverte ? ` · ${t('vieScolaire.inProgress')}` : ''}`,
+    }
+  })
 
   if (absenceEntries.length) {
     result.push({
       key: 'absences',
-      title: 'Absences',
+      title: t('vieScolaire.categories.absences'),
       icon: faCalendarXmark,
       entries: absenceEntries.sort((a, b) => b.date.localeCompare(a.date)),
     })
@@ -93,14 +95,16 @@ const categories = computed<Category[]>(() => {
 
   const retardEntries: TimelineEntry[] = (vs.retardList ?? []).map(retard => ({
     date: retard.date,
-    label: `Retard${retard.justifie ? '' : ' - non justifié'} : ${retard.motif}`,
+    label: retard.justifie
+      ? t('vieScolaire.retardJustified', { motif: retard.motif })
+      : t('vieScolaire.retardUnjustified', { motif: retard.motif }),
     icon: faClock,
   }))
 
   if (retardEntries.length) {
     result.push({
       key: 'retards',
-      title: 'Retards',
+      title: t('vieScolaire.categories.retards'),
       icon: faClock,
       entries: retardEntries.sort((a, b) => b.date.localeCompare(a.date)),
     })
@@ -108,14 +112,14 @@ const categories = computed<Category[]>(() => {
 
   const infirmerieEntries: TimelineEntry[] = (vs.passageInfirmerieList ?? []).map(passage => ({
     date: passage.date,
-    label: 'Passage infirmerie',
+    label: t('vieScolaire.passageInfirmerie'),
     icon: faSuitcaseMedical,
   }))
 
   if (infirmerieEntries.length) {
     result.push({
       key: 'infirmerie',
-      title: 'Infirmerie',
+      title: t('vieScolaire.categories.infirmerie'),
       icon: faSuitcaseMedical,
       entries: infirmerieEntries.sort((a, b) => b.date.localeCompare(a.date)),
     })
@@ -125,7 +129,7 @@ const categories = computed<Category[]>(() => {
     const details = [punition.matiere, punition.circonstances].filter(Boolean).join(' · ')
     return {
       date: punition.date,
-      label: `${punition.nature} - ${punition.motif}`,
+      label: t('vieScolaire.punitionLabel', { nature: punition.nature, motif: punition.motif }),
       icon: faGavel,
       meta: details || undefined,
     }
@@ -134,17 +138,17 @@ const categories = computed<Category[]>(() => {
   if (punitionEntries.length) {
     result.push({
       key: 'punitions',
-      title: 'Punitions',
+      title: t('vieScolaire.categories.punitions'),
       icon: faGavel,
       entries: punitionEntries.sort((a, b) => b.date.localeCompare(a.date)),
     })
   }
 
   const sanctionEntries: TimelineEntry[] = (vs.sanctionList ?? []).map((sanction) => {
-    const details = [sanction.circonstances, sanction.duree ? `${sanction.duree} jour${sanction.duree > 1 ? 's' : ''}` : null].filter(Boolean).join(' · ')
+    const details = [sanction.circonstances, sanction.duree ? t('vieScolaire.sanctionDuree', sanction.duree) : null].filter(Boolean).join(' · ')
     return {
       date: sanction.date,
-      label: `${sanction.nature} - ${sanction.motif}`,
+      label: t('vieScolaire.sanctionLabel', { nature: sanction.nature, motif: sanction.motif }),
       icon: faScaleBalanced,
       meta: details || undefined,
     }
@@ -153,7 +157,7 @@ const categories = computed<Category[]>(() => {
   if (sanctionEntries.length) {
     result.push({
       key: 'sanction',
-      title: 'Sanction',
+      title: t('vieScolaire.categories.sanction'),
       icon: faScaleBalanced,
       entries: sanctionEntries.sort((a, b) => b.date.localeCompare(a.date)),
     })
@@ -161,15 +165,15 @@ const categories = computed<Category[]>(() => {
 
   const observationEntries: TimelineEntry[] = (vs.observationList ?? []).map(observation => ({
     date: observation.date,
-    label: `Observation (${observation.matiere}) - ${observation.observation}`,
+    label: t('vieScolaire.observationLabel', { matiere: observation.matiere, observation: observation.observation }),
     icon: faCommentDots,
-    meta: observation.demandeur ? `Signalée par ${observation.demandeur}` : undefined,
+    meta: observation.demandeur ? t('vieScolaire.signaledBy', { demandeur: observation.demandeur }) : undefined,
   }))
 
   if (observationEntries.length) {
     result.push({
       key: 'observation',
-      title: 'Observation',
+      title: t('vieScolaire.categories.observation'),
       icon: faCommentDots,
       entries: observationEntries.sort((a, b) => b.date.localeCompare(a.date)),
     })
@@ -180,11 +184,11 @@ const categories = computed<Category[]>(() => {
 const filterSections = computed<FilterSection[]>(() => [
   {
     id: 'categorie',
-    name: 'Catégorie',
+    name: t('vieScolaire.filterName'),
     type: 'radio',
     items: [
-      { key: 'all', value: `Tout (${categories.value.reduce((sum, c) => sum + c.entries.length, 0)})` },
-      ...categories.value.map(c => ({ key: c.key, value: `${c.title} (${c.entries.length})` })),
+      { key: 'all', value: t('vieScolaire.filterAll', { count: categories.value.reduce((sum, c) => sum + c.entries.length, 0) }) },
+      ...categories.value.map(c => ({ key: c.key, value: t('vieScolaire.filterOption', { title: c.title, count: c.entries.length }) })),
     ],
   },
 ])
@@ -202,16 +206,12 @@ const visibleCategories = computed(() =>
     ? categories.value
     : categories.value.filter(c => c.key === activeCategoryKey.value),
 )
-
-function formatFullDate(date: string): string {
-  return new Date(date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
-}
 </script>
 
 <template>
   <section class="vie-scolaire r-card" :aria-labelledby="`vie-scolaire-heading-${index}`">
     <h2 :id="`vie-scolaire-heading-${index}`">
-      Vie scolaire
+      {{ t('vieScolaire.heading') }}
     </h2>
     <template v-if="categories.length">
       <r-filters :data.prop="filterSections" @update-filters="handleUpdateFilters" />
@@ -226,14 +226,14 @@ function formatFullDate(date: string): string {
         <div v-for="(entry, i) in category.entries" :key="i" class="entry">
           <div class="txt">
             <span class="label">{{ entry.label }}</span>
-            <span class="date">{{ formatFullDate(entry.date) }}</span>
+            <span class="date">{{ formatFullDate(entry.date, locale) }}</span>
             <span v-if="entry.meta" class="meta">{{ entry.meta }}</span>
           </div>
         </div>
       </template>
     </template>
     <p v-else>
-      Aucun événement
+      {{ t('vieScolaire.empty') }}
     </p>
   </section>
 </template>

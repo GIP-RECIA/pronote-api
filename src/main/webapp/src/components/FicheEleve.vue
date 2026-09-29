@@ -19,6 +19,7 @@ import type { Eleve } from '@/types/pronote'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Competences from '@/components/Competences.vue'
 import Cours from '@/components/Cours.vue'
 import Devoirs from '@/components/Devoirs.vue'
@@ -29,6 +30,8 @@ const props = defineProps<{
   eleve: Eleve
   index: number
 }>()
+
+const { t } = useI18n()
 
 const competencesCount = computed(() => props.eleve.competencesDto?.nombreEvaluations ?? 0)
 
@@ -50,26 +53,31 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
 
 <template>
   <article class="fiche-eleve">
+    <a
+      :href="eleve.iCal ?? undefined" class="btn-secondary small agenda-link"
+      :class="{ 'agenda-link--hidden': !eleve.iCal }"
+      :aria-hidden="!eleve.iCal || undefined"
+    >
+      <FontAwesomeIcon :icon="faPlus" aria-hidden="true" />
+      {{ t('ficheEleve.addToAgenda') }}
+    </a>
+
     <div class="stats-strip">
-      <a v-if="eleve.iCal" :href="eleve.iCal" class="btn-secondary small agenda-link">
-        <FontAwesomeIcon :icon="faPlus" aria-hidden="true" />
-        Ajouter à mon agenda
-      </a>
       <a :href="`#devoirs-${index}`" class="stat-tile r-card">
         <span class="num">{{ devoirsCount }}</span>
-        <span class="lbl">notes reçues</span>
+        <span class="lbl">{{ t('ficheEleve.stats.notesRecues') }}</span>
       </a>
       <a :href="`#vie-scolaire-${index}`" class="stat-tile r-card">
         <span class="num">{{ vieScolaireCount }}</span>
-        <span class="lbl">événements de vie scolaire</span>
+        <span class="lbl">{{ t('ficheEleve.stats.vieScolaire') }}</span>
       </a>
       <a :href="`#travail-a-faire-${index}`" class="stat-tile r-card">
         <span class="num">{{ travailAFaireCount }}</span>
-        <span class="lbl">travaux à faire</span>
+        <span class="lbl">{{ t('ficheEleve.stats.travauxAFaire') }}</span>
       </a>
       <a :href="`#competences-${index}`" class="stat-tile r-card">
         <span class="num">{{ competencesCount }}</span>
-        <span class="lbl">évaluations de compétences</span>
+        <span class="lbl">{{ t('ficheEleve.stats.evaluationsCompetences') }}</span>
       </a>
     </div>
 
@@ -83,7 +91,7 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
 
       <div class="sidebar-col">
         <div :id="`messagerie-${index}`" tabindex="-1">
-          <Messagerie :messagerie="eleve.messagerieDto" :index="index" />
+          <Messagerie v-if="eleve.messagerieDto" :messagerie="eleve.messagerieDto" :index="index" />
         </div>
         <div :id="`devoirs-${index}`" class="r-card">
           <Devoirs :devoirs="eleve.devoirDtoList" :index="index" />
@@ -134,8 +142,12 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
   }
 
   .agenda-link {
-    justify-self: start;
-    align-self: center;
+    display: inline-flex;
+    margin-bottom: 16px;
+
+    &--hidden {
+      visibility: hidden;
+    }
   }
 
   .layout {
