@@ -13,34 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package fr.recia.pronote.pronoteapi.model;
 
-import fr.recia.pronote.pronoteapi.model.abs.TitreMessageElementsPageAttribute;
-import fr.recia.pronote.pronoteapi.model.messagerie.Discussions;
-import fr.recia.pronote.pronoteapi.model.messagerie.DocumentsCasier;
-import fr.recia.pronote.pronoteapi.model.messagerie.Informations;
+
 import jakarta.annotation.Nullable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@EqualsAndHashCode(callSuper = true)
+import java.util.List;
+
 @Data
-@JacksonXmlRootElement(localName = "PageMessagerie")
-public class PageMessagerie extends TitreMessageElementsPageAttribute {
-    // pas le page attribute apparement d'apres le eleve xsd
-    // todo voir si créer parent différent
+@JacksonXmlRootElement(localName = "Professeur")
+public class Professeur {
+    @Nullable
+    @JacksonXmlProperty(localName = "PageMessagerie")
+    PageMessagerie pageMessagerie;
 
     @Nullable
-    @JacksonXmlProperty(localName = "Discussions")
-    protected Discussions discussions;
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "PagePronote")
+    List<PagePronote> pagePronoteList;
 
-    @Nullable
-    @JacksonXmlProperty(localName = "Informations")
-    protected Informations informations;
+    @JacksonXmlProperty(localName = "ICal")
+    String iCal;
 
-    @Nullable
-    @JacksonXmlProperty(localName = "DocumentsCasier")
-    protected DocumentsCasier documentsCasier;
+    @JacksonXmlProperty(isAttribute = true, localName = "sessionENT")
+    String sessionENT;
+
+    @JacksonXmlProperty(isAttribute = true, localName = "version")
+    Double version;
 }

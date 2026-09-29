@@ -28,6 +28,13 @@ public class SummaryResponseDto extends ArrayList<SummaryResponseDto.EleveSummar
         }
     }
 
+    public SummaryResponseDto(ProfesseurDto professeurDto) {
+        Map<String, Integer> items = professeurDto.getMessagerieDto() != null
+                ? new LinkedHashMap<>(professeurDto.getMessagerieDto().widgetCounts())
+                : new LinkedHashMap<>();
+        this.add(new EleveSummary(null, items));
+    }
+
     private static String buildDisplayName(EleveDto eleveDto) {
         if (eleveDto.getPrenom() == null && eleveDto.getNom() == null) {
             return null;

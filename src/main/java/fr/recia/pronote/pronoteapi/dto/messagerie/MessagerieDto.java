@@ -25,6 +25,7 @@ import java.util.Map;
 @Data
 public class MessagerieDto implements IWidgetCountable {
 
+    private Integer nombreDocumentsCasierNonLus;
     private Integer nombreMessagesNonLus;
     private Integer nombreInformationsNonLus;
 
@@ -33,6 +34,8 @@ public class MessagerieDto implements IWidgetCountable {
                 ? pageMessagerie.getDiscussions().getNombreMessagesNonLus() : 0;
         this.nombreInformationsNonLus = pageMessagerie.getInformations() != null
                 ? pageMessagerie.getInformations().getNombreInformationsNonLus() : 0;
+        this.nombreDocumentsCasierNonLus = pageMessagerie.getDocumentsCasier() != null
+                ? pageMessagerie.getDocumentsCasier().getNombreDocumentsCasierNonLus() : 0;
     }
 
     @Override
@@ -40,6 +43,7 @@ public class MessagerieDto implements IWidgetCountable {
         Map<String, Integer> counts = new java.util.LinkedHashMap<>();
         counts.put(WidgetItemKeys.MESSAGES_NON_LUS, nombreMessagesNonLus);
         counts.put(WidgetItemKeys.INFORMATIONS_NON_LUES, nombreInformationsNonLus);
+        counts.put(WidgetItemKeys.DOCUMENTS_CASIER_NON_LUS, nombreDocumentsCasierNonLus);
         return counts;
     }
 }

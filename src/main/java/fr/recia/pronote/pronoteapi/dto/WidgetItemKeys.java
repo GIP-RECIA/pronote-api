@@ -27,4 +27,5 @@ public final class WidgetItemKeys {
     public static final String MESSAGES_NON_LUS = "messagesNonLus";
     public static final String INFORMATIONS_NON_LUES = "informationsNonLues";
     public static final String EVALUATIONS_DE_COMPETENCES = "evaluationsDeCompetences";
+    public static final String DOCUMENTS_CASIER_NON_LUS = "documentsCasierNonLus";
 }
