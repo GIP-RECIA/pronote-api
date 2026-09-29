@@ -17,6 +17,10 @@
       "evaluationsCompetences": "évaluations de compétences"
     }
   },
+  "ficheProfesseur": {
+    "addToAgenda": "Ajouter à mon agenda",
+    "unreadCasier": "documents casier non lus"
+  },
   "cours": {
     "heading": "Cours récents",
     "empty": "Aucun cours récent",

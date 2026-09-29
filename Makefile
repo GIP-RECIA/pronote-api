@@ -1,4 +1,4 @@
-.PHONY: test redis-start redis-stop redis-restart run run-mock-eleve run-mock-parent-1 run-mock-parent-2 mock-webcomponents
+.PHONY: test redis-start redis-stop redis-restart run run-mock-eleve run-mock-parent-1 run-mock-parent-2 run-mock-professeur mock-webcomponents
 
 REDIS_CONTAINER := redis-local
 
@@ -48,3 +48,6 @@ run-mock-parent-1: redis-start mock-webcomponents
 
 run-mock-parent-2: redis-start mock-webcomponents
 	./mvnw spring-boot:run -Dspring-boot.run.profiles=local,mock-no-cas -Dspring-boot.run.arguments="$(MOCK_ARGS) --app.mock.scenario=parentDeuxEnfants"
+
+run-mock-professeur: redis-start mock-webcomponents
+	./mvnw spring-boot:run -Dspring-boot.run.profiles=local,mock-no-cas -Dspring-boot.run.arguments="$(MOCK_ARGS) --app.mock.scenario=professeur"

@@ -99,6 +99,7 @@ export interface VieScolaire {
 export interface Messagerie {
   nombreMessagesNonLus: number
   nombreInformationsNonLus: number
+  nombreDocumentsCasierNonLus: number
 }
 
 export interface Evaluation {
@@ -127,7 +128,12 @@ export interface Eleve {
   iCal: string | null
 }
 
-export interface PronotePageResponse {
-  profil: 'Eleve' | 'Parent'
-  eleveDtoList: Eleve[]
+export interface Professeur {
+  messagerieDto: Messagerie | null
+  etablissement: string | null
+  iCal: string | null
 }
+
+export type PronotePageResponse
+  = | { profil: 'Eleve' | 'Parent', eleveDtoList: Eleve[] }
+    | { profil: 'Professeur', professeurDto: Professeur }

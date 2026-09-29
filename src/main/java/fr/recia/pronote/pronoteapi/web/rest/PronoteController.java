@@ -16,13 +16,12 @@
 package fr.recia.pronote.pronoteapi.web.rest;
 
 import fr.recia.pronote.pronoteapi.config.bean.ProfilsProperties;
-import fr.recia.pronote.pronoteapi.dto.EleveDto;
-import fr.recia.pronote.pronoteapi.dto.PageResponseDto;
-import fr.recia.pronote.pronoteapi.dto.SummaryResponseDto;
+import fr.recia.pronote.pronoteapi.dto.*;
 import fr.recia.pronote.pronoteapi.enums.UserProfile;
 import fr.recia.pronote.pronoteapi.exception.UnexpectedProfilException;
 import fr.recia.pronote.pronoteapi.service.impl.FetchAndParseEleveDataServiceFromEleveImpl;
 import fr.recia.pronote.pronoteapi.service.impl.FetchAndParseEleveDataServiceFromParentImpl;
+import fr.recia.pronote.pronoteapi.service.impl.FetchAndParseProfesseurDataServiceImpl;
 import fr.recia.pronote.pronoteapi.util.UserAttributesHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -38,39 +37,45 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PronoteController {
 
-
     private final UserAttributesHandler userAttributesHandler;
-
     private final FetchAndParseEleveDataServiceFromEleveImpl eleveService;
-
     private final FetchAndParseEleveDataServiceFromParentImpl parentService;
-
+    private final FetchAndParseProfesseurDataServiceImpl professeurService;
     private final ProfilsProperties profilsProperties;
-
-    private record ResolvedProfile(UserProfile userProfile, List<EleveDto> eleveDtoList) {}
 
     private ResolvedProfile resolveProfile() {
         String profil = userAttributesHandler.getAttribute(UserAttributesHandler.ENT_PERSON_PROFILS);
         String uid = userAttributesHandler.getAttribute(UserAttributesHandler.UID);
 
         if (profilsProperties.getEleveProfilName().equals(profil)) {
-            return new ResolvedProfile(UserProfile.ELEVE, eleveService.getDto(uid));
+            return new ResolvedProfile(UserProfile.ELEVE, eleveService.getDto(uid), null);
         } else if (profilsProperties.getParentProfilName().equals(profil)) {
-            return new ResolvedProfile(UserProfile.PARENT, parentService.getDto(uid));
+            return new ResolvedProfile(UserProfile.PARENT, parentService.getDto(uid), null);
+        } else if (profilsProperties.getProfesseurProfilName().equals(profil)) {
+            return new ResolvedProfile(UserProfile.PROFESSEUR, null, professeurService.getDto(uid));
         } else {
             throw new UnexpectedProfilException(profil);
         }
     }
 
     @GetMapping(value = "/page", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PageResponseDto> getPronotePage(){
+    public ResponseEntity<Object> getPronotePage() {
         ResolvedProfile resolved = resolveProfile();
+        if (resolved.userProfile() == UserProfile.PROFESSEUR) {
+            return ResponseEntity.ok(new ProfesseurPageResponseDto(resolved.userProfile(), resolved.professeurDto()));
+        }
         return ResponseEntity.ok(new PageResponseDto(resolved.userProfile(), resolved.eleveDtoList()));
     }
 
     @GetMapping(value = "/summary", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SummaryResponseDto> getPronoteWidgetSummary(){
+    public ResponseEntity<SummaryResponseDto> getPronoteWidgetSummary() {
         ResolvedProfile resolved = resolveProfile();
+        if (resolved.userProfile() == UserProfile.PROFESSEUR) {
+            return ResponseEntity.ok(new SummaryResponseDto(resolved.professeurDto()));
+        }
         return ResponseEntity.ok(new SummaryResponseDto(resolved.eleveDtoList()));
+    }
+
+    private record ResolvedProfile(UserProfile userProfile, List<EleveDto> eleveDtoList, ProfesseurDto professeurDto) {
     }
 }

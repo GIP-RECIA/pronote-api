@@ -46,6 +46,7 @@ public class MockAuthenticationFilter extends OncePerRequestFilter {
         String profil = switch (mockProperties.getScenario()) {
             case eleve -> profilsProperties.getEleveProfilName();
             case parentUnEnfant, parentDeuxEnfants -> profilsProperties.getParentProfilName();
+            case professeur -> profilsProperties.getProfesseurProfilName();
         };
 
         Map<String, Object> attributes = Map.of(

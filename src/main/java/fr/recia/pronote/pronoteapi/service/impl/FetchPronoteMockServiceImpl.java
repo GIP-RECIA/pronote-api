@@ -43,6 +43,7 @@ public class FetchPronoteMockServiceImpl implements IFetchPronoteService {
             case eleve -> "pronote-mock-eleve.xml";
             case parentUnEnfant -> "pronote-mock-parent-un-enfant.xml";
             case parentDeuxEnfants -> "pronote-mock-parent.xml";
+            case professeur -> "pronote-mock-professeur.xml";
         };
 
         log.debug("Serving mock Pronote XML for scenario {} ({})", mockProperties.getScenario(), fileName);

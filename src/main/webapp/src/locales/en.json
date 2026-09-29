@@ -17,6 +17,10 @@
       "evaluationsCompetences": "skill evaluations"
     }
   },
+  "ficheProfesseur": {
+    "addToAgenda": "Add to my calendar",
+    "unreadCasier": "unread documents"
+  },
   "cours": {
     "heading": "Recent classes",
     "empty": "No recent classes",

@@ -21,6 +21,7 @@ import { useI18n } from 'vue-i18n'
 import { fetchPronotePage } from '@/api/pronote'
 import FicheEleve from '@/components/FicheEleve.vue'
 import FicheEleveSkeleton from '@/components/FicheEleveSkeleton.vue'
+import FicheProfesseur from '@/components/FicheProfesseur.vue'
 import { initConfiguration, useConfiguration } from '@/composables/useConfiguration'
 import '@gip-recia/ui-webcomponents/dist/r-tabs.js'
 import '@gip-recia/ui-webcomponents/dist/r-page-layout.js'
@@ -87,6 +88,9 @@ onMounted(async () => {
         <p v-else-if="error">
           {{ t('app.error', { message: error }) }}
         </p>
+        <template v-else-if="data && data.profil === 'Professeur'">
+          <FicheProfesseur :professeur="data.professeurDto" />
+        </template>
         <template v-else-if="data && data.eleveDtoList.length > 1">
           <r-tablist
             id-prefix="eleves" :tabs="data.eleveDtoList.map(eleve => eleve.prenom ?? t('app.defaultEleveLabel'))"

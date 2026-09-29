@@ -18,5 +18,6 @@ package fr.recia.pronote.pronoteapi.enums;
 public enum MockScenario {
     eleve,
     parentUnEnfant,
-    parentDeuxEnfants
+    parentDeuxEnfants,
+    professeur
 }
