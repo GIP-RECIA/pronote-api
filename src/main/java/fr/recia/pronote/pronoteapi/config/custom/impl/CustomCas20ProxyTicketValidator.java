@@ -63,12 +63,7 @@ public class CustomCas20ProxyTicketValidator extends Cas20ProxyTicketValidator {
         maskedParameters.computeIfPresent("ticket", (key, value) -> LogMasking.mask(value));
         logger.debug("urlParameters map {}", maskedParameters);
 
-        //todo remove
-        //  urlParameters.put("service", urlParameters.get("service").replace("http", "https"));
-
-        //todo replace
         urlParameters.put("pgtUrl", baseUrl
-                // .replace("http","https")
                 + this.getProxyCallbackUrl());
     }
 }

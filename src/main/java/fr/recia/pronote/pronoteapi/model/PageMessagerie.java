@@ -29,8 +29,6 @@ import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 @Data
 @JsonRootName("PageMessagerie")
 public class PageMessagerie extends TitreMessageElementsPageAttribute {
-    // pas le page attribute apparement d'apres le eleve xsd
-    // todo voir si créer parent différent
 
     @Nullable
     @JacksonXmlProperty(localName = "Discussions")

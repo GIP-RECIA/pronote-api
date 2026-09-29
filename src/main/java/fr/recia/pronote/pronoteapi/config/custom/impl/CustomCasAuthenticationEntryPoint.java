@@ -53,10 +53,7 @@ public class CustomCasAuthenticationEntryPoint extends CasAuthenticationEntryPoi
                 .build()
                 .toUriString();
 
-        //todo mettre au propre
-        return baseUrl
-             //   .replace("http", "https")
-                + casProperties.getCasServiceId();
+        return baseUrl + casProperties.getCasServiceId();
     }
 
 }
