@@ -16,10 +16,8 @@
 
 import type { PronotePageResponse } from '@/types/pronote'
 
-const PRONOTE_PAGE_URL = './public/mocks/pronote-page.json'
-
 export async function fetchPronotePage(): Promise<PronotePageResponse> {
-  const response = await fetch(PRONOTE_PAGE_URL, { credentials: 'include' })
+  const response = await fetch(`${import.meta.env.VITE_API_URI}/api/page`, { credentials: 'include' })
 
   if (!response.ok) {
     throw new Error(`pronotePage request failed: ${response.status}`)

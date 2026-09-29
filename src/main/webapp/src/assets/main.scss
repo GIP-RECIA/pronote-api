@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@use 'sass:map';
 @use 'ress/dist/ress.min.css';
 @use '@gip-recia/ui/core' as *;
 @use '@gip-recia/ui/functions' as *;
@@ -48,9 +49,53 @@ extended-uportal-header {
   height: var(--recia-header-height);
 }
 
-main {
-  padding-top: 24px;
-  padding-bottom: 24px;
+html,
+body {
+  min-height: 100%;
+}
+
+#app {
+  display: grid;
+  min-height: 100%;
+  grid-template-rows: auto auto 1fr auto;
+  grid-template-areas:
+    'header'
+    'alert'
+    'main'
+    'footer';
+
+  > header {
+    grid-area: header;
+    height: var(--recia-header-height, 68px);
+  }
+
+  > .alert {
+    grid-area: alert;
+  }
+
+  > main {
+    grid-area: main;
+    padding-top: 32px;
+    padding-bottom: 40px;
+    display: grid;
+    grid-auto-rows: min-content;
+    row-gap: 40px;
+
+    > * {
+      min-width: 0;
+    }
+  }
+
+  > footer {
+    grid-area: footer;
+  }
+
+  @media (width >= map.get($grid-breakpoints, md)) {
+    > main {
+      padding-bottom: 60px;
+      row-gap: 60px;
+    }
+  }
 }
 
 .skeleton {

@@ -19,13 +19,20 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.*;
 
-public class PronoteWidgetSummaryResponseDto extends ArrayList<PronoteWidgetSummaryResponseDto.EleveSummary> {
+public class SummaryResponseDto extends ArrayList<SummaryResponseDto.EleveSummary> {
 
-    public PronoteWidgetSummaryResponseDto(List<EleveDto> eleveDtoList) {
+    public SummaryResponseDto(List<EleveDto> eleveDtoList) {
         for (EleveDto eleveDto : eleveDtoList) {
             String displayName = buildDisplayName(eleveDto);
             this.add(new EleveSummary(displayName, buildItems(eleveDto)));
         }
+    }
+
+    public SummaryResponseDto(ProfesseurDto professeurDto) {
+        Map<String, Integer> items = professeurDto.getMessagerieDto() != null
+                ? new LinkedHashMap<>(professeurDto.getMessagerieDto().widgetCounts())
+                : new LinkedHashMap<>();
+        this.add(new EleveSummary(null, items));
     }
 
     private static String buildDisplayName(EleveDto eleveDto) {

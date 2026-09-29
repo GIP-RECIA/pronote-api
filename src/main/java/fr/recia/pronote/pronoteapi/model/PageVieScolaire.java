@@ -15,25 +15,20 @@
  */
 package fr.recia.pronote.pronoteapi.model;
 
-import fr.recia.pronote.pronoteapi.model.abs.TitreMessageElementsPageAttribute;
-import fr.recia.pronote.pronoteapi.model.viescolaire.Absence;
-import fr.recia.pronote.pronoteapi.model.viescolaire.Observation;
-import fr.recia.pronote.pronoteapi.model.viescolaire.PassageInfirmerie;
-import fr.recia.pronote.pronoteapi.model.viescolaire.Punition;
-import fr.recia.pronote.pronoteapi.model.viescolaire.Retard;
-import fr.recia.pronote.pronoteapi.model.viescolaire.Sanction;
 import jakarta.annotation.Nullable;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import fr.recia.pronote.pronoteapi.model.abs.TitreMessageElementsPageAttribute;
+import fr.recia.pronote.pronoteapi.model.viescolaire.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@JacksonXmlRootElement(localName = "PageVieScolaire")
+@JsonRootName("PageVieScolaire")
 public class PageVieScolaire extends TitreMessageElementsPageAttribute {
 
     @Nullable

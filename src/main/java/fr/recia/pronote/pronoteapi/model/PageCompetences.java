@@ -15,22 +15,22 @@
  */
 package fr.recia.pronote.pronoteapi.model;
 
+import jakarta.annotation.Nullable;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import fr.recia.pronote.pronoteapi.model.abs.TitreMessageElementsPageAttribute;
 import fr.recia.pronote.pronoteapi.model.competences.Domaine;
 import fr.recia.pronote.pronoteapi.model.competences.Evaluation;
 import fr.recia.pronote.pronoteapi.model.competences.Item;
-import jakarta.annotation.Nullable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@JacksonXmlRootElement(localName = "PageCompetences")
+@JsonRootName("PageCompetences")
 public class PageCompetences extends TitreMessageElementsPageAttribute {
 
     @Nullable

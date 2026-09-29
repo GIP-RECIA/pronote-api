@@ -20,12 +20,15 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import fr.recia.pronote.pronoteapi.util.LogMasking;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -51,7 +54,6 @@ public class SingleSignOutHandlerFilter extends OncePerRequestFilter {
         if (logoutRequest != null) {
             log.trace("[SLO] URI appelée : {}", uri);
             log.trace("[SLO] Adresse IP appelante : {}", ip);
-            log.trace("[SLO] XML logoutRequest brut :\n{}", logoutRequest);
 
             try {
                 var factory = DocumentBuilderFactory.newInstance();
@@ -84,9 +86,9 @@ public class SingleSignOutHandlerFilter extends OncePerRequestFilter {
                 }
 
                 if (isSessionTicket) {
-                    log.debug("[SLO] Ticket Invalidation Request will be handled: {}", ticket);
+                    log.debug("[SLO] Ticket Invalidation Request will be handled: {}", LogMasking.mask(ticket));
                 } else {
-                    log.debug("[SLO] Ticket Invalidation Request will be ignored: {}", ticket);
+                    log.debug("[SLO] Ticket Invalidation Request will be ignored: {}", LogMasking.mask(ticket));
                     filterChain.doFilter(request, response);
                     return;
                 }
@@ -94,16 +96,24 @@ public class SingleSignOutHandlerFilter extends OncePerRequestFilter {
                 String sessionId = ticketSessionMappingStorage.getSessionIdFromSessionTicket(ticket);
 
                 log.debug("[SLO] Utilisateur CAS (NameID) : {}", nameId);
-                log.debug("[SLO] Session id: {}", sessionId);
+                log.debug("[SLO] Session id: {}", LogMasking.mask(sessionId));
+
 
                 ticketSessionMappingStorage.removeSessionTicket(ticket);
-                log.debug("[SLO] Le cache associé au mappage ticket-sessionID [{}:{}] a été supprimé avec succès.", ticket, sessionId);
+                log.debug("[SLO] Le cache associé au mappage ticket-sessionID [{}:{}] a été supprimé avec succès.", LogMasking.mask(ticket), LogMasking.mask(sessionId));
                 ticketSessionMappingStorage.deleteSessionContext(sessionId);
-                log.debug("[SLO] Invalidation réussie de la session [{}].", sessionId);
+                log.debug("[SLO] Invalidation réussie de la session [{}].", LogMasking.mask(sessionId));
 
-            } catch (Exception e) {
-                log.error("[SLO] Erreur de parsing XML logoutRequest", e);
+            } catch (ParserConfigurationException | SAXException | IOException e) {
+                log.error("[SLO] XML logoutRequest invalide ou illisible reçu de CAS", e);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            } catch (RuntimeException e) {
+                log.error("[SLO] Erreur inattendue lors du traitement du logout, session non invalidée", e);
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                return;
             }
+
         }
         filterChain.doFilter(request, response);
     }

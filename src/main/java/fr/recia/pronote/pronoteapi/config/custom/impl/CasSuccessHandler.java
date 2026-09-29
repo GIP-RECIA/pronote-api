@@ -20,6 +20,8 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import fr.recia.pronote.pronoteapi.exception.LostTicketException;
+import fr.recia.pronote.pronoteapi.util.LogMasking;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,37 +61,17 @@ public class CasSuccessHandler extends SavedRequestAwareAuthenticationSuccessHan
         log.debug("URI de la requête : {}", uri);
         log.debug("Header Accept : {}", accept != null ? accept : "null");
 
-        // Log tous les headers de la requête
-        log.trace("===== Headers de la requête [CAS SH] =====");
-        var headerNames = request.getHeaderNames();
-        if (headerNames != null) {
-            while (headerNames.hasMoreElements()) {
-                String headerName = headerNames.nextElement();
-                String headerValue = request.getHeader(headerName);
-                log.trace("[CAS SH] {}: {}", headerName, headerValue);
-            }
-        }
-        log.trace("===== Fin des headers de la requête [CAS SH] =====");
-
-        // Log des headers de réponse
-            log.trace("===== Headers de la réponse [CAS SH] =====");
-        for (String headerName : response.getHeaderNames()) {
-            String headerValue = response.getHeader(headerName);
-                log.trace("[CAS SH] {}: {}", headerName, headerValue);
-        }
-            log.trace("===== Fin des headers de la réponse [CAS SH] =====");
-
         // Authentification et session
             log.debug("Utilisateur authentifié : {}", authentication.getName());
         String credentials = (String) authentication.getCredentials();
-            log.debug("Credentials (Session Ticket) : {}", credentials);
+        log.debug("Credentials (Session Ticket) : {}", LogMasking.mask(credentials));
         String sessionId = request.getSession(false).getId();
-            log.debug("Session ID : {}", sessionId);
+        log.debug("Session ID : {}", LogMasking.mask(sessionId));
 
         if (credentials == null) {
-            throw new RuntimeException("Ticket perdu pour la session: " + sessionId);
+            throw new LostTicketException("Ticket perdu pour la session: " + LogMasking.mask(sessionId));
         }
-        log.debug("Création du mappage entre le ticket [{}] et l'ID de session [{}] dans le cache Redis", credentials, sessionId);
+        log.debug("Création du mappage entre le ticket [{}] et l'ID de session [{}] dans le cache Redis", LogMasking.mask(credentials), LogMasking.mask(sessionId));
         redisService.setSessionTicketSessionIdPair(credentials, sessionId);
         super.onAuthenticationSuccess(request, response, authentication);
     }

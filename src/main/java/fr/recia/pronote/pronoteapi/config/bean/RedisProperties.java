@@ -80,7 +80,6 @@ public class RedisProperties {
                 "hostName='" + hostName + '\'' +
                 ", port=" + port +
                 ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
                 ", databaseIndex=" + databaseIndex +
                 ", pgtiouPrefix='" + pgtiouPrefix + '\'' +
                 ", pgtiouExpiryInSeconds=" + pgtiouExpiryInSeconds +

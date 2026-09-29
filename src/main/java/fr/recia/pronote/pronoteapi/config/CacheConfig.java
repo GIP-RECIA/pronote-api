@@ -32,7 +32,7 @@ public class CacheConfig {
     //EHCACHE AU LIE UDE CAFEINNE POUR CAR CAFEEINE RAM ONLY
     @Bean
     CacheManager cacheManager() {
-        CaffeineCacheManager manager = new CaffeineCacheManager("dtoListCache");
+        CaffeineCacheManager manager = new CaffeineCacheManager("dtoListCache", "professeurDtoCache");
 
         manager.setCaffeine(
                 Caffeine.newBuilder()

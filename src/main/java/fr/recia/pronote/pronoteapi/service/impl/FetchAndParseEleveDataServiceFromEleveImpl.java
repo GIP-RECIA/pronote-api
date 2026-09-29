@@ -26,6 +26,7 @@ import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoF
 import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
 import fr.recia.pronote.pronoteapi.model.Eleve;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
+import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -41,7 +42,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndParseEleveDataService {
 
-    private final FetchPronoteServiceImpl fetchPronoteService;
+    private final IFetchPronoteService fetchPronoteService;
     private final ResumeCoursEtTravailAFaireAllDtoFactory resumeCoursEtTravailAFaireAllDtoFactory;
 
     @Override

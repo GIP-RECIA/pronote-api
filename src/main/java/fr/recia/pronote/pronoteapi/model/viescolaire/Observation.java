@@ -15,14 +15,14 @@
  */
 package fr.recia.pronote.pronoteapi.model.viescolaire;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
 import lombok.Data;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import java.time.LocalDateTime;
 
 @Data
-@JacksonXmlRootElement(localName = "Observation")
+@JsonRootName("Observation")
 public class Observation {
 
     @JacksonXmlProperty(localName = "Date")

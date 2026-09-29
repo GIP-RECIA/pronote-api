@@ -16,10 +16,10 @@
 package fr.recia.pronote.pronoteapi.model.competences;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-@JacksonXmlRootElement(localName = "GenreNiveauDAcquisition")
+@JsonRootName("GenreNiveauDAcquisition")
 public enum GenreNiveauDAcquisition {
 
     EXPERT("Expert "),

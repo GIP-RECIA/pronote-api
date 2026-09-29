@@ -18,8 +18,10 @@ package fr.recia.pronote.pronoteapi.web.rest;
 import fr.recia.pronote.pronoteapi.config.bean.ProfilsProperties;
 import fr.recia.pronote.pronoteapi.config.custom.impl.UserCustomImplementation;
 import fr.recia.pronote.pronoteapi.dto.EleveDto;
+import fr.recia.pronote.pronoteapi.dto.ProfesseurDto;
 import fr.recia.pronote.pronoteapi.service.impl.FetchAndParseEleveDataServiceFromEleveImpl;
 import fr.recia.pronote.pronoteapi.service.impl.FetchAndParseEleveDataServiceFromParentImpl;
+import fr.recia.pronote.pronoteapi.service.impl.FetchAndParseProfesseurDataServiceImpl;
 import fr.recia.pronote.pronoteapi.util.UserAttributesHandler;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -57,6 +59,9 @@ class PronoteControllerTest {
     FetchAndParseEleveDataServiceFromParentImpl parentService;
 
     @MockitoBean
+    FetchAndParseProfesseurDataServiceImpl professeurService;
+
+    @MockitoBean
     ProfilsProperties profilsProperties;
 
     private void authenticateAs(String profil, String uid) {
@@ -85,7 +90,7 @@ class PronoteControllerTest {
         when(eleveService.getDto("jdupont")).thenReturn(
                 List.of(EleveDto.builder().build()));
 
-        mockMvc.perform(get("/api/widgets/pronotePage"))
+        mockMvc.perform(get("/api/page"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.profil").value("Eleve"))
                 .andExpect(jsonPath("$.eleveDtoList", hasSize(1)));
@@ -103,7 +108,7 @@ class PronoteControllerTest {
                 EleveDto.builder().prenom("Bob$def").build()
         ));
 
-        mockMvc.perform(get("/api/widgets/pronotePage"))
+        mockMvc.perform(get("/api/page"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.profil").value("Parent"))
                 .andExpect(jsonPath("$.eleveDtoList", hasSize(2)))
@@ -119,8 +124,9 @@ class PronoteControllerTest {
         authenticateAs("National_INCONNU", "xuser");
         when(profilsProperties.getEleveProfilName()).thenReturn("National_ELV");
         when(profilsProperties.getParentProfilName()).thenReturn("National_TUT");
+        when(profilsProperties.getProfesseurProfilName()).thenReturn("National_ENS");
 
-        mockMvc.perform(get("/api/widgets/pronotePage"))
+        mockMvc.perform(get("/api/page"))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.message").value("National_INCONNU"));
 
@@ -128,4 +134,21 @@ class PronoteControllerTest {
         verifyNoInteractions(parentService);
     }
 
+    @Test
+    void getPronotePage_forProfesseurProfil_dispatchesToProfesseurServiceAndReturnsJson() throws Exception {
+        authenticateAs("National_ENS", "mprof");
+        when(profilsProperties.getEleveProfilName()).thenReturn("National_ELV");
+        when(profilsProperties.getParentProfilName()).thenReturn("National_TUT");
+        when(profilsProperties.getProfesseurProfilName()).thenReturn("National_ENS");
+        when(professeurService.getDto("mprof")).thenReturn(
+                ProfesseurDto.builder().etablissement("Collège Jean Moulin").build());
+
+        mockMvc.perform(get("/api/page"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.profil").value("Professeur"))
+                .andExpect(jsonPath("$.professeurDto.etablissement").value("Collège Jean Moulin"));
+
+        verifyNoInteractions(eleveService);
+        verifyNoInteractions(parentService);
+    }
 }

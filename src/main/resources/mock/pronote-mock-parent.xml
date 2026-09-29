@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright © 2026 GIP-RECIA (https://www.recia.fr/)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<Parent sessionENT="a1b2c3d4-session-ent-0002" version="1.0">
+
+    <Eleve>
+        <Nom>Dupont</Nom>
+        <Prenom>Lucas</Prenom>
+        <IdentifiantPronote>PRONOTE$0290009C$00012345</IdentifiantPronote>
+
+        <PageCahierDeTextes page="1">
+            <Titre>Cahier de textes</Titre>
+            <Message></Message>
+            <CahierDeTextes page="1">
+                <Matiere>Mathématiques</Matiere>
+                <Date>2026-09-14</Date>
+                <ContenuDeCours>
+                    <Titre>Fonctions affines</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Introduction à la notion de fonction affine, tracé de droites, calcul du coefficient directeur.</Descriptif>
+                    <PieceJointe>cours_fonctions_affines.pdf</PieceJointe>
+                    <PieceJointe>fiche_methode_droites.pdf</PieceJointe>
+                    <SiteInternet>https://www.mathematiques.example/fonctions-affines</SiteInternet>
+                </ContenuDeCours>
+                <ContenuDeCours>
+                    <Titre>Rappel : proportionnalité</Titre>
+                    <Categorie>Cours</Categorie>
+                    <Descriptif>Retour rapide sur les situations de proportionnalité avant d'attaquer les fonctions affines.</Descriptif>
+                </ContenuDeCours>
+                <TravailAFaire>
+                    <Descriptif>Exercices p.42 n°3, 5 et 7</Descriptif>
+                    <PourLe>2026-09-17</PourLe>
+                    <PieceJointe>exercices_p42.pdf</PieceJointe>
+                </TravailAFaire>
+            </CahierDeTextes>
+            <CahierDeTextes page="1">
+                <Matiere>Français</Matiere>
+                <Date>2026-09-15</Date>
+                <ContenuDeCours>
+                    <Titre>Étude d'un extrait de Candide</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Lecture analytique du chapitre III, l'ironie voltairienne et la critique de la guerre.</Descriptif>
+                    <SiteInternet>https://www.francais.example/candide-chapitre-3</SiteInternet>
+                    <SiteInternet>https://www.francais.example/ironie-voltairienne</SiteInternet>
+                </ContenuDeCours>
+                <TravailAFaire>
+                    <Descriptif>Rédiger un paragraphe argumenté sur l'ironie voltairienne</Descriptif>
+                    <PourLe>2026-09-19</PourLe>
+                </TravailAFaire>
+                <TravailAFaire>
+                    <Descriptif>Relire le chapitre IV pour la prochaine séance</Descriptif>
+                    <PourLe>2026-09-20</PourLe>
+                </TravailAFaire>
+            </CahierDeTextes>
+            <CahierDeTextes page="1">
+                <Matiere>Histoire-Géographie</Matiere>
+                <Date>2026-09-15</Date>
+                <ContenuDeCours>
+                    <Titre>La Première Guerre mondiale</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Les grandes phases du conflit, de 1914 à 1918.</Descriptif>
+                    <PieceJointe>frise_chronologique_14_18.pdf</PieceJointe>
+                </ContenuDeCours>
+            </CahierDeTextes>
+            <CahierDeTextes page="1">
+                <Matiere>Anglais</Matiere>
+                <Date>2026-09-16</Date>
+                <ContenuDeCours>
+                    <Titre>Present perfect</Titre>
+                    <Categorie>Cours</Categorie>
+                    <Descriptif>Formation et usages du present perfect, différence avec le prétérit.</Descriptif>
+                </ContenuDeCours>
+                <TravailAFaire>
+                    <Descriptif>Apprendre la liste des verbes irréguliers p.15</Descriptif>
+                    <PourLe>2026-09-18</PourLe>
+                    <SiteInternet>https://www.anglais.example/irregular-verbs</SiteInternet>
+                </TravailAFaire>
+            </CahierDeTextes>
+        </PageCahierDeTextes>
+
+        <PageReleveDeNotes page="2">
+            <Titre>Relevé de notes</Titre>
+            <Message></Message>
+            <Devoir page="2">
+                <Note>14</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Mathématiques</Matiere>
+                <Date>2026-09-08</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>16.5</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Français</Matiere>
+                <Date>2026-09-10</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>Abs</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Physique-Chimie</Matiere>
+                <Date>2026-09-12</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>15</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Anglais</Matiere>
+                <Date>2026-09-05</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>17</Note>
+                <Bareme>20</Bareme>
+                <Matiere>SVT</Matiere>
+                <Date>2026-09-11</Date>
+            </Devoir>
+        </PageReleveDeNotes>
+
+        <PageVieScolaire page="3">
+            <Titre>Vie scolaire</Titre>
+            <Message></Message>
+            <Absence page="3">
+                <DateDebut>2026-09-11T08:00:00</DateDebut>
+                <DateFin>2026-09-11T09:00:00</DateFin>
+                <EstOuverte>false</EstOuverte>
+                <Justifie>true</Justifie>
+                <Motif>Rendez-vous médical</Motif>
+            </Absence>
+            <Absence page="3">
+                <DateDebut>2026-09-14T13:00:00</DateDebut>
+                <DateFin>2026-09-14T17:00:00</DateFin>
+                <EstOuverte>true</EstOuverte>
+                <Justifie>false</Justifie>
+                <Motif></Motif>
+            </Absence>
+            <Retard page="3">
+                <Date>2026-09-15T08:05:00</Date>
+                <Justifie>false</Justifie>
+                <Motif>Retard de bus</Motif>
+            </Retard>
+            <Retard page="3">
+                <Date>2026-09-18T08:10:00</Date>
+                <Justifie>true</Justifie>
+                <Motif>Retard de bus, justifié par la famille</Motif>
+            </Retard>
+            <PassageInfirmerie page="3">
+                <Date>2026-09-09T10:30:00</Date>
+            </PassageInfirmerie>
+            <PassageInfirmerie page="3">
+                <Date>2026-09-16T14:15:00</Date>
+            </PassageInfirmerie>
+            <Punition page="3">
+                <Date>2026-09-05</Date>
+                <Nature>Retenue</Nature>
+                <Matiere>Mathématiques</Matiere>
+                <Motif>Bavardages répétés</Motif>
+                <Circonstances>Pendant le cours</Circonstances>
+            </Punition>
+            <Sanction>
+                <Date>2026-06-20</Date>
+                <Nature>Avertissement</Nature>
+                <Motif>Absences répétées non justifiées</Motif>
+                <Circonstances>Conseil de discipline</Circonstances>
+                <Duree>0</Duree>
+            </Sanction>
+            <Observation>
+                <Date>2026-09-13T00:00:00</Date>
+                <Demandeur>M. Martin</Demandeur>
+                <Matiere>SVT</Matiere>
+                <Observation>Bonne participation, en nette progression.</Observation>
+            </Observation>
+            <Observation>
+                <Date>2026-09-17T00:00:00</Date>
+                <Demandeur>Mme Petit</Demandeur>
+                <Matiere>Anglais</Matiere>
+                <Observation>Très bon investissement à l'oral.</Observation>
+            </Observation>
+        </PageVieScolaire>
+
+        <PageCompetences page="5">
+            <Titre>Compétences</Titre>
+            <Message></Message>
+            <Evaluation page="5">
+                <Competence>D1.1</Competence>
+                <Item>Comprendre, s'exprimer en utilisant la langue française</Item>
+                <Intitule>Évaluation orale</Intitule>
+                <Matiere>Français</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>1</Genre>
+                    <Libelle>Acquis</Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-10</Date>
+            </Evaluation>
+            <Evaluation page="5">
+                <Competence>D4</Competence>
+                <Item>Les systèmes naturels et les systèmes techniques</Item>
+                <Intitule>Mener une démarche scientifique</Intitule>
+                <Matiere>Physique-Chimie</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>3</Genre>
+                    <Libelle>En cours d’acquisition</Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-12</Date>
+            </Evaluation>
+            <Evaluation page="5">
+                <Competence>D2</Competence>
+                <Item>Coopération et réalisation de projets</Item>
+                <Intitule>Travail en équipe</Intitule>
+                <Matiere>Technologie</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>0</Genre>
+                    <Libelle>Expert </Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-11</Date>
+            </Evaluation>
+            <Evaluation page="5">
+                <Competence>D1.3</Competence>
+                <Item>Résoudre un problème en utilisant des outils mathématiques</Item>
+                <Intitule>Contrôle sur les fonctions affines</Intitule>
+                <Matiere>Mathématiques</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>2</Genre>
+                    <Libelle>Presque acquis</Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-08</Date>
+            </Evaluation>
+        </PageCompetences>
+
+        <PagePronote page="6" nom="Collège Jean Moulin"/>
+
+        <ICal>BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Pronote//EDT//FR
+BEGIN:VEVENT
+SUMMARY:Mathématiques
+DTSTART:20260917T080000Z
+DTEND:20260917T090000Z
+LOCATION:Salle 204
+END:VEVENT
+END:VCALENDAR</ICal>
+    </Eleve>
+
+    <Eleve>
+        <Nom>Dupont</Nom>
+        <Prenom>Emma</Prenom>
+        <IdentifiantPronote>PRONOTE$0290009C$00067890</IdentifiantPronote>
+
+        <PageCahierDeTextes page="1">
+            <Titre>Cahier de textes</Titre>
+            <Message></Message>
+            <CahierDeTextes page="1">
+                <Matiere>Anglais</Matiere>
+                <Date>2026-09-09</Date>
+                <ContenuDeCours>
+                    <Titre>Cours sur les états des USA</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Les capitales et particularités des principaux états américains.</Descriptif>
+                    <PieceJointe>carte_usa_etats.pdf</PieceJointe>
+                    <SiteInternet>https://www.anglais.example/us-states</SiteInternet>
+                </ContenuDeCours>
+            </CahierDeTextes>
+            <CahierDeTextes page="1">
+                <Matiere>Anglais</Matiere>
+                <Date>2026-09-15</Date>
+                <ContenuDeCours>
+                    <Titre>Present perfect vs preterit</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Différences d'usage entre les deux temps du passé, exercices d'application.</Descriptif>
+                    <SiteInternet>https://www.anglais.example/present-perfect-preterit</SiteInternet>
+                </ContenuDeCours>
+                <TravailAFaire>
+                    <Descriptif>Learn irregular verbs list p.15</Descriptif>
+                    <PourLe>2026-09-18</PourLe>
+                </TravailAFaire>
+            </CahierDeTextes>
+            <CahierDeTextes page="1">
+                <Matiere>SVT</Matiere>
+                <Date>2026-09-08</Date>
+                <ContenuDeCours>
+                    <Titre>La reproduction chez les mammifères</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Cycle de reproduction et fécondation chez les mammifères.</Descriptif>
+                    <PieceJointe>schema_reproduction.pdf</PieceJointe>
+                </ContenuDeCours>
+            </CahierDeTextes>
+            <CahierDeTextes page="1">
+                <Matiere>Histoire-Géographie</Matiere>
+                <Date>2026-09-05</Date>
+                <ContenuDeCours>
+                    <Titre>La décolonisation</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Les grandes étapes de la décolonisation après 1945.</Descriptif>
+                </ContenuDeCours>
+                <ContenuDeCours>
+                    <Titre>Exercice de cartographie</Titre>
+                    <Categorie>TP non noté</Categorie>
+                    <Descriptif>Réalisation d'une carte des flux migratoires.</Descriptif>
+                    <PieceJointe>fond_de_carte_migrations.pdf</PieceJointe>
+                </ContenuDeCours>
+            </CahierDeTextes>
+            <CahierDeTextes page="1">
+                <Matiere>Physique-Chimie</Matiere>
+                <Date>2026-09-11</Date>
+                <ContenuDeCours>
+                    <Titre>Les réactions acido-basiques</Titre>
+                    <Categorie>Cours important</Categorie>
+                    <Descriptif>Notion de pH et réactions acide-base.</Descriptif>
+                    <PieceJointe>cours_acido_basique.pdf</PieceJointe>
+                    <SiteInternet>https://www.physique-chimie.example/ph</SiteInternet>
+                </ContenuDeCours>
+                <TravailAFaire>
+                    <Descriptif>Exercices 12 à 15 p.88 sur le calcul de pH</Descriptif>
+                    <PourLe>2026-09-19</PourLe>
+                </TravailAFaire>
+            </CahierDeTextes>
+        </PageCahierDeTextes>
+
+        <PageReleveDeNotes page="2">
+            <Titre>Relevé de notes</Titre>
+            <Message></Message>
+            <Devoir page="2">
+                <Note>18</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Anglais</Matiere>
+                <Date>2026-09-04</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>9</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Mathématiques</Matiere>
+                <Date>2026-09-02</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>15</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Histoire-Géographie</Matiere>
+                <Date>2026-09-07</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>12</Note>
+                <Bareme>20</Bareme>
+                <Matiere>Physique-Chimie</Matiere>
+                <Date>2026-09-10</Date>
+            </Devoir>
+            <Devoir page="2">
+                <Note>13</Note>
+                <Bareme>20</Bareme>
+                <Matiere>SVT</Matiere>
+                <Date>2026-09-06</Date>
+            </Devoir>
+        </PageReleveDeNotes>
+
+        <PageVieScolaire page="3">
+            <Titre>Vie scolaire</Titre>
+            <Message></Message>
+            <Absence page="3">
+                <DateDebut>2026-09-14T08:00:00</DateDebut>
+                <DateFin>2026-09-14T10:00:00</DateFin>
+                <EstOuverte>false</EstOuverte>
+                <Justifie>true</Justifie>
+                <Motif>Rendez-vous orthodontiste</Motif>
+            </Absence>
+            <Retard page="3">
+                <Date>2026-09-10T08:12:00</Date>
+                <Justifie>true</Justifie>
+                <Motif>Bus en retard</Motif>
+            </Retard>
+            <PassageInfirmerie page="3">
+                <Date>2026-09-09T08:43:04</Date>
+            </PassageInfirmerie>
+            <Observation>
+                <Date>2026-09-11T00:00:00</Date>
+                <Demandeur>Mme Petit</Demandeur>
+                <Matiere>Anglais</Matiere>
+                <Observation>Très bon investissement à l'oral.</Observation>
+            </Observation>
+        </PageVieScolaire>
+
+        <PageCompetences page="5">
+            <Titre>Compétences</Titre>
+            <Message></Message>
+            <Evaluation page="5">
+                <Competence>D2</Competence>
+                <Item>Coopération et réalisation de projets</Item>
+                <Intitule>Travail en groupe sur un exposé</Intitule>
+                <Matiere>Technologie</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>0</Genre>
+                    <Libelle>Expert </Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-09</Date>
+            </Evaluation>
+            <Evaluation page="5">
+                <Competence>D1.3</Competence>
+                <Item>Comprendre un texte en anglais</Item>
+                <Intitule>Compréhension écrite</Intitule>
+                <Matiere>Anglais</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>1</Genre>
+                    <Libelle>Acquis</Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-06</Date>
+            </Evaluation>
+            <Evaluation page="5">
+                <Competence>D4</Competence>
+                <Item>Les systèmes naturels et les systèmes techniques</Item>
+                <Intitule>Étude d'un écosystème</Intitule>
+                <Matiere>SVT</Matiere>
+                <NiveauDAcquisition>
+                    <Genre>3</Genre>
+                    <Libelle>En cours d’acquisition</Libelle>
+                </NiveauDAcquisition>
+                <Date>2026-09-08</Date>
+            </Evaluation>
+        </PageCompetences>
+
+        <PagePronote page="6" nom="Collège Jean Moulin"/>
+
+        <ICal>BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Pronote//EDT//FR
+BEGIN:VEVENT
+SUMMARY:Anglais
+DTSTART:20260918T100000Z
+DTEND:20260918T110000Z
+LOCATION:Salle 108
+END:VEVENT
+END:VCALENDAR</ICal>
+    </Eleve>
+
+    <PageMessagerie page="4">
+        <Titre>Messagerie</Titre>
+        <Message></Message>
+        <Discussions page="4">
+            <NombreMessagesNonLus>1</NombreMessagesNonLus>
+        </Discussions>
+        <Informations page="4">
+            <NombreInformationsNonLus>3</NombreInformationsNonLus>
+        </Informations>
+    </PageMessagerie>
+
+</Parent>
