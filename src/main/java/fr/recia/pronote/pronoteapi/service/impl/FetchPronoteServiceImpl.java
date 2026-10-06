@@ -73,7 +73,10 @@ public class FetchPronoteServiceImpl implements IFetchPronoteService {
         String uaiCourantTransformedForProxyTicketFor = transformedUaiForProxyTicketFor(uaiCourant);
         final String proxyTicket = token.getAssertion().getPrincipal().getProxyTicketFor(String.format(casProperties.getCasProxyTicketFor(), uaiCourantTransformedForProxyTicketFor));
         if (proxyTicket == null) {
-            throw new LostTicketException("Proxy ticket introuvable pour uai " + uaiCourant);
+            throw new LostTicketException(String.format(
+                    "Proxy ticket introuvable pour uai %s et user id %s",
+                    uaiCourant, userAttributesHandler.getAttribute(UserAttributesHandler.UID)
+            ));
         }
         try {
             String uaiCourantTransformedForRequest = transformedUaiForRequest(uaiCourant);
