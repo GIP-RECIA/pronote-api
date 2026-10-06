@@ -17,9 +17,8 @@ package fr.recia.pronote.pronoteapi.config;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpServletResponse;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import fr.recia.pronote.pronoteapi.config.bean.AppConfProperties;
 import fr.recia.pronote.pronoteapi.config.bean.CasProperties;
+import fr.recia.pronote.pronoteapi.config.bean.RedisProperties;
 import fr.recia.pronote.pronoteapi.config.custom.impl.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +29,7 @@ import org.apereo.cas.client.validation.Cas20ProxyTicketValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -44,6 +44,7 @@ import org.springframework.security.core.userdetails.AuthenticationUserDetailsSe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.Map;
@@ -54,12 +55,7 @@ import java.util.Map;
 @Profile("!mock-no-cas")
 public class SecurityConfig {
 
-    private final AppConfProperties appConfProperties;
     private final CasProperties casProperties;
-    private final CorsConfigurationSource corsConfigurationSource;
-    private final CustomSessionMappingStorage ticketSessionMappingStorage;
-    private final CasSuccessHandler casSuccessHandler;
-    private final SessionDebugFilter sessionDebugFilter;
 
     @Bean
     public SecurityFilterChain filterChain(
@@ -67,7 +63,10 @@ public class SecurityConfig {
             Filter singleSignOutFilter,
             CasAuthenticationFilter casAuthenticationFilter,
             CustomAuthenticationProvider customAuthProvider,
-            CasAuthenticationEntryPoint casAuthenticationEntryPoint
+            CasAuthenticationEntryPoint casAuthenticationEntryPoint,
+            CorsConfigurationSource corsConfigurationSource,
+            SessionDebugFilter sessionDebugFilter,
+            ObjectMapper objectMapper
     ) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
@@ -81,7 +80,7 @@ public class SecurityConfig {
                 .exceptionHandling(e -> e.authenticationEntryPoint(casAuthenticationEntryPoint).accessDeniedHandler((req, res, ex) -> {
                     res.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     res.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                    res.getWriter().write(new JsonMapper().writeValueAsString(Map.of("message", ex.getMessage())));
+                    res.getWriter().write(objectMapper.writeValueAsString(Map.of("message", ex.getMessage())));
                 }))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/health-check").permitAll()
@@ -101,7 +100,7 @@ public class SecurityConfig {
      * Filtre CAS pour le Single Logout (SLO).
      */
     @Bean
-    public Filter singleSignOutFilter() {
+    public Filter singleSignOutFilter(CustomSessionMappingStorage ticketSessionMappingStorage) {
         SingleSignOutFilter.setArtifactParameterName("ticket");
         SingleSignOutFilter.setLogoutParameterName("logoutRequest");
         return new SingleSignOutHandlerFilter(ticketSessionMappingStorage);
@@ -125,8 +124,11 @@ public class SecurityConfig {
     }
 
     @Bean
-    public ProxyGrantingTicketStorage pgtStorage() {
-        return new ProxyGrantingTicketRedisImpl();
+    public ProxyGrantingTicketStorage pgtStorage(
+            RedisTemplate<String, String> redisTemplate,
+            RedisProperties redisProperties
+    ) {
+        return new ProxyGrantingTicketRedisImpl(redisTemplate, redisProperties);
     }
 
     @Bean
@@ -140,15 +142,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CustomAuthenticationProvider customAuthProvider() {
+    public CustomAuthenticationProvider customAuthProvider(
+            ProxyGrantingTicketStorage pgtStorage,
+            AuthenticationUserDetailsService<CasAssertionAuthenticationToken> customUserDetailsService
+    ) {
         CustomAuthenticationProvider provider = new CustomAuthenticationProvider(casProperties);
 
         Cas20ProxyTicketValidator validator = new CustomCas20ProxyTicketValidator(casProperties.getCasServerUrl(), casProperties);
         validator.setProxyCallbackUrl(casProperties.getCasProxyTicketCallback());
-        validator.setProxyGrantingTicketStorage(pgtStorage());
+        validator.setProxyGrantingTicketStorage(pgtStorage);
 
         provider.setTicketValidator(validator);
-        provider.setAuthenticationUserDetailsService(customUserDetailsService());
+        provider.setAuthenticationUserDetailsService(customUserDetailsService);
         provider.setKey(casProperties.getCasProviderKey());
         return provider;
     }
@@ -159,11 +164,16 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CasAuthenticationFilter casAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public CasAuthenticationFilter casAuthenticationFilter(
+            AuthenticationManager authenticationManager,
+            ProxyGrantingTicketStorage pgtStorage,
+            CasSuccessHandler casSuccessHandler
+
+    ) {
         CasAuthenticationFilter filter = new CasAuthenticationFilter();
         filter.setAuthenticationManager(authenticationManager);
         filter.setFilterProcessesUrl(casProperties.getCasTicketCallback());
-        filter.setProxyGrantingTicketStorage(pgtStorage());
+        filter.setProxyGrantingTicketStorage(pgtStorage);
         filter.setProxyReceptorUrl(casProperties.getCasProxyReceptorUrl());
         filter.setAuthenticationSuccessHandler(casSuccessHandler);
         return filter;
