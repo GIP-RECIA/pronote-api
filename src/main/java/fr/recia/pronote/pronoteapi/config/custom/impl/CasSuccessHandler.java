@@ -22,9 +22,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import fr.recia.pronote.pronoteapi.exception.LostTicketException;
 import fr.recia.pronote.pronoteapi.util.LogMasking;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -37,13 +37,11 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class CasSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    @Autowired
-    private CustomSessionMappingStorage redisService;
-
-    @Autowired
-    private ServletContext servletContext;
+    private final CustomSessionMappingStorage redisService;
+    private final ServletContext servletContext;
 
     @PostConstruct
     void init(){
