@@ -17,6 +17,7 @@ package fr.recia.pronote.pronoteapi.web.rest.exception;
 
 import fr.recia.pronote.pronoteapi.exception.LostTicketException;
 import fr.recia.pronote.pronoteapi.exception.MissingUserAttributeException;
+import fr.recia.pronote.pronoteapi.exception.PronoteXmlFetchException;
 import fr.recia.pronote.pronoteapi.exception.UnexpectedProfilException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -36,19 +37,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnexpectedProfilException.class)
     public ResponseEntity<Map<String, Object>> handleUnexpectedProfil(UnexpectedProfilException ex) {
-        log.warn("Unexpected profil", ex);
+        log.warn("Unexpected profil: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(buildErrorBody(ex));
     }
 
     @ExceptionHandler(MissingUserAttributeException.class)
     public ResponseEntity<Map<String, Object>> handleMissingUserAttribute(MissingUserAttributeException ex) {
-        log.warn("Missing user attribute", ex);
+        log.warn("Missing user attribute: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(buildErrorBody(ex));
     }
 
     @ExceptionHandler(LostTicketException.class)
     public ResponseEntity<Map<String, Object>> handleLostTicketException(LostTicketException ex) {
-        log.warn("Lost ticket", ex);
+        log.warn("Lost ticket: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(buildErrorBody(ex));
     }
 
@@ -58,7 +59,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(buildErrorBody(ex));
     }
 
-
+    @ExceptionHandler(PronoteXmlFetchException.class)
+    public ResponseEntity<Map<String, Object>> handlePronoteXmlFetch(PronoteXmlFetchException ex) {
+        log.warn("Pronote XML fetch failed: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(buildErrorBody(ex));
+    }
 
     private Map<String, Object> buildErrorBody(Exception ex) {
         return Map.of(MESSAGE, Objects.requireNonNullElse(ex.getMessage(), DEFAULT_MESSAGE));
