@@ -24,6 +24,7 @@ import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
 import fr.recia.pronote.pronoteapi.dto.competences.CompetencesDto;
 import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
 import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
+import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
 import fr.recia.pronote.pronoteapi.model.Eleve;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
@@ -44,6 +45,7 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
 
     private final IFetchPronoteService fetchPronoteService;
     private final ResumeCoursEtTravailAFaireAllDtoFactory resumeCoursEtTravailAFaireAllDtoFactory;
+    private final IEtablissementMapper etablissementMapper;
 
     @Override
     @Cacheable(value = "dtoListCache", key = "#uid")
@@ -72,8 +74,7 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
         MessagerieDto messagerieDto = Objects.nonNull(eleve.getPageMessagerie()) ? new MessagerieDto(eleve.getPageMessagerie()) : null;
         CompetencesDto competencesDto = Objects.nonNull(eleve.getPageCompetences()) ? new CompetencesDto(eleve.getPageCompetences()) : null;
 
-        String etablissement = Objects.nonNull(eleve.getPagePronoteList()) && !eleve.getPagePronoteList().isEmpty()
-                ? eleve.getPagePronoteList().getFirst().getNom() : null;
+        String etablissement = etablissementMapper.map(eleve.getPagePronoteList());
 
         EleveDto eleveDto = EleveDto.builder()
                 .resumeDeCoursDtoList(resumeDeCoursDtoList)

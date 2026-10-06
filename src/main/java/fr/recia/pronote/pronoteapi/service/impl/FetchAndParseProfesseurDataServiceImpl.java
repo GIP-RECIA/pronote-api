@@ -17,6 +17,7 @@ package fr.recia.pronote.pronoteapi.service.impl;
 
 import fr.recia.pronote.pronoteapi.dto.ProfesseurDto;
 import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
+import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
 import fr.recia.pronote.pronoteapi.model.Professeur;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseProfesseurDataService;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
@@ -34,6 +35,7 @@ import java.util.Objects;
 public class FetchAndParseProfesseurDataServiceImpl implements IFetchAndParseProfesseurDataService {
 
     private final IFetchPronoteService fetchPronoteService;
+    private final IEtablissementMapper etablissementMapper;
 
     @Override
     @Cacheable(value = "professeurDtoCache", key = "#uid")
@@ -46,8 +48,7 @@ public class FetchAndParseProfesseurDataServiceImpl implements IFetchAndParsePro
         MessagerieDto messagerieDto = Objects.nonNull(professeur.getPageMessagerie())
                 ? new MessagerieDto(professeur.getPageMessagerie()) : null;
 
-        String etablissement = Objects.nonNull(professeur.getPagePronoteList()) && !professeur.getPagePronoteList().isEmpty()
-                ? professeur.getPagePronoteList().getFirst().getNom() : null;
+        String etablissement = etablissementMapper.map(professeur.getPagePronoteList());
 
         ProfesseurDto professeurDto = ProfesseurDto.builder()
                 .messagerieDto(messagerieDto)
