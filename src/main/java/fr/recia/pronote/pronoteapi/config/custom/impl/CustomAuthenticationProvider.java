@@ -18,6 +18,7 @@ package fr.recia.pronote.pronoteapi.config.custom.impl;
 import fr.recia.pronote.pronoteapi.config.bean.CasProperties;
 import jakarta.servlet.http.HttpServletRequest;
 
+import fr.recia.pronote.pronoteapi.exception.InvalidDomainException;
 import fr.recia.pronote.pronoteapi.util.LogMasking;
 import org.apereo.cas.client.validation.Assertion;
 import org.apereo.cas.client.validation.TicketValidationException;
@@ -37,6 +38,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Objects;
 
 @Slf4j
 public class CustomAuthenticationProvider implements AuthenticationProvider, InitializingBean, MessageSourceAware {
@@ -89,8 +92,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
             return authentication;
         }
 
-        if (authentication.getCredentials() == null
-                || "".equals(authentication.getCredentials())) {
+        Object credentials = authentication.getCredentials();
+        if (credentials == null
+                || "".equals(credentials)) {
             throw new BadCredentialsException(
                     this.messages.getMessage(
                             "CasAuthenticationProvider.noServiceTicket",
@@ -101,7 +105,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
 
         CasAuthenticationToken result;
 
-        String ticket = authentication.getCredentials().toString();
+        String ticket = credentials.toString();
 
         result = this.statelessTicketCache.getByTicketId(ticket);
 
@@ -118,14 +122,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
      * Authentifie l'utilisateur en validant le ticket CAS et en chargeant les
      * UserDetails.
      */
+
     private CasAuthenticationToken authenticateNow(final Authentication authentication) {
+        String ticket = Objects.requireNonNull(authentication.getCredentials(), "CAS service ticket must not be null").toString();
+        String serviceUrl = getServiceUrl();
         try {
-            Assertion assertion = this.ticketValidator.validate(
-                    authentication.getCredentials().toString(),
-                    getServiceUrl(authentication)); // from redis
+            Assertion assertion = this.ticketValidator.validate(ticket, serviceUrl);
 
             log.debug("authentication : Credentials : {} with serviceUrl : {}",
-                    LogMasking.mask(authentication.getCredentials().toString()), getServiceUrl(authentication));
+                    LogMasking.mask(ticket), serviceUrl);
 
             UserDetails userDetails = loadUserByAssertion(assertion);
             this.userDetailsChecker.check(userDetails);
@@ -137,15 +142,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider, Ini
                     this.authoritiesMapper.mapAuthorities(userDetails.getAuthorities()),
                     userDetails,
                     assertion);
-        } catch (TicketValidationException ex) {
+        } catch (TicketValidationException | InvalidDomainException ex) {
             throw new BadCredentialsException(ex.getMessage(), ex);
         }
     }
 
+
     /**
      * Récupère l'URL du service à partir de la requête ou de la configuration.
      */
-    private String getServiceUrl(Authentication authentication) {
+    private String getServiceUrl() {
         ServletRequestAttributes attrs =
                 (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
