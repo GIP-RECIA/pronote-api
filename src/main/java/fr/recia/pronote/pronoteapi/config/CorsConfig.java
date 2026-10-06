@@ -16,7 +16,7 @@
 package fr.recia.pronote.pronoteapi.config;
 
 import fr.recia.pronote.pronoteapi.config.bean.CorsProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,11 +25,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Configuration
 public class CorsConfig {
 
-    @Autowired
-    CorsProperties corsProperties;
+    private final CorsProperties corsProperties;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

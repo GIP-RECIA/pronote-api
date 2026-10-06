@@ -17,6 +17,7 @@ package fr.recia.pronote.pronoteapi.config.custom.impl;
 
 import fr.recia.pronote.pronoteapi.config.bean.RedisProperties;
 import fr.recia.pronote.pronoteapi.util.LogMasking;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apereo.cas.client.proxy.ProxyGrantingTicketStorage;
@@ -27,13 +28,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+@RequiredArgsConstructor
 public class ProxyGrantingTicketRedisImpl implements ProxyGrantingTicketStorage {
-
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
-
-    @Autowired
-    private RedisProperties redisProperties;
+    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisProperties redisProperties;
 
     @Override
     public void save(final String proxyGrantingTicketIou, final String proxyGrantingTicket) {

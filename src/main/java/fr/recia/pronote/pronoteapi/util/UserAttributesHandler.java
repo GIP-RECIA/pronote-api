@@ -15,11 +15,11 @@
  */
 package fr.recia.pronote.pronoteapi.util;
 
-import fr.recia.pronote.pronoteapi.config.custom.impl.UserCustomImplementation;
 import jakarta.servlet.http.HttpSession;
+import fr.recia.pronote.pronoteapi.config.custom.impl.UserCustomImplementation;
 import fr.recia.pronote.pronoteapi.exception.MissingUserAttributeException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -29,11 +29,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-
+@RequiredArgsConstructor
 public class UserAttributesHandler {
 
-  @Autowired
-  private HttpSession session;
+  private final HttpSession session;
 
   public static final String ENT_PERSON_PROFILS = "ENTPersonProfils";
   public static final String UAI_CURRENT = "ESCOUAICourant";
