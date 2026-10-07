@@ -16,6 +16,8 @@
 
 <script setup lang="ts">
 import type { Eleve } from '@/types/pronote'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Competences from '@/components/Competences.vue'
@@ -51,6 +53,10 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
 
 <template>
   <article class="fiche-eleve">
+    <p class="data-source-note r-card">
+      <FontAwesomeIcon :icon="faCircleInfo" aria-hidden="true" />
+      {{ t('app.dataSourceNote') }}
+    </p>
     <div class="stats-strip">
       <a :href="`#devoirs-${index}`" class="stat-tile r-card">
         <span class="num">{{ devoirsCount }}</span>
@@ -102,6 +108,22 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
 @use '@gip-recia/ui/functions' as *;
 
 .fiche-eleve {
+  .data-source-note {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--#{$prefix}font-size-xs);
+    color: var(--#{$prefix}basic-black-lighter);
+    margin-bottom: 20px;
+
+    svg {
+      flex: none;
+      width: 14px;
+      color: var(--#{$prefix}basic-black-lighter);
+    }
+  }
+
   .stats-strip {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -119,13 +141,13 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
     }
 
     .num {
-      font-size: 1.3rem;
+      font-size: var(--#{$prefix}font-size-xl);
       font-weight: 700;
       color: var(--#{$prefix}primary);
     }
 
     .lbl {
-      font-size: 0.78rem;
+      font-size: var(--#{$prefix}font-size-xs);
       color: var(--#{$prefix}basic-black-lighter);
     }
   }

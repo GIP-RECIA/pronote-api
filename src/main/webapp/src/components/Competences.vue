@@ -31,6 +31,9 @@ const { t } = useI18n()
     <h2 :id="`competences-heading-${index}`">
       {{ t('competences.heading') }}
     </h2>
+    <p class="subheading">
+      {{ t('competences.subheading') }}
+    </p>
 
     <template v-if="competences?.evaluationDtoList?.length">
       <template v-for="(evaluation, i) in competences.evaluationDtoList" :key="i">

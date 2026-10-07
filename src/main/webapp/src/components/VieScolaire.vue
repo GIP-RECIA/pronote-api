@@ -213,6 +213,9 @@ const visibleCategories = computed(() =>
     <h2 :id="`vie-scolaire-heading-${index}`">
       {{ t('vieScolaire.heading') }}
     </h2>
+    <p class="subheading">
+      {{ t('vieScolaire.subheading') }}
+    </p>
     <template v-if="categories.length">
       <r-filters :data.prop="filterSections" @update-filters="handleUpdateFilters" />
 
@@ -243,6 +246,12 @@ const visibleCategories = computed(() =>
 @use '@gip-recia/ui/functions' as *;
 
 .vie-scolaire {
+  .subheading {
+    font-size: var(--#{$prefix}font-size-xs);
+    color: var(--#{$prefix}basic-black-lighter);
+    margin: 2px 0 8px;
+  }
+
   .category-divider {
     border: none;
     border-top: 1px solid var(--#{$prefix}stroke);
@@ -254,7 +263,7 @@ const visibleCategories = computed(() =>
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.9rem;
+    font-size: var(--#{$prefix}font-size-sm);
     margin: 16px 0 0;
 
     &:first-of-type {
@@ -277,17 +286,17 @@ const visibleCategories = computed(() =>
       flex-direction: column;
 
       .meta {
-        font-size: 0.76rem;
+        font-size: var(--#{$prefix}font-size-xs);
         color: var(--#{$prefix}basic-black-lighter);
         font-style: italic;
       }
 
       .label {
-        font-size: 0.88rem;
+        font-size: var(--#{$prefix}font-size-sm);
       }
 
       .date {
-        font-size: 0.76rem;
+        font-size: var(--#{$prefix}font-size-xs);
         color: var(--#{$prefix}basic-black-lighter);
         margin-top: 2px;
       }

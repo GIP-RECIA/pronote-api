@@ -6,7 +6,8 @@
     "error": "Error: {message}",
     "defaultEleveLabel": "Student",
     "quickAccess": "Quick access",
-    "skipToContent": "Content"
+    "skipToContent": "Content",
+    "dataSourceNote": "All the data shown here is provided by Pronote."
   },
   "ficheEleve": {
     "addToAgenda": "Add to my calendar",
@@ -23,8 +24,10 @@
   },
   "cours": {
     "heading": "Recent classes",
+    "subheading": "Showing classes from the last 7 days",
     "empty": "No recent classes",
     "travailAFaireHeading": "Assignments due",
+    "travailAFaireSubheading": "Showing assignments due in the next 7 days",
     "travailAFaireEmpty": "No assignments due",
     "pieceJointe": "Attachment {n}",
     "opensInNewTab": "(opens in a new tab)",
@@ -32,11 +35,13 @@
   },
   "devoirs": {
     "heading": "Grade report",
-    "empty": "No grade was recorded in the last 7 days."
+    "subheading": "Showing the 5 most recent grades",
+    "empty": "No recent grade to display."
   },
   "competences": {
     "heading": "Skills",
-    "empty": "No skill evaluation in the last 7 days.",
+    "subheading": "Showing the 5 most recent skill levels",
+    "empty": "No recent skill evaluation to display.",
     "notSpecified": "Not specified"
   },
   "messagerie": {
@@ -46,6 +51,7 @@
   },
   "vieScolaire": {
     "heading": "School life",
+    "subheading": "Showing events from the last 30 days",
     "empty": "No events",
     "noMotif": "no reason given",
     "inProgress": "in progress",

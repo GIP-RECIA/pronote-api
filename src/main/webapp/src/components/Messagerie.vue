@@ -62,13 +62,13 @@ const { t } = useI18n()
     gap: 8px;
 
     .num {
-      font-size: 1.3rem;
+      font-size: var(--#{$prefix}font-size-xl);
       font-weight: 700;
       color: var(--#{$prefix}primary);
     }
 
     .lbl {
-      font-size: 0.78rem;
+      font-size: var(--#{$prefix}font-size-xs);
       color: var(--#{$prefix}basic-black-lighter);
     }
   }

@@ -70,6 +70,9 @@ const groupedByDay = computed<DayGroup[]>(() => {
     <h2 :id="`cours-recents-heading-${index}`">
       {{ t('cours.heading') }}
     </h2>
+    <p class="subheading">
+      {{ t('cours.subheading') }}
+    </p>
     <template v-if="groupedByDay.length">
       <template v-for="(group, i) in groupedByDay" :key="group.date">
         <hr v-if="i > 0">
@@ -122,6 +125,9 @@ const groupedByDay = computed<DayGroup[]>(() => {
     <h2 :id="`travail-a-faire-heading-${index}`">
       {{ t('cours.travailAFaireHeading') }}
     </h2>
+    <p class="subheading">
+      {{ t('cours.travailAFaireSubheading') }}
+    </p>
     <template v-if="travailAFaireList && travailAFaireList.length">
       <template v-for="(taf, i) in travailAFaireList" :key="i">
         <hr v-if="i > 0">
@@ -161,6 +167,12 @@ const groupedByDay = computed<DayGroup[]>(() => {
 @use '@gip-recia/ui/functions' as *;
 
 .cours {
+  .subheading {
+    font-size: var(--#{$prefix}font-size-xs);
+    color: var(--#{$prefix}basic-black-lighter);
+    margin: 2px 0 8px;
+  }
+
   hr {
     border: none;
     border-top: 1px solid var(--#{$prefix}stroke);
@@ -171,7 +183,7 @@ const groupedByDay = computed<DayGroup[]>(() => {
     padding: 10px 0;
 
     .day-heading {
-      font-size: 0.88rem;
+      font-size: var(--#{$prefix}font-size-sm);
       font-weight: 600;
       text-transform: capitalize;
       margin-bottom: 8px;
@@ -191,7 +203,7 @@ const groupedByDay = computed<DayGroup[]>(() => {
         .matiere {
           margin: 0;
           font-weight: 600;
-          font-size: 0.88rem;
+          font-size: var(--#{$prefix}font-size-sm);
         }
 
         &::before {
@@ -207,7 +219,7 @@ const groupedByDay = computed<DayGroup[]>(() => {
 
         .contenus {
           margin-top: 2px;
-          font-size: 0.82rem;
+          font-size: var(--#{$prefix}font-size-sm);
 
           .contenu {
             margin-bottom: 4px;
@@ -222,7 +234,7 @@ const groupedByDay = computed<DayGroup[]>(() => {
 
           .categorie {
             font-weight: 600;
-            font-size: 0.66rem;
+            font-size: var(--#{$prefix}font-size-xxs);
             text-transform: uppercase;
             letter-spacing: 0.03em;
             color: var(--#{$prefix}basic-black-lighter);
@@ -247,7 +259,7 @@ const groupedByDay = computed<DayGroup[]>(() => {
               display: flex;
               align-items: center;
               gap: 6px;
-              font-size: 0.78rem;
+              font-size: var(--#{$prefix}font-size-xs);
             }
 
             .attach-icon {
@@ -276,6 +288,12 @@ const groupedByDay = computed<DayGroup[]>(() => {
   margin-top: 16px;
   margin-bottom: 16px;
 
+  .subheading {
+    font-size: var(--#{$prefix}font-size-xs);
+    color: var(--#{$prefix}basic-black-lighter);
+    margin: 2px 0 8px;
+  }
+
   hr {
     border: none;
     border-top: 1px solid var(--#{$prefix}stroke);
@@ -300,7 +318,7 @@ const groupedByDay = computed<DayGroup[]>(() => {
         display: flex;
         align-items: center;
         gap: 6px;
-        font-size: 0.78rem;
+        font-size: var(--#{$prefix}font-size-xs);
       }
 
       .attach-icon {
@@ -323,16 +341,16 @@ const groupedByDay = computed<DayGroup[]>(() => {
     .matiere {
       margin: 0;
       font-weight: 600;
-      font-size: 0.88rem;
+      font-size: var(--#{$prefix}font-size-sm);
     }
 
     .desc {
-      font-size: 0.85rem;
+      font-size: var(--#{$prefix}font-size-sm);
       margin-top: 2px;
     }
 
     .due {
-      font-size: 0.74rem;
+      font-size: var(--#{$prefix}font-size-xs);
       font-weight: 600;
       color: var(--#{$prefix}primary);
       margin-top: 6px;
