@@ -19,4 +19,8 @@ public class PronoteXmlFetchException extends RuntimeException {
     public PronoteXmlFetchException(String message) {
         super(message);
     }
+
+    public PronoteXmlFetchException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
