@@ -21,6 +21,7 @@ import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
 import fr.recia.pronote.pronoteapi.model.Professeur;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseProfesseurDataService;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
+import fr.recia.pronote.pronoteapi.util.LogMasking;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -56,7 +57,7 @@ public class FetchAndParseProfesseurDataServiceImpl implements IFetchAndParsePro
                 .iCal(professeur.getICal())
                 .build();
 
-        log.trace("DTO for Professeur with uid {} is {}", uid, professeurDto);
+        log.trace("DTO for Professeur with uid {} is {}", LogMasking.mask(uid), professeurDto);
 
         return professeurDto;
     }
