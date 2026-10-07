@@ -22,6 +22,7 @@ import DOMPurify from 'dompurify'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { formatFullDate, formatFullWeekday } from '@/utils/dateUtils'
+import { dnmaService } from '@/utils/dnmaUtils'
 
 const props = defineProps<{
   resumeDeCoursList: ResumeDeCours[] | null
@@ -97,14 +98,14 @@ const groupedByDay = computed<DayGroup[]>(() => {
                   >
                     <li v-for="(piece, p) in contenu.pieceJointeList ?? []" :key="`pj-${p}`">
                       <FontAwesomeIcon :icon="faPaperclip" class="attach-icon" aria-hidden="true" />
-                      <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer">
+                      <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer" @click="dnmaService.openPieceJointe()">
                         {{ t('cours.pieceJointe', { n: p + 1 }) }}
                         <span class="sr-only"> {{ t('cours.opensInNewTab') }}</span>
                       </a>
                     </li>
                     <li v-for="(site, s) in contenu.siteInternetList ?? []" :key="`site-${s}`">
                       <FontAwesomeIcon :icon="faLink" class="attach-icon" aria-hidden="true" />
-                      <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer">
+                      <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer" @click="dnmaService.openDocument()">
                         {{ site }}
                         <span class="sr-only"> {{ t('cours.opensInNewTab') }}</span>
                       </a>
@@ -140,14 +141,14 @@ const groupedByDay = computed<DayGroup[]>(() => {
           <ul v-if="(taf.pieceJointeList?.length ?? 0) + (taf.siteInternetList?.length ?? 0) > 0" class="attachments">
             <li v-for="(piece, p) in taf.pieceJointeList ?? []" :key="`pj-${p}`">
               <FontAwesomeIcon :icon="faPaperclip" class="attach-icon" aria-hidden="true" />
-              <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer">
+              <a :href="normalizeUrl(piece)" target="_blank" rel="noopener noreferrer" @click="dnmaService.openPieceJointe()">
                 {{ t('cours.pieceJointe', { n: p + 1 }) }}
                 <span class="sr-only"> {{ t('cours.opensInNewTab') }}</span>
               </a>
             </li>
             <li v-for="(site, s) in taf.siteInternetList ?? []" :key="`site-${s}`">
               <FontAwesomeIcon :icon="faLink" class="attach-icon" aria-hidden="true" />
-              <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer">
+              <a :href="normalizeUrl(site)" target="_blank" rel="noopener noreferrer" @click="dnmaService.openDocument()">
                 {{ site }}
                 <span class="sr-only"> {{ t('cours.opensInNewTab') }}</span>
               </a>
