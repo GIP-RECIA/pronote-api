@@ -17,6 +17,7 @@ package fr.recia.pronote.pronoteapi.dto.factory;
 
 import fr.recia.pronote.pronoteapi.dto.ResumeCoursEtTravailAFaireAllDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
+import fr.recia.pronote.pronoteapi.mapper.impl.PronoteUrlResolverImpl;
 import fr.recia.pronote.pronoteapi.model.cahierdetextes.CahierDeTextes;
 import fr.recia.pronote.pronoteapi.model.cahierdetextes.TravailAFaire;
 import org.junit.jupiter.api.Test;
@@ -28,7 +29,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class ResumeCoursEtTravailAFaireAllDtoFactoryTest {
 
-    private final ResumeCoursEtTravailAFaireAllDtoFactory factory = new ResumeCoursEtTravailAFaireAllDtoFactory();
+    private static final String PRONOTE_BASE_URL = "https://netocentre.index-education.net/pronote/";
+
+    private final ResumeCoursEtTravailAFaireAllDtoFactory factory = new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl());
 
     @Test
     void create_splitsResumesAndTravailAFaire_andLinksThemByCoursId() {
@@ -46,7 +49,7 @@ class ResumeCoursEtTravailAFaireAllDtoFactoryTest {
         coursFrancais.setMatiere("Français");
         coursFrancais.setDate(new Date());
 
-        ResumeCoursEtTravailAFaireAllDto result = factory.create(List.of(coursMaths, coursFrancais));
+        ResumeCoursEtTravailAFaireAllDto result = factory.create(List.of(coursMaths, coursFrancais), PRONOTE_BASE_URL);
 
         assertThat(result.getResumeCoursDtoList()).hasSize(2);
         assertThat(result.getResumeCoursDtoList().getFirst().getMatiere()).isEqualTo("Mathématiques");
@@ -62,7 +65,7 @@ class ResumeCoursEtTravailAFaireAllDtoFactoryTest {
 
     @Test
     void create_withEmptyList_returnsEmptyLists() {
-        ResumeCoursEtTravailAFaireAllDto result = factory.create(List.of());
+        ResumeCoursEtTravailAFaireAllDto result = factory.create(List.<CahierDeTextes>of(), PRONOTE_BASE_URL);
 
         assertThat(result.getResumeCoursDtoList()).isEmpty();
         assertThat(result.getTravailAFaireDtoList()).isEmpty();

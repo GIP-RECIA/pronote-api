@@ -22,6 +22,7 @@ import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
 import fr.recia.pronote.pronoteapi.mapper.impl.EleveDtoMapperImpl;
 import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
+import fr.recia.pronote.pronoteapi.mapper.impl.PronoteUrlResolverImpl;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -87,7 +88,7 @@ class FetchAndParseEleveDataServiceFromEleveImplTest {
     @Mock
     FetchPronoteServiceImpl fetchPronoteService;
 
-    private final ResumeCoursEtTravailAFaireAllDtoFactory factory = new ResumeCoursEtTravailAFaireAllDtoFactory();
+    private final ResumeCoursEtTravailAFaireAllDtoFactory factory = new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl());
     private final IEtablissementMapper etablissementMapper = new EtablissementMapperImpl();
     private final IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(factory, etablissementMapper);
 

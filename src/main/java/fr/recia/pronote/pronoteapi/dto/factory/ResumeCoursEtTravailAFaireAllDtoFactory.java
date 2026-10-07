@@ -18,8 +18,10 @@ package fr.recia.pronote.pronoteapi.dto.factory;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.ResumeCoursEtTravailAFaireAllDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
+import fr.recia.pronote.pronoteapi.mapper.IPronoteUrlResolver;
 import fr.recia.pronote.pronoteapi.model.cahierdetextes.CahierDeTextes;
 import fr.recia.pronote.pronoteapi.model.cahierdetextes.TravailAFaire;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -27,21 +29,24 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class ResumeCoursEtTravailAFaireAllDtoFactory {
 
-    public ResumeCoursEtTravailAFaireAllDto create(List<CahierDeTextes> cahierDeTextesList){
+    private final IPronoteUrlResolver pronoteUrlResolver;
+
+    public ResumeCoursEtTravailAFaireAllDto create(List<CahierDeTextes> cahierDeTextesList, String pronoteBaseUrl){
         List<ResumeDeCoursDto> resumeCoursDtoList = new ArrayList<>();
 
         List<TravailAFaireDto> travailAFaireDtoList = new ArrayList<>();
 
         for(CahierDeTextes cahierDeTextes: cahierDeTextesList){
 
-            ResumeDeCoursDto resumeDeCoursDto = new ResumeDeCoursDto(cahierDeTextes);
+            ResumeDeCoursDto resumeDeCoursDto = new ResumeDeCoursDto(cahierDeTextes, pronoteUrlResolver, pronoteBaseUrl);
             resumeCoursDtoList.add(resumeDeCoursDto);
             String id = resumeDeCoursDto.getId();
             if (Objects.nonNull(cahierDeTextes.getTravailAFaireList())){
                 for(TravailAFaire travailAFaire: cahierDeTextes.getTravailAFaireList()){
-                    travailAFaireDtoList.add(new TravailAFaireDto(travailAFaire, id, cahierDeTextes.getMatiere()));
+                    travailAFaireDtoList.add(new TravailAFaireDto(travailAFaire, id, cahierDeTextes.getMatiere(), pronoteUrlResolver, pronoteBaseUrl));
                 }
             }
         }

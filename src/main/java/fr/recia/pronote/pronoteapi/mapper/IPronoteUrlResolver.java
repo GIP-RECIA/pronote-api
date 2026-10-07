@@ -13,12 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi.service;
+package fr.recia.pronote.pronoteapi.mapper;
 
-public interface IFetchPronoteService {
-
-    String getPronoteXmlAsString();
-
-    String getPronoteBaseUrl();
-
+public interface IPronoteUrlResolver {
+    String resolve(String url, String baseUrl);
 }

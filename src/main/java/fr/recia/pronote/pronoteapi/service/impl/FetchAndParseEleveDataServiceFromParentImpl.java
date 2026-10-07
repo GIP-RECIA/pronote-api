@@ -45,6 +45,7 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
     public List<EleveDto> getDto(String uid) {
 
         String xml = fetchPronoteService.getPronoteXmlAsString();
+        String pronoteBaseUrl = fetchPronoteService.getPronoteBaseUrl();
 
         XmlMapper xmlMapper = new XmlMapper();
 
@@ -53,7 +54,7 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
         List<EleveFromParent> eleveFromParentList = Objects.requireNonNullElse(parent.getEleveFromParentList(), List.of());
 
         for (EleveFromParent eleve : eleveFromParentList) {
-            EleveDto eleveDto = eleveDtoMapper.map(eleve)
+            EleveDto eleveDto = eleveDtoMapper.map(eleve, pronoteBaseUrl)
                     .prenom(eleve.getPrenom())
                     .nom(eleve.getNom())
                     .build();
