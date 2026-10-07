@@ -90,7 +90,7 @@ class FetchAndParseEleveDataServiceFromEleveImplTest {
 
     private final ResumeCoursEtTravailAFaireAllDtoFactory factory = new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl());
     private final IEtablissementMapper etablissementMapper = new EtablissementMapperImpl();
-    private final IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(factory, etablissementMapper);
+    private final IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(factory, etablissementMapper, new PronoteUrlResolverImpl());
 
     static Stream<Arguments> xmlScenarios() {
         return Stream.of(
