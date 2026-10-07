@@ -32,6 +32,8 @@ public class AppConfProperties {
 
     Map<String, String> uaiReplacementMap = new HashMap<>();
 
+    String pronoteMappingUrl;
+
     @PostConstruct
     void init() {
         log.debug("AppConfProperties {}", this);
