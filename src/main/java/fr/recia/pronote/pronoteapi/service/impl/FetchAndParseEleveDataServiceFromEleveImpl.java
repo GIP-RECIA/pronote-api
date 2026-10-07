@@ -45,6 +45,7 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
     public List<EleveDto> getDto(String uid) {
 
         String xml = fetchPronoteService.getPronoteXmlAsString();
+        String pronoteBaseUrl = fetchPronoteService.getPronoteBaseUrl();
 
         XmlMapper xmlMapper = new XmlMapper();
 
@@ -52,7 +53,7 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
 
         MessagerieDto messagerieDto = Objects.nonNull(eleve.getPageMessagerie()) ? new MessagerieDto(eleve.getPageMessagerie()) : null;
 
-        EleveDto eleveDto = eleveDtoMapper.map(eleve)
+        EleveDto eleveDto = eleveDtoMapper.map(eleve, pronoteBaseUrl)
                 .messagerieDto(messagerieDto)
                 .build();
 

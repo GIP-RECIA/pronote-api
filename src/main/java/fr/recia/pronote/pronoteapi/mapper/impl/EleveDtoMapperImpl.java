@@ -41,15 +41,15 @@ public class EleveDtoMapperImpl implements IEleveDtoMapper {
     private final IEtablissementMapper etablissementMapper;
 
     @Override
-    public EleveDto.EleveDtoBuilder map(Eleve eleve) {
+    public EleveDto.EleveDtoBuilder map(Eleve eleve, String pronoteBaseUrl) {
         return map(eleve.getPageVieScolaire(), eleve.getPageCahierDeTextes(), eleve.getPageReleveDeNotes(),
-                eleve.getPageCompetences(), eleve.getPagePronoteList(), eleve.getICal());
+                eleve.getPageCompetences(), eleve.getPagePronoteList(), eleve.getICal(), pronoteBaseUrl);
     }
 
     @Override
-    public EleveDto.EleveDtoBuilder map(EleveFromParent eleve) {
+    public EleveDto.EleveDtoBuilder map(EleveFromParent eleve, String pronoteBaseUrl) {
         return map(eleve.getPageVieScolaire(), eleve.getPageCahierDeTextes(), eleve.getPageReleveDeNotes(),
-                eleve.getPageCompetences(), eleve.getPagePronoteList(), eleve.getICal());
+                eleve.getPageCompetences(), eleve.getPagePronoteList(), eleve.getICal(), pronoteBaseUrl);
     }
 
     private EleveDto.EleveDtoBuilder map(
@@ -58,7 +58,8 @@ public class EleveDtoMapperImpl implements IEleveDtoMapper {
             PageReleveDeNotes pageReleveDeNotes,
             PageCompetences pageCompetences,
             List<PagePronote> pagePronoteList,
-            String iCal
+            String iCal,
+            String pronoteBaseUrl
     ) {
         VieScolaireDto vieScolaireDto = Objects.nonNull(pageVieScolaire) ? new VieScolaireDto(pageVieScolaire) : null;
 
@@ -67,7 +68,7 @@ public class EleveDtoMapperImpl implements IEleveDtoMapper {
 
         if (Objects.nonNull(pageCahierDeTextes) && Objects.nonNull(pageCahierDeTextes.getCahierDeTextesList())) {
             ResumeCoursEtTravailAFaireAllDto resumeCoursEtTravailAFaireAllDto =
-                    resumeCoursEtTravailAFaireAllDtoFactory.create(pageCahierDeTextes.getCahierDeTextesList());
+                    resumeCoursEtTravailAFaireAllDtoFactory.create(pageCahierDeTextes.getCahierDeTextesList(), pronoteBaseUrl);
             resumeDeCoursDtoList = resumeCoursEtTravailAFaireAllDto.getResumeCoursDtoList();
             travailAFaireDtoList = resumeCoursEtTravailAFaireAllDto.getTravailAFaireDtoList();
         }

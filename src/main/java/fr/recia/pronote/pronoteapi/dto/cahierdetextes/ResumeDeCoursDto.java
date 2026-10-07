@@ -15,12 +15,12 @@
  */
 package fr.recia.pronote.pronoteapi.dto.cahierdetextes;
 
+import fr.recia.pronote.pronoteapi.mapper.IPronoteUrlResolver;
 import fr.recia.pronote.pronoteapi.model.cahierdetextes.CahierDeTextes;
 import jakarta.annotation.Nullable;
 import lombok.Data;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -30,14 +30,14 @@ import java.util.UUID;
 public class ResumeDeCoursDto {
 
 
-    public ResumeDeCoursDto(CahierDeTextes cahierDeTextes){
+    public ResumeDeCoursDto(CahierDeTextes cahierDeTextes, IPronoteUrlResolver pronoteUrlResolver, String pronoteBaseUrl){
         if(Objects.nonNull(cahierDeTextes.getContenuDeCoursList())){
             this.contenuDeCoursList = cahierDeTextes.getContenuDeCoursList().stream().map(x ->  new ContenuDeCoursDto(
                     x.getTitre(),
                     x.getCategorie(),
                     x.getDescriptif(),
-                    Objects.nonNull(x.getPieceJointeList()) ? new ArrayList<>(x.getPieceJointeList()) : null,
-                    Objects.nonNull(x.getSiteInternet()) ? new ArrayList<>(x.getSiteInternet()) : null
+                    Objects.nonNull(x.getPieceJointeList()) ? x.getPieceJointeList().stream().map(url -> pronoteUrlResolver.resolve(url, pronoteBaseUrl)).toList() : null,
+                    Objects.nonNull(x.getSiteInternet()) ? x.getSiteInternet().stream().map(url -> pronoteUrlResolver.resolve(url, pronoteBaseUrl)).toList() : null
             )).toList();
         }
 

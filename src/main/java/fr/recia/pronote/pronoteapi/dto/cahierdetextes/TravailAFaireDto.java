@@ -15,11 +15,11 @@
  */
 package fr.recia.pronote.pronoteapi.dto.cahierdetextes;
 
+import fr.recia.pronote.pronoteapi.mapper.IPronoteUrlResolver;
 import fr.recia.pronote.pronoteapi.model.cahierdetextes.TravailAFaire;
 import jakarta.annotation.Nullable;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -41,18 +41,18 @@ public class TravailAFaireDto
     @Nullable
     protected List<String> siteInternetList;
 
-    public TravailAFaireDto(TravailAFaire travailAFaire, String id, String matiere) {
+    public TravailAFaireDto(TravailAFaire travailAFaire, String id, String matiere, IPronoteUrlResolver pronoteUrlResolver, String pronoteBaseUrl) {
         this.descriptif = travailAFaire.getDescriptif();
         this.pourLe = travailAFaire.getPourLe();
         this.coursId = id;
         this.matiere = matiere;
 
         if(Objects.nonNull(travailAFaire.getPieceJointeList())){
-            this.pieceJointeList = new ArrayList<>(travailAFaire.getPieceJointeList());
+            this.pieceJointeList = travailAFaire.getPieceJointeList().stream().map(url -> pronoteUrlResolver.resolve(url, pronoteBaseUrl)).toList();
         }
 
         if(Objects.nonNull(travailAFaire.getSiteInternetList())){
-            this.siteInternetList = new ArrayList<>(travailAFaire.getSiteInternetList());
+            this.siteInternetList = travailAFaire.getSiteInternetList().stream().map(url -> pronoteUrlResolver.resolve(url, pronoteBaseUrl)).toList();
         }
     }
 

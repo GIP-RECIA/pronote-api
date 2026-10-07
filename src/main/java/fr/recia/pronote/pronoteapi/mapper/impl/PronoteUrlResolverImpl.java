@@ -13,12 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi.service;
+package fr.recia.pronote.pronoteapi.mapper.impl;
 
-public interface IFetchPronoteService {
+import fr.recia.pronote.pronoteapi.mapper.IPronoteUrlResolver;
+import org.springframework.stereotype.Service;
 
-    String getPronoteXmlAsString();
+@Service
+public class PronoteUrlResolverImpl implements IPronoteUrlResolver {
 
-    String getPronoteBaseUrl();
-
+    @Override
+    public String resolve(String url, String baseUrl) {
+        if (url == null) {
+            return null;
+        }
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            return url;
+        }
+        return baseUrl + url;
+    }
 }

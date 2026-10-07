@@ -20,6 +20,7 @@ import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoF
 import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.mapper.impl.EleveDtoMapperImpl;
 import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
+import fr.recia.pronote.pronoteapi.mapper.impl.PronoteUrlResolverImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -46,7 +47,7 @@ class FetchAndParseEleveDataServiceFromParentImplTest {
             </Parent>
             """;
     private final IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(
-            new ResumeCoursEtTravailAFaireAllDtoFactory(), new EtablissementMapperImpl());
+            new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl()), new EtablissementMapperImpl());
     @Mock
     FetchPronoteServiceImpl fetchPronoteService;
 

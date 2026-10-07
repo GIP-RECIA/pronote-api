@@ -23,6 +23,7 @@ import fr.recia.pronote.pronoteapi.enums.UserProfile;
 import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.mapper.impl.EleveDtoMapperImpl;
 import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
+import fr.recia.pronote.pronoteapi.mapper.impl.PronoteUrlResolverImpl;
 import fr.recia.pronote.pronoteapi.service.impl.FetchAndParseEleveDataServiceFromEleveImpl;
 import fr.recia.pronote.pronoteapi.service.impl.FetchPronoteServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -52,9 +53,10 @@ class XmlToDtoExploration {
         }
 
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(xml);
+        when(fetchPronoteService.getPronoteBaseUrl()).thenReturn("https://netocentre.index-education.net/pronote/");
 
         IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(
-                new ResumeCoursEtTravailAFaireAllDtoFactory(), new EtablissementMapperImpl());
+                new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl()), new EtablissementMapperImpl());
 
         var service = new FetchAndParseEleveDataServiceFromEleveImpl(fetchPronoteService, eleveDtoMapper);
 
