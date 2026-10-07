@@ -77,6 +77,9 @@ async function copyAgendaLink(url: string) {
       <FontAwesomeIcon :icon="agendaLinkCopied ? faCheck : faCopy" aria-hidden="true" />
       {{ agendaLinkCopied ? t('ficheEleve.agendaLinkCopied') : t('ficheEleve.copyAgendaLink') }}
     </button>
+    <span class="sr-only" role="status" aria-live="polite">
+      {{ agendaLinkCopied ? t('ficheEleve.agendaLinkCopied') : '' }}
+    </span>
 
     <p class="data-source-note r-card">
       <FontAwesomeIcon :icon="faCircleInfo" aria-hidden="true" />
