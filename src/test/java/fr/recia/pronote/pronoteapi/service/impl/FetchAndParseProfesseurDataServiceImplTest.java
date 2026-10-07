@@ -17,6 +17,7 @@ package fr.recia.pronote.pronoteapi.service.impl;
 
 import fr.recia.pronote.pronoteapi.dto.ProfesseurDto;
 import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
+import fr.recia.pronote.pronoteapi.mapper.impl.PronoteUrlResolverImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -62,7 +63,7 @@ class FetchAndParseProfesseurDataServiceImplTest {
     void getDto_parsesFullXml_buildsProfesseurDto() {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(XML_PROFESSEUR_COMPLET);
 
-        FetchAndParseProfesseurDataServiceImpl service = new FetchAndParseProfesseurDataServiceImpl(fetchPronoteService, new EtablissementMapperImpl());
+        FetchAndParseProfesseurDataServiceImpl service = new FetchAndParseProfesseurDataServiceImpl(fetchPronoteService, new EtablissementMapperImpl(), new PronoteUrlResolverImpl());
 
         ProfesseurDto result = service.getDto("some-uid");
 
@@ -78,7 +79,7 @@ class FetchAndParseProfesseurDataServiceImplTest {
     void getDto_withoutPageMessagerie_leavesMessagerieDtoNull() {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(XML_PROFESSEUR_SANS_MESSAGERIE);
 
-        FetchAndParseProfesseurDataServiceImpl service = new FetchAndParseProfesseurDataServiceImpl(fetchPronoteService, new EtablissementMapperImpl());
+        FetchAndParseProfesseurDataServiceImpl service = new FetchAndParseProfesseurDataServiceImpl(fetchPronoteService, new EtablissementMapperImpl(), new PronoteUrlResolverImpl());
 
         ProfesseurDto result = service.getDto("some-uid");
 

@@ -16,8 +16,9 @@
 
 <script setup lang="ts">
 import type { Professeur } from '@/types/pronote'
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faCircleInfo, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
@@ -25,10 +26,35 @@ defineProps<{
 }>()
 
 const { t } = useI18n()
+
+const agendaLinkCopied = ref(false)
+
+async function copyAgendaLink(url: string) {
+  try {
+    await navigator.clipboard.writeText(url)
+    agendaLinkCopied.value = true
+    setTimeout(() => {
+      agendaLinkCopied.value = false
+    }, 2000)
+  }
+  catch (error) {
+    console.error('Unable to copy agenda link', error)
+  }
+}
 </script>
 
 <template>
   <article class="fiche-professeur">
+    <button
+      v-if="professeur.iCal"
+      type="button"
+      class="btn-secondary small agenda-link"
+      @click="copyAgendaLink(professeur.iCal)"
+    >
+      <FontAwesomeIcon :icon="agendaLinkCopied ? faCheck : faCopy" aria-hidden="true" />
+      {{ agendaLinkCopied ? t('ficheProfesseur.agendaLinkCopied') : t('ficheProfesseur.copyAgendaLink') }}
+    </button>
+
     <p class="data-source-note r-card">
       <FontAwesomeIcon :icon="faCircleInfo" aria-hidden="true" />
       {{ t('app.dataSourceNote') }}
@@ -104,9 +130,5 @@ const { t } = useI18n()
 .agenda-link {
   display: inline-flex;
   margin-bottom: 16px;
-
-  &--hidden {
-    visibility: hidden;
-  }
 }
 </style>

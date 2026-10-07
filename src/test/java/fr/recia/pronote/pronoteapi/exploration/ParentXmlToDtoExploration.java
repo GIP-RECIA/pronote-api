@@ -56,7 +56,7 @@ class ParentXmlToDtoExploration {
         when(fetchPronoteService.getPronoteBaseUrl()).thenReturn("https://netocentre.index-education.net/pronote/");
 
         IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(
-                new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl()), new EtablissementMapperImpl());
+                new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl()), new EtablissementMapperImpl(), new PronoteUrlResolverImpl());
 
         var service = new FetchAndParseEleveDataServiceFromParentImpl(fetchPronoteService, eleveDtoMapper);
 

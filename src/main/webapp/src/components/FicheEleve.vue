@@ -16,9 +16,9 @@
 
 <script setup lang="ts">
 import type { Eleve } from '@/types/pronote'
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faCircleInfo, faCopy } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import Competences from '@/components/Competences.vue'
 import Cours from '@/components/Cours.vue'
@@ -49,10 +49,35 @@ const vieScolaireCount = computed(() => {
 
 const travailAFaireCount = computed(() => props.eleve.travailAFaireDtoList?.length ?? 0)
 const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
+
+const agendaLinkCopied = ref(false)
+
+async function copyAgendaLink(url: string) {
+  try {
+    await navigator.clipboard.writeText(url)
+    agendaLinkCopied.value = true
+    setTimeout(() => {
+      agendaLinkCopied.value = false
+    }, 2000)
+  }
+  catch (error) {
+    console.error('Unable to copy agenda link', error)
+  }
+}
 </script>
 
 <template>
   <article class="fiche-eleve">
+    <button
+      v-if="eleve.iCal"
+      type="button"
+      class="btn-secondary small agenda-link"
+      @click="copyAgendaLink(eleve.iCal)"
+    >
+      <FontAwesomeIcon :icon="agendaLinkCopied ? faCheck : faCopy" aria-hidden="true" />
+      {{ agendaLinkCopied ? t('ficheEleve.agendaLinkCopied') : t('ficheEleve.copyAgendaLink') }}
+    </button>
+
     <p class="data-source-note r-card">
       <FontAwesomeIcon :icon="faCircleInfo" aria-hidden="true" />
       {{ t('app.dataSourceNote') }}
@@ -155,10 +180,6 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
   .agenda-link {
     display: inline-flex;
     margin-bottom: 16px;
-
-    &--hidden {
-      visibility: hidden;
-    }
   }
 
   .layout {
