@@ -18,6 +18,10 @@ package fr.recia.pronote.pronoteapi.service.impl;
 import fr.recia.pronote.pronoteapi.dto.EleveDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
+import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
+import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
+import fr.recia.pronote.pronoteapi.mapper.impl.EleveDtoMapperImpl;
+import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -84,6 +88,8 @@ class FetchAndParseEleveDataServiceFromEleveImplTest {
     FetchPronoteServiceImpl fetchPronoteService;
 
     private final ResumeCoursEtTravailAFaireAllDtoFactory factory = new ResumeCoursEtTravailAFaireAllDtoFactory();
+    private final IEtablissementMapper etablissementMapper = new EtablissementMapperImpl();
+    private final IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(factory, etablissementMapper);
 
     static Stream<Arguments> xmlScenarios() {
         return Stream.of(
@@ -99,7 +105,7 @@ class FetchAndParseEleveDataServiceFromEleveImplTest {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(xml);
 
         FetchAndParseEleveDataServiceFromEleveImpl service =
-                new FetchAndParseEleveDataServiceFromEleveImpl(fetchPronoteService, factory);
+                new FetchAndParseEleveDataServiceFromEleveImpl(fetchPronoteService, eleveDtoMapper);
 
         List<EleveDto> result = service.getDto("some-uid");
         EleveDto eleveDto = result.getFirst();

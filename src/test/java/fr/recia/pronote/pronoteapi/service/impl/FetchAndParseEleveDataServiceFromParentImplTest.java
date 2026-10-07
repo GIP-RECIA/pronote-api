@@ -17,6 +17,9 @@ package fr.recia.pronote.pronoteapi.service.impl;
 
 import fr.recia.pronote.pronoteapi.dto.EleveDto;
 import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
+import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
+import fr.recia.pronote.pronoteapi.mapper.impl.EleveDtoMapperImpl;
+import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -42,18 +45,17 @@ class FetchAndParseEleveDataServiceFromParentImplTest {
                 </Eleve>
             </Parent>
             """;
-
+    private final IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(
+            new ResumeCoursEtTravailAFaireAllDtoFactory(), new EtablissementMapperImpl());
     @Mock
     FetchPronoteServiceImpl fetchPronoteService;
-
-    private final ResumeCoursEtTravailAFaireAllDtoFactory factory = new ResumeCoursEtTravailAFaireAllDtoFactory();
 
     @Test
     void getDto_withTwoChildrenSharingTheSameFirstName_keepsBothAsSeparateEntries() {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(XML_DEUX_ENFANTS_MEME_PRENOM);
 
         FetchAndParseEleveDataServiceFromParentImpl service =
-                new FetchAndParseEleveDataServiceFromParentImpl(fetchPronoteService, factory);
+                new FetchAndParseEleveDataServiceFromParentImpl(fetchPronoteService, eleveDtoMapper);
 
         List<EleveDto> result = service.getDto("some-uid");
 

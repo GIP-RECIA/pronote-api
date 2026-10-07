@@ -20,6 +20,9 @@ import fr.recia.pronote.pronoteapi.dto.PageResponseDto;
 import fr.recia.pronote.pronoteapi.dto.SummaryResponseDto;
 import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
 import fr.recia.pronote.pronoteapi.enums.UserProfile;
+import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
+import fr.recia.pronote.pronoteapi.mapper.impl.EleveDtoMapperImpl;
+import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
 import fr.recia.pronote.pronoteapi.service.impl.FetchAndParseEleveDataServiceFromParentImpl;
 import fr.recia.pronote.pronoteapi.service.impl.FetchPronoteServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -50,8 +53,10 @@ class ParentXmlToDtoExplorationTest {
 
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(xml);
 
-        var service = new FetchAndParseEleveDataServiceFromParentImpl(
-                fetchPronoteService, new ResumeCoursEtTravailAFaireAllDtoFactory());
+        IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(
+                new ResumeCoursEtTravailAFaireAllDtoFactory(), new EtablissementMapperImpl());
+
+        var service = new FetchAndParseEleveDataServiceFromParentImpl(fetchPronoteService, eleveDtoMapper);
 
         List<EleveDto> eleveDtoList = service.getDto("test-uid");
 

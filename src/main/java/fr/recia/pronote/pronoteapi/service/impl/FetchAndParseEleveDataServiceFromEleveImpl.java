@@ -15,16 +15,9 @@
  */
 package fr.recia.pronote.pronoteapi.service.impl;
 
-import fr.recia.pronote.pronoteapi.dto.DevoirDto;
 import fr.recia.pronote.pronoteapi.dto.EleveDto;
-import fr.recia.pronote.pronoteapi.dto.ResumeCoursEtTravailAFaireAllDto;
-import fr.recia.pronote.pronoteapi.dto.VieScolaireDto;
-import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
-import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
-import fr.recia.pronote.pronoteapi.dto.competences.CompetencesDto;
-import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
 import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
-import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
+import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.model.Eleve;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
@@ -44,8 +37,7 @@ import java.util.Objects;
 public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndParseEleveDataService {
 
     private final IFetchPronoteService fetchPronoteService;
-    private final ResumeCoursEtTravailAFaireAllDtoFactory resumeCoursEtTravailAFaireAllDtoFactory;
-    private final IEtablissementMapper etablissementMapper;
+    private final IEleveDtoMapper eleveDtoMapper;
 
     @Override
     @Cacheable(value = "dtoListCache", key = "#uid")
@@ -57,39 +49,15 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
 
         Eleve eleve = xmlMapper.readValue(xml, Eleve.class);
 
-        VieScolaireDto vieScolaireDto = Objects.nonNull(eleve.getPageVieScolaire()) ? new VieScolaireDto(eleve.getPageVieScolaire()) : null;
-
-        List<ResumeDeCoursDto> resumeDeCoursDtoList = null;
-        List<TravailAFaireDto> travailAFaireDtoList = null;
-
-        if (Objects.nonNull(eleve.getPageCahierDeTextes()) && Objects.nonNull(eleve.getPageCahierDeTextes().getCahierDeTextesList())) {
-            ResumeCoursEtTravailAFaireAllDto resumeCoursEtTravailAFaireAllDto = resumeCoursEtTravailAFaireAllDtoFactory.create(eleve.getPageCahierDeTextes().getCahierDeTextesList());
-            resumeDeCoursDtoList = resumeCoursEtTravailAFaireAllDto.getResumeCoursDtoList();
-            travailAFaireDtoList = resumeCoursEtTravailAFaireAllDto.getTravailAFaireDtoList();
-        }
-
-        List<DevoirDto> devoirDtoList =
-                Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
-
         MessagerieDto messagerieDto = Objects.nonNull(eleve.getPageMessagerie()) ? new MessagerieDto(eleve.getPageMessagerie()) : null;
-        CompetencesDto competencesDto = Objects.nonNull(eleve.getPageCompetences()) ? new CompetencesDto(eleve.getPageCompetences()) : null;
 
-        String etablissement = etablissementMapper.map(eleve.getPagePronoteList());
-
-        EleveDto eleveDto = EleveDto.builder()
-                .resumeDeCoursDtoList(resumeDeCoursDtoList)
-                .travailAFaireDtoList(travailAFaireDtoList)
-                .vieScolaireDto(vieScolaireDto)
-                .devoirDtoList(devoirDtoList)
+        EleveDto eleveDto = eleveDtoMapper.map(eleve)
                 .messagerieDto(messagerieDto)
-                .competencesDto(competencesDto)
-                .etablissement(etablissement)
-                .iCal(eleve.getICal())
                 .build();
-
 
         log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);
 
         return Collections.singletonList(eleveDto);
     }
 }
+

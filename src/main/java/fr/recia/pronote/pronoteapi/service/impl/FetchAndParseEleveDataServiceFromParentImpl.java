@@ -15,14 +15,8 @@
  */
 package fr.recia.pronote.pronoteapi.service.impl;
 
-import fr.recia.pronote.pronoteapi.dto.DevoirDto;
 import fr.recia.pronote.pronoteapi.dto.EleveDto;
-import fr.recia.pronote.pronoteapi.dto.ResumeCoursEtTravailAFaireAllDto;
-import fr.recia.pronote.pronoteapi.dto.VieScolaireDto;
-import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
-import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
-import fr.recia.pronote.pronoteapi.dto.competences.CompetencesDto;
-import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
+import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.model.EleveFromParent;
 import fr.recia.pronote.pronoteapi.model.Parent;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
@@ -36,7 +30,6 @@ import tools.jackson.dataformat.xml.XmlMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -44,48 +37,26 @@ import java.util.UUID;
 public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndParseEleveDataService {
 
     private final IFetchPronoteService fetchPronoteService;
-    private final ResumeCoursEtTravailAFaireAllDtoFactory resumeCoursEtTravailAFaireAllDtoFactory;
+    private final IEleveDtoMapper eleveDtoMapper;
 
     @Override
     @Cacheable(value = "dtoListCache", key = "#uid")
     public List<EleveDto> getDto(String uid) {
-        
+
         String xml = fetchPronoteService.getPronoteXmlAsString();
 
         XmlMapper xmlMapper = new XmlMapper();
 
         Parent parent = xmlMapper.readValue(xml, Parent.class);
         List<EleveDto> eleveDtoList = new ArrayList<>();
+        List<EleveFromParent> eleveFromParentList = Objects.requireNonNullElse(parent.getEleveFromParentList(), List.of());
 
-        for(EleveFromParent eleve : parent.getEleveFromParentList()){
-            VieScolaireDto vieScolaireDto = Objects.nonNull(eleve.getPageVieScolaire()) ? new VieScolaireDto(eleve.getPageVieScolaire()) : null;
-
-            List<ResumeDeCoursDto> resumeDeCoursDtoList = null;
-            List<TravailAFaireDto> travailAFaireDtoList = null;
-
-            if(Objects.nonNull(eleve.getPageCahierDeTextes()) && Objects.nonNull(eleve.getPageCahierDeTextes().getCahierDeTextesList())){
-                ResumeCoursEtTravailAFaireAllDto  resumeCoursEtTravailAFaireAllDto = resumeCoursEtTravailAFaireAllDtoFactory.create(eleve.getPageCahierDeTextes().getCahierDeTextesList());
-                resumeDeCoursDtoList = resumeCoursEtTravailAFaireAllDto.getResumeCoursDtoList();
-                travailAFaireDtoList = resumeCoursEtTravailAFaireAllDto.getTravailAFaireDtoList();
-            }
-
-            List<DevoirDto> devoirDtoList =
-                    Objects.nonNull(eleve.getPageReleveDeNotes()) && Objects.nonNull(eleve.getPageReleveDeNotes().getDevoirList()) ? eleve.getPageReleveDeNotes().getDevoirList().stream().map(DevoirDto::new).toList() : null;
-            CompetencesDto competencesDto = Objects.nonNull(eleve.getPageCompetences()) ? new CompetencesDto(eleve.getPageCompetences()) : null;
-
-            String etablissement = Objects.nonNull(eleve.getPagePronoteList()) && !eleve.getPagePronoteList().isEmpty()
-                    ? eleve.getPagePronoteList().getFirst().getNom() : null;
-
-            EleveDto eleveDto = EleveDto.builder()
+        for (EleveFromParent eleve : eleveFromParentList) {
+            EleveDto eleveDto = eleveDtoMapper.map(eleve)
                     .prenom(eleve.getPrenom())
                     .nom(eleve.getNom())
-                    .resumeDeCoursDtoList(resumeDeCoursDtoList)
-                    .travailAFaireDtoList(travailAFaireDtoList)
-                    .vieScolaireDto(vieScolaireDto)
-                    .competencesDto(competencesDto)
-                    .etablissement(etablissement)
-                    .iCal(eleve.getICal())
-                    .devoirDtoList(devoirDtoList).build();
+                    .build();
+
             log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);
 
             eleveDtoList.add(eleveDto);
