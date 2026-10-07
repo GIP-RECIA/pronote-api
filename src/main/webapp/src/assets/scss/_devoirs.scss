@@ -18,6 +18,12 @@
 @use '@gip-recia/ui/functions' as *;
 
 .devoirs {
+  .subheading {
+    font-size: var(--#{$prefix}font-size-xs);
+    color: var(--#{$prefix}basic-black-lighter);
+    margin: 2px 0 8px;
+  }
+
   hr {
     border: none;
     border-top: 1px solid var(--#{$prefix}stroke);
@@ -33,18 +39,18 @@
 
     .matiere {
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: var(--#{$prefix}font-size-sm);
     }
 
     .note {
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: var(--#{$prefix}font-size-md);
       color: var(--#{$prefix}primary);
     }
 
     .date {
       flex-basis: 100%;
-      font-size: 0.76rem;
+      font-size: var(--#{$prefix}font-size-xs);
       color: var(--#{$prefix}basic-black-lighter);
     }
   }

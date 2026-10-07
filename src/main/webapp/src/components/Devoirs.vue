@@ -37,6 +37,9 @@ const sortedDevoirs = computed(() =>
     <h2 :id="`releve-notes-heading-${index}`">
       {{ t('devoirs.heading') }}
     </h2>
+    <p class="subheading">
+      {{ t('devoirs.subheading') }}
+    </p>
 
     <template v-if="sortedDevoirs.length">
       <template v-for="(devoir, i) in sortedDevoirs" :key="i">

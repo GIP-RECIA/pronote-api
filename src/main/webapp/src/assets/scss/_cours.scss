@@ -28,7 +28,7 @@
     padding: 10px 0;
 
     .day-heading {
-      font-size: 0.88rem;
+      font-size: var(--#{$prefix}font-size-sm);
       font-weight: 600;
       text-transform: capitalize;
       margin-bottom: 8px;
@@ -48,7 +48,7 @@
         .matiere {
           margin: 0;
           font-weight: 600;
-          font-size: 0.88rem;
+          font-size: var(--#{$prefix}font-size-sm);
         }
 
         &::before {
@@ -64,7 +64,7 @@
 
         .contenus {
           margin-top: 2px;
-          font-size: 0.82rem;
+          font-size: var(--#{$prefix}font-size-sm);
 
           .contenu {
             margin-bottom: 4px;
@@ -79,7 +79,7 @@
 
           .categorie {
             font-weight: 600;
-            font-size: 0.66rem;
+            font-size: var(--#{$prefix}font-size-xxs);
             text-transform: uppercase;
             letter-spacing: 0.03em;
             color: var(--#{$prefix}basic-black-lighter);
@@ -97,7 +97,7 @@
               display: flex;
               align-items: center;
               gap: 6px;
-              font-size: 0.78rem;
+              font-size: var(--#{$prefix}font-size-xs);
             }
 
             .attach-icon {
@@ -150,7 +150,7 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        font-size: 0.78rem;
+        font-size: var(--#{$prefix}font-size-xs);
       }
 
       .attach-icon {
@@ -173,16 +173,16 @@
     .matiere {
       margin: 0;
       font-weight: 600;
-      font-size: 0.88rem;
+      font-size: var(--#{$prefix}font-size-sm);
     }
 
     .desc {
-      font-size: 0.85rem;
+      font-size: var(--#{$prefix}font-size-sm);
       margin-top: 2px;
     }
 
     .due {
-      font-size: 0.74rem;
+      font-size: var(--#{$prefix}font-size-xs);
       font-weight: 600;
       color: var(--#{$prefix}primary);
       margin-top: 6px;
