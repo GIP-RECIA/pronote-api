@@ -25,6 +25,7 @@ import fr.recia.pronote.pronoteapi.dto.competences.CompetencesDto;
 import fr.recia.pronote.pronoteapi.dto.factory.ResumeCoursEtTravailAFaireAllDtoFactory;
 import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
+import fr.recia.pronote.pronoteapi.mapper.IPronoteUrlResolver;
 import fr.recia.pronote.pronoteapi.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,7 @@ public class EleveDtoMapperImpl implements IEleveDtoMapper {
 
     private final ResumeCoursEtTravailAFaireAllDtoFactory resumeCoursEtTravailAFaireAllDtoFactory;
     private final IEtablissementMapper etablissementMapper;
+    private final IPronoteUrlResolver pronoteUrlResolver;
 
     @Override
     public EleveDto.EleveDtoBuilder map(Eleve eleve, String pronoteBaseUrl) {
@@ -86,6 +88,6 @@ public class EleveDtoMapperImpl implements IEleveDtoMapper {
                 .devoirDtoList(devoirDtoList)
                 .competencesDto(competencesDto)
                 .etablissement(etablissementMapper.map(pagePronoteList))
-                .iCal(iCal);
+                .iCal(pronoteUrlResolver.resolve(iCal, pronoteBaseUrl));
     }
 }

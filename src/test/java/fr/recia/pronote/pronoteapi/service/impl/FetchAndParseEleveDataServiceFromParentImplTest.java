@@ -47,7 +47,7 @@ class FetchAndParseEleveDataServiceFromParentImplTest {
             </Parent>
             """;
     private final IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(
-            new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl()), new EtablissementMapperImpl());
+            new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl()), new EtablissementMapperImpl(), new PronoteUrlResolverImpl());
     @Mock
     FetchPronoteServiceImpl fetchPronoteService;
 

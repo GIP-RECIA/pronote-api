@@ -18,6 +18,7 @@ package fr.recia.pronote.pronoteapi.service.impl;
 import fr.recia.pronote.pronoteapi.dto.ProfesseurDto;
 import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
 import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
+import fr.recia.pronote.pronoteapi.mapper.IPronoteUrlResolver;
 import fr.recia.pronote.pronoteapi.model.Professeur;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseProfesseurDataService;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
@@ -37,11 +38,13 @@ public class FetchAndParseProfesseurDataServiceImpl implements IFetchAndParsePro
 
     private final IFetchPronoteService fetchPronoteService;
     private final IEtablissementMapper etablissementMapper;
+    private final IPronoteUrlResolver pronoteUrlResolver;
 
     @Override
     @Cacheable(value = "professeurDtoCache", key = "#uid")
     public ProfesseurDto getDto(String uid) {
         String xml = fetchPronoteService.getPronoteXmlAsString();
+        String pronoteBaseUrl = fetchPronoteService.getPronoteBaseUrl();
 
         XmlMapper xmlMapper = new XmlMapper();
         Professeur professeur = xmlMapper.readValue(xml, Professeur.class);
@@ -54,7 +57,7 @@ public class FetchAndParseProfesseurDataServiceImpl implements IFetchAndParsePro
         ProfesseurDto professeurDto = ProfesseurDto.builder()
                 .messagerieDto(messagerieDto)
                 .etablissement(etablissement)
-                .iCal(professeur.getICal())
+                .iCal(pronoteUrlResolver.resolve(professeur.getICal(), pronoteBaseUrl))
                 .build();
 
         log.trace("DTO for Professeur with uid {} is {}", LogMasking.mask(uid), professeurDto);
