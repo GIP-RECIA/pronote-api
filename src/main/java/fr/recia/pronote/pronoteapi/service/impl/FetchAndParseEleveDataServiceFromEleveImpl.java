@@ -21,6 +21,7 @@ import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.model.Eleve;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
+import fr.recia.pronote.pronoteapi.util.LogMasking;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -55,7 +56,7 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
                 .messagerieDto(messagerieDto)
                 .build();
 
-        log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);
+        log.trace("DTO for Eleve with uid {} is {}", LogMasking.mask(uid), eleveDto);
 
         return Collections.singletonList(eleveDto);
     }

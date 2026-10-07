@@ -21,6 +21,7 @@ import fr.recia.pronote.pronoteapi.model.EleveFromParent;
 import fr.recia.pronote.pronoteapi.model.Parent;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
+import fr.recia.pronote.pronoteapi.util.LogMasking;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -57,7 +58,7 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
                     .nom(eleve.getNom())
                     .build();
 
-            log.trace("DTO for Eleve with uid {} is {}", uid, eleveDto);
+            log.trace("DTO for Eleve with uid {} is {}", LogMasking.mask(uid), eleveDto);
 
             eleveDtoList.add(eleveDto);
         }
