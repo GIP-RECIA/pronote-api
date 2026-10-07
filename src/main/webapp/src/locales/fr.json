@@ -10,7 +10,8 @@
     "dataSourceNote": "L'intégralité des données affichées est transmise par Pronote."
   },
   "ficheEleve": {
-    "addToAgenda": "Ajouter à mon agenda",
+    "copyAgendaLink": "Copier le lien d'abonnement à l'agenda",
+    "agendaLinkCopied": "Lien copié !",
     "stats": {
       "notesRecues": "notes reçues",
       "vieScolaire": "événements de vie scolaire",
@@ -19,7 +20,8 @@
     }
   },
   "ficheProfesseur": {
-    "addToAgenda": "Ajouter à mon agenda",
+    "copyAgendaLink": "Copier le lien d'abonnement à l'agenda",
+    "agendaLinkCopied": "Lien copié !",
     "unreadCasier": "documents casier non lus"
   },
   "cours": {

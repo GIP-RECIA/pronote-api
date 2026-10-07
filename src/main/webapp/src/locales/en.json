@@ -10,7 +10,8 @@
     "dataSourceNote": "All the data shown here is provided by Pronote."
   },
   "ficheEleve": {
-    "addToAgenda": "Add to my calendar",
+    "copyAgendaLink": "Copy calendar subscription link",
+    "agendaLinkCopied": "Link copied!",
     "stats": {
       "notesRecues": "grades received",
       "vieScolaire": "school-life events",
@@ -19,7 +20,8 @@
     }
   },
   "ficheProfesseur": {
-    "addToAgenda": "Add to my calendar",
+    "copyAgendaLink": "Copy calendar subscription link",
+    "agendaLinkCopied": "Link copied!",
     "unreadCasier": "unread documents"
   },
   "cours": {
