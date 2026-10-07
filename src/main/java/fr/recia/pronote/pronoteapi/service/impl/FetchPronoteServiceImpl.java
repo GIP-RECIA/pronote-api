@@ -45,6 +45,14 @@ public class FetchPronoteServiceImpl implements IFetchPronoteService {
     }
 
     @Override
+    public String getPronoteBaseUrl() {
+        String uaiCourant = userAttributesHandler.getAttribute(UserAttributesHandler.UAI_CURRENT);
+        String uaiCourantTransformed = transformedUai(uaiCourant);
+        String fullUrl = String.format(casProperties.getCasProxyTicketFor(), uaiCourantTransformed);
+        return fullUrl.substring(0, fullUrl.lastIndexOf('/') + 1);
+    }
+
+    @Override
     public String getPronoteXmlAsString() {
         CasAuthenticationToken token = (CasAuthenticationToken) SecurityContextHolder
                 .getContext()

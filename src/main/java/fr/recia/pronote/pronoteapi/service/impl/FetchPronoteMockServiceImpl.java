@@ -38,6 +38,11 @@ public class FetchPronoteMockServiceImpl implements IFetchPronoteService {
     private final MockProperties mockProperties;
 
     @Override
+    public String getPronoteBaseUrl() {
+        return "https://mock.index-education.net/pronote/";
+    }
+
+    @Override
     public String getPronoteXmlAsString() {
         String fileName = mockProperties.getScenario().fixtureFileName();
 

@@ -21,6 +21,6 @@ import fr.recia.pronote.pronoteapi.model.Eleve;
 import fr.recia.pronote.pronoteapi.model.EleveFromParent;
 
 public interface IEleveDtoMapper {
-    EleveDto.EleveDtoBuilder map(Eleve eleve);
-    EleveDto.EleveDtoBuilder map(EleveFromParent eleve);
+    EleveDto.EleveDtoBuilder map(Eleve eleve, String pronoteBaseUrl);
+    EleveDto.EleveDtoBuilder map(EleveFromParent eleve, String pronoteBaseUrl);
 }
