@@ -19,13 +19,11 @@ import fr.recia.pronote.pronoteapi.config.bean.RedisProperties;
 import fr.recia.pronote.pronoteapi.util.LogMasking;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apereo.cas.client.proxy.ProxyGrantingTicketStorage;
 import org.apereo.cas.client.util.CommonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -42,7 +40,7 @@ public class ProxyGrantingTicketRedisImpl implements ProxyGrantingTicketStorage 
 
     /**
      * NOTE: you can only retrieve a ProxyGrantingTicket once with this method.
-     * Its removed after retrieval.
+     * It's removed after retrieval.
      */
     @Override
     public String retrieve(final String proxyGrantingTicketIou) {
@@ -66,12 +64,16 @@ public class ProxyGrantingTicketRedisImpl implements ProxyGrantingTicketStorage 
         log.warn("Redis does not require cleanup for PGT, entries have ttl in Redis");
     }
 
-    public void saveInRedis(String Iou, String test) {
-        redisTemplate.opsForValue().set(String.format("%1$s:%2$s",  redisProperties.getPgtiouPrefix(), Iou), test, redisProperties.getPgtiouExpiryInSeconds(), TimeUnit.SECONDS);
+    private void saveInRedis(String iou, String proxyGrantingTicket) {
+        redisTemplate.opsForValue().set(redisKey(iou), proxyGrantingTicket, Duration.ofSeconds(redisProperties.getPgtiouExpiryInSeconds()));
     }
 
-    public String getFromRedis(String Iou){
-        return redisTemplate.opsForValue().getAndDelete(String.format("%1$s:%2$s",  redisProperties.getPgtiouPrefix(), Iou));
+    private String getFromRedis(String iou) {
+        return redisTemplate.opsForValue().getAndDelete(redisKey(iou));
+    }
+
+    private String redisKey(String iou) {
+        return redisProperties.getPgtiouPrefix() + ":" + iou;
     }
 }
 
