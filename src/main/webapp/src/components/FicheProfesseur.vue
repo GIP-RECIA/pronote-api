@@ -16,6 +16,8 @@
 
 <script setup lang="ts">
 import type { Professeur } from '@/types/pronote'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{
@@ -27,6 +29,10 @@ const { t } = useI18n()
 
 <template>
   <article class="fiche-professeur">
+    <p class="data-source-note r-card">
+      <FontAwesomeIcon :icon="faCircleInfo" aria-hidden="true" />
+      {{ t('app.dataSourceNote') }}
+    </p>
     <section class="r-card messagerie" aria-labelledby="messagerie-heading">
       <h2 id="messagerie-heading">
         {{ t('messagerie.heading') }}
@@ -52,6 +58,24 @@ const { t } = useI18n()
 <style lang="scss" scoped>
 @use '@gip-recia/ui/core/variables' as *;
 
+.fiche-professeur {
+  .data-source-note {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--#{$prefix}font-size-xs);
+    color: var(--#{$prefix}basic-black-lighter);
+    margin-bottom: 20px;
+
+    svg {
+      flex: none;
+      width: 14px;
+      color: var(--#{$prefix}basic-black-lighter);
+    }
+  }
+}
+
 .messagerie {
   .stats {
     display: flex;
@@ -66,13 +90,13 @@ const { t } = useI18n()
     gap: 8px;
 
     .num {
-      font-size: 1.3rem;
+      font-size: var(--#{$prefix}font-size-xl);
       font-weight: 700;
       color: var(--#{$prefix}primary);
     }
 
     .lbl {
-      font-size: 0.78rem;
+      font-size: var(--#{$prefix}font-size-xs);
       color: var(--#{$prefix}basic-black-lighter);
     }
   }

@@ -6,7 +6,8 @@
     "error": "Erreur : {message}",
     "defaultEleveLabel": "Élève",
     "quickAccess": "Accès rapide",
-    "skipToContent": "Contenu"
+    "skipToContent": "Contenu",
+    "dataSourceNote": "L'intégralité des données affichées est transmise par Pronote."
   },
   "ficheEleve": {
     "addToAgenda": "Ajouter à mon agenda",
@@ -23,8 +24,10 @@
   },
   "cours": {
     "heading": "Cours récents",
+    "subheading": "Affichage des cours des 7 derniers jours",
     "empty": "Aucun cours récent",
     "travailAFaireHeading": "Travail à faire",
+    "travailAFaireSubheading": "Affichage du travail à faire des 7 prochains jours",
     "travailAFaireEmpty": "Aucun travail à faire",
     "pieceJointe": "Pièce jointe {n}",
     "opensInNewTab": "(ouvre dans un nouvel onglet)",
@@ -32,11 +35,13 @@
   },
   "devoirs": {
     "heading": "Relevé de notes",
-    "empty": "Aucun devoir n'a été noté lors des 7 derniers jours."
+    "subheading": "Affichage des 5 dernières notes",
+    "empty": "Aucune note récente à afficher."
   },
   "competences": {
     "heading": "Compétences",
-    "empty": "Aucune évaluation de compétence lors des 7 derniers jours.",
+    "subheading": "Affichage des 5 derniers niveaux d'acquisition",
+    "empty": "Aucune évaluation de compétence récente à afficher.",
     "notSpecified": "Non renseigné"
   },
   "messagerie": {
@@ -46,6 +51,7 @@
   },
   "vieScolaire": {
     "heading": "Vie scolaire",
+    "subheading": "Affichage des événements des 30 derniers jours",
     "empty": "Aucun événement",
     "noMotif": "sans motif",
     "inProgress": "en cours",
