@@ -23,7 +23,6 @@ import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
 import fr.recia.pronote.pronoteapi.util.UserAttributesHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
@@ -69,7 +68,9 @@ public class FetchPronoteServiceImpl implements IFetchPronoteService {
                 .getAuthentication();
         String uaiCourant = userAttributesHandler.getAttribute(UserAttributesHandler.UAI_CURRENT);
 
-        assert token != null;
+        if (token == null) {
+            throw new IllegalStateException("No CAS authentication found in security context");
+        }
         String uaiCourantTransformedForProxyTicketFor = transformedUaiForProxyTicketFor(uaiCourant);
         final String proxyTicket = token.getAssertion().getPrincipal().getProxyTicketFor(String.format(casProperties.getCasProxyTicketFor(), uaiCourantTransformedForProxyTicketFor));
         if (proxyTicket == null) {
@@ -78,6 +79,7 @@ public class FetchPronoteServiceImpl implements IFetchPronoteService {
                     uaiCourant, userAttributesHandler.getAttribute(UserAttributesHandler.UID)
             ));
         }
+
         try {
             String uaiCourantTransformedForRequest = transformedUaiForRequest(uaiCourant);
             RestTemplate restTemplate = new RestTemplate();
@@ -85,11 +87,17 @@ public class FetchPronoteServiceImpl implements IFetchPronoteService {
             log.trace("Fetching Pronote XML at uri {}", uri);
             ResponseEntity<String> response
                     = restTemplate.postForEntity(uri, String.class, String.class);
-            assert response.getBody() != null;
-            return response.getBody();
 
+            String body = response.getBody();
+            if (body == null) {
+                throw new PronoteXmlFetchException("Pronote returned an empty response body");
+            }
+            return body;
+
+        } catch (PronoteXmlFetchException e) {
+            throw e;
         } catch (Exception e) {
-            throw new PronoteXmlFetchException(e.getMessage());
+            throw new PronoteXmlFetchException("Failed to fetch Pronote XML: " + e.getMessage(), e);
         }
     }
 }
