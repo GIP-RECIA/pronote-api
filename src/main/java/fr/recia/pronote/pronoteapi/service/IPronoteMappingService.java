@@ -13,21 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi;
+package fr.recia.pronote.pronoteapi.service;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.scheduling.annotation.EnableScheduling;
+public interface IPronoteMappingService {
 
-@SpringBootApplication(scanBasePackages = "fr.recia")
-@ConfigurationPropertiesScan
-@EnableScheduling
-public class PronoteApiApplication {
+    String getBaseUrl(String uai);
 
-	public static void main(String[] args) {
-		SpringApplication.run(PronoteApiApplication.class, args);
-	}
+    void refresh();
 
 }
