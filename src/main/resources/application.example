@@ -14,9 +14,7 @@ app:
       - "https://domain.frontent"
       - "null"
   conf:
-    uai-replacement-map-request:
-      "": ""
-    uai-replacement-map-proxy-ticket-for:
+    uai-replacement-map:
       "": ""
     casServiceId: ""
     casServerUrl: ""
