@@ -40,9 +40,6 @@ public class CustomCas20ProxyTicketValidator extends Cas20ProxyTicketValidator {
     protected void populateUrlAttributeMap(final Map<String, String> urlParameters) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
                 .getRequest();
-        final String url = request.getRequestURL().toString();
-        final String uri = request.getRequestURI();
-
         String host = request.getHeader("X-Forwarded-Host");
 
         if (host == null) {
