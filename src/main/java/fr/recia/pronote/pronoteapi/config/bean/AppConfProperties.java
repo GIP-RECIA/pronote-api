@@ -30,9 +30,7 @@ import java.util.Map;
 @Slf4j
 public class AppConfProperties {
 
-    Map<String, String> uaiReplacementMapRequest = new HashMap<>();
-
-    Map<String, String> uaiReplacementMapProxyTicketFor = new HashMap<>();
+    Map<String, String> uaiReplacementMap = new HashMap<>();
 
     @PostConstruct
     void init() {
