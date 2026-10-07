@@ -15,9 +15,29 @@
  */
 package fr.recia.pronote.pronoteapi.enums;
 
+import fr.recia.pronote.pronoteapi.config.bean.ProfilsProperties;
+
+import java.util.function.Function;
+
 public enum MockScenario {
-    eleve,
-    parentUnEnfant,
-    parentDeuxEnfants,
-    professeur
+    ELEVE("pronote-mock-eleve.xml", ProfilsProperties::getEleveProfilName),
+    PARENT_UN_ENFANT("pronote-mock-parent-un-enfant.xml", ProfilsProperties::getParentProfilName),
+    PARENT_DEUX_ENFANTS("pronote-mock-parent.xml", ProfilsProperties::getParentProfilName),
+    PROFESSEUR("pronote-mock-professeur.xml", ProfilsProperties::getProfesseurProfilName);
+
+    private final String fixtureFileName;
+    private final Function<ProfilsProperties, String> profilNameExtractor;
+
+    MockScenario(String fixtureFileName, Function<ProfilsProperties, String> profilNameExtractor) {
+        this.fixtureFileName = fixtureFileName;
+        this.profilNameExtractor = profilNameExtractor;
+    }
+
+    public String fixtureFileName() {
+        return fixtureFileName;
+    }
+
+    public String profilName(ProfilsProperties profilsProperties) {
+        return profilNameExtractor.apply(profilsProperties);
+    }
 }
