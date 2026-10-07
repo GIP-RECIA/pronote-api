@@ -38,8 +38,11 @@ public class CustomCas20ProxyTicketValidator extends Cas20ProxyTicketValidator {
 
     @Override
     protected void populateUrlAttributeMap(final Map<String, String> urlParameters) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-                .getRequest();
+        ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attrs == null) {
+            throw new IllegalStateException("No request context available");
+        }
+        HttpServletRequest request = attrs.getRequest();
         String host = request.getHeader("X-Forwarded-Host");
 
         if (host == null) {
