@@ -43,11 +43,7 @@ public class MockAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String profil = switch (mockProperties.getScenario()) {
-            case eleve -> profilsProperties.getEleveProfilName();
-            case parentUnEnfant, parentDeuxEnfants -> profilsProperties.getParentProfilName();
-            case professeur -> profilsProperties.getProfesseurProfilName();
-        };
+        String profil = mockProperties.getScenario().profilName(profilsProperties);
 
         Map<String, Object> attributes = Map.of(
                 UserAttributesHandler.ENT_PERSON_PROFILS, profil,
