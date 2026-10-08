@@ -19,11 +19,13 @@ import fr.recia.pronote.pronoteapi.exception.IcsFetchException;
 import fr.recia.pronote.pronoteapi.service.IFetchIcsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.time.Duration;
 
 @Slf4j
 @Profile("!mock-no-cas")
@@ -32,7 +34,12 @@ public class FetchIcsServiceImpl implements IFetchIcsService {
     @Override
     public InputStream fetchIcs(String icalUrl) {
         try {
-            byte[] bytes = new RestTemplate().getForObject(icalUrl, byte[].class);
+            SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+            requestFactory.setConnectTimeout(Duration.ofSeconds(5));
+            requestFactory.setReadTimeout(Duration.ofSeconds(5));
+            RestTemplate restTemplate = new RestTemplate(requestFactory);
+
+            byte[] bytes = restTemplate.getForObject(icalUrl, byte[].class);
             if (bytes == null) {
                 throw new IcsFetchException("Pronote returned an empty ICS response");
             }
