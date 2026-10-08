@@ -16,10 +16,13 @@
 package fr.recia.pronote.pronoteapi.dto;
 
 import jakarta.annotation.Nullable;
+import fr.recia.pronote.pronoteapi.dto.agenda.EvenementAgendaDto;
 import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,4 +34,6 @@ public class ProfesseurDto {
     String etablissement;
     @Nullable
     String iCal;
+    @Nullable
+    List<EvenementAgendaDto> evenementsAgenda;
 }

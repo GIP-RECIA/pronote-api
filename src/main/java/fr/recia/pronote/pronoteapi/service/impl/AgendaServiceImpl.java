@@ -17,10 +17,12 @@ package fr.recia.pronote.pronoteapi.service.impl;
 
 import fr.recia.pronote.pronoteapi.dto.agenda.EvenementAgendaDto;
 import fr.recia.pronote.pronoteapi.enums.CategorieEvenement;
+import fr.recia.pronote.pronoteapi.exception.IcsFetchException;
 import fr.recia.pronote.pronoteapi.exception.IcsParsingException;
 import fr.recia.pronote.pronoteapi.ical.IcsCalendarParser;
 import fr.recia.pronote.pronoteapi.ical.IcsEvent;
 import fr.recia.pronote.pronoteapi.service.IAgendaService;
+import fr.recia.pronote.pronoteapi.service.IFetchIcsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.fortuna.ical4j.data.ParserException;
@@ -36,6 +38,7 @@ import java.util.List;
 public final class AgendaServiceImpl implements IAgendaService {
 
     private final IcsCalendarParser icsCalendarParser;
+    private final IFetchIcsService fetchIcsService;
 
     @Override
     public List<EvenementAgendaDto> getEvenements(InputStream icsStream) {
@@ -47,6 +50,19 @@ public final class AgendaServiceImpl implements IAgendaService {
             throw new IcsParsingException(e.getMessage(), e);
         }
         return dtos;
+    }
+
+    @Override
+    public List<EvenementAgendaDto> getEvenementsFromUrl(String icalUrl) {
+        if (icalUrl == null) {
+            return List.of();
+        }
+        try {
+            return getEvenements(fetchIcsService.fetchIcs(icalUrl));
+        } catch (IcsFetchException | IcsParsingException e) {
+            log.warn("Unable to build agenda for ical url {}: {}", icalUrl, e.getMessage());
+            return List.of();
+        }
     }
 
     private EvenementAgendaDto evenementAgendaDto(IcsEvent event) {

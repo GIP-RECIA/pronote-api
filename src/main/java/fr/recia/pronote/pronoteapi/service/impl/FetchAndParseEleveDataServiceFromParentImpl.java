@@ -19,6 +19,7 @@ import fr.recia.pronote.pronoteapi.dto.EleveDto;
 import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.model.EleveFromParent;
 import fr.recia.pronote.pronoteapi.model.Parent;
+import fr.recia.pronote.pronoteapi.service.IAgendaService;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
 import fr.recia.pronote.pronoteapi.util.LogMasking;
@@ -39,6 +40,7 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
 
     private final IFetchPronoteService fetchPronoteService;
     private final IEleveDtoMapper eleveDtoMapper;
+    private final IAgendaService agendaService;
 
     @Override
     @Cacheable(value = "dtoListCache", key = "#uid")
@@ -58,7 +60,7 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
                     .prenom(eleve.getPrenom())
                     .nom(eleve.getNom())
                     .build();
-
+            eleveDto.setEvenementsAgenda(agendaService.getEvenementsFromUrl(eleveDto.getICal()));
             log.trace("DTO for Eleve with uid {} is {}", LogMasking.mask(uid), eleveDto);
 
             eleveDtoList.add(eleveDto);
