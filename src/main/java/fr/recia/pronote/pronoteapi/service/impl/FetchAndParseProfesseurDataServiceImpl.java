@@ -20,6 +20,7 @@ import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
 import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
 import fr.recia.pronote.pronoteapi.mapper.IPronoteUrlResolver;
 import fr.recia.pronote.pronoteapi.model.Professeur;
+import fr.recia.pronote.pronoteapi.service.IAgendaService;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseProfesseurDataService;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
 import fr.recia.pronote.pronoteapi.util.LogMasking;
@@ -39,6 +40,7 @@ public class FetchAndParseProfesseurDataServiceImpl implements IFetchAndParsePro
     private final IFetchPronoteService fetchPronoteService;
     private final IEtablissementMapper etablissementMapper;
     private final IPronoteUrlResolver pronoteUrlResolver;
+    private final IAgendaService agendaService;
 
     @Override
     @Cacheable(value = "professeurDtoCache", key = "#uid")
@@ -59,6 +61,7 @@ public class FetchAndParseProfesseurDataServiceImpl implements IFetchAndParsePro
                 .etablissement(etablissement)
                 .iCal(pronoteUrlResolver.resolve(professeur.getICal(), pronoteBaseUrl))
                 .build();
+        professeurDto.setEvenementsAgenda(agendaService.getEvenementsFromUrl(professeurDto.getICal()));
 
         log.trace("DTO for Professeur with uid {} is {}", LogMasking.mask(uid), professeurDto);
 

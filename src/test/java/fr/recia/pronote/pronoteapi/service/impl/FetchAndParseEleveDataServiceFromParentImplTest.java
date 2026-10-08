@@ -21,6 +21,7 @@ import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.mapper.impl.EleveDtoMapperImpl;
 import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
 import fr.recia.pronote.pronoteapi.mapper.impl.PronoteUrlResolverImpl;
+import fr.recia.pronote.pronoteapi.service.IAgendaService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -29,6 +30,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,13 +52,15 @@ class FetchAndParseEleveDataServiceFromParentImplTest {
             new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl()), new EtablissementMapperImpl(), new PronoteUrlResolverImpl());
     @Mock
     FetchPronoteServiceImpl fetchPronoteService;
+    @Mock
+    IAgendaService agendaService;
 
     @Test
     void getDto_withTwoChildrenSharingTheSameFirstName_keepsBothAsSeparateEntries() {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(XML_DEUX_ENFANTS_MEME_PRENOM);
-
+        when(agendaService.getEvenementsFromUrl(any())).thenReturn(List.of());
         FetchAndParseEleveDataServiceFromParentImpl service =
-                new FetchAndParseEleveDataServiceFromParentImpl(fetchPronoteService, eleveDtoMapper);
+                new FetchAndParseEleveDataServiceFromParentImpl(fetchPronoteService, eleveDtoMapper, agendaService);
 
         List<EleveDto> result = service.getDto("some-uid");
 

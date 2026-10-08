@@ -21,6 +21,7 @@ import fr.recia.pronote.pronoteapi.enums.CategorieEvenement;
 import fr.recia.pronote.pronoteapi.exception.IcsParsingException;
 import fr.recia.pronote.pronoteapi.ical.IcsCalendarParser;
 import fr.recia.pronote.pronoteapi.ical.IcsEvent;
+import fr.recia.pronote.pronoteapi.service.IFetchIcsService;
 import net.fortuna.ical4j.data.ParserException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,6 +46,8 @@ import static org.mockito.Mockito.when;
 class AgendaServiceImplTest {
     @Mock
     IcsCalendarParser icsCalendarParser;
+    @Mock
+    IFetchIcsService fetchIcsService;
 
     private static Stream<Arguments> coursSummaries() {
         return Stream.of(
@@ -67,7 +70,7 @@ class AgendaServiceImplTest {
         );
         when(icsCalendarParser.parse(any())).thenReturn(List.of(icsEvent));
 
-        AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser);
+        AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser, fetchIcsService);
         List<EvenementAgendaDto> result = service.getEvenements(InputStream.nullInputStream());
 
         EvenementAgendaDto dto = result.getFirst();
@@ -89,7 +92,7 @@ class AgendaServiceImplTest {
         );
         when(icsCalendarParser.parse(any())).thenReturn(List.of(icsEvent));
 
-        AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser);
+        AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser, fetchIcsService);
         List<EvenementAgendaDto> result = service.getEvenements(InputStream.nullInputStream());
 
         EvenementAgendaDto dto = result.getFirst();
@@ -102,22 +105,26 @@ class AgendaServiceImplTest {
     void getEvenements_whenParserThrowsParserException_wrapsInIcsParsingException() throws ParserException, IOException {
         when(icsCalendarParser.parse(any())).thenThrow(new ParserException("flux ICS invalide", 0));
 
-        AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser);
+        AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser, fetchIcsService);
 
-        assertThatThrownBy(() -> service.getEvenements(InputStream.nullInputStream()))
-                .isInstanceOf(IcsParsingException.class)
-                .hasCauseInstanceOf(ParserException.class);
+        try (InputStream icsStream = InputStream.nullInputStream()) {
+            assertThatThrownBy(() -> service.getEvenements(icsStream))
+                    .isInstanceOf(IcsParsingException.class)
+                    .hasCauseInstanceOf(ParserException.class);
+        }
     }
 
     @Test
     void getEvenements_whenParserThrowsIOException_wrapsInIcsParsingException() throws ParserException, IOException {
         when(icsCalendarParser.parse(any())).thenThrow(new IOException("flux illisible"));
 
-        AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser);
+        AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser, fetchIcsService);
 
-        assertThatThrownBy(() -> service.getEvenements(InputStream.nullInputStream()))
-                .isInstanceOf(IcsParsingException.class)
-                .hasCauseInstanceOf(IOException.class);
+        try (InputStream icsStream = InputStream.nullInputStream()) {
+            assertThatThrownBy(() -> service.getEvenements(icsStream))
+                    .isInstanceOf(IcsParsingException.class)
+                    .hasCauseInstanceOf(IOException.class);
+        }
     }
 
 }

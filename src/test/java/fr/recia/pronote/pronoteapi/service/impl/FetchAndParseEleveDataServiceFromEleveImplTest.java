@@ -23,6 +23,7 @@ import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
 import fr.recia.pronote.pronoteapi.mapper.impl.EleveDtoMapperImpl;
 import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
 import fr.recia.pronote.pronoteapi.mapper.impl.PronoteUrlResolverImpl;
+import fr.recia.pronote.pronoteapi.service.IAgendaService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -35,6 +36,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -84,13 +86,13 @@ class FetchAndParseEleveDataServiceFromEleveImplTest {
                 </PageCahierDeTextes>
             </Eleve>
             """;
-
-    @Mock
-    FetchPronoteServiceImpl fetchPronoteService;
-
     private final ResumeCoursEtTravailAFaireAllDtoFactory factory = new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl());
     private final IEtablissementMapper etablissementMapper = new EtablissementMapperImpl();
     private final IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(factory, etablissementMapper, new PronoteUrlResolverImpl());
+    @Mock
+    FetchPronoteServiceImpl fetchPronoteService;
+    @Mock
+    IAgendaService agendaService;
 
     static Stream<Arguments> xmlScenarios() {
         return Stream.of(
@@ -104,9 +106,9 @@ class FetchAndParseEleveDataServiceFromEleveImplTest {
     @MethodSource("xmlScenarios")
     void getDto_parsesXmlAndBuildsEleveDto(String xml, List<String> expectedMatieres, int expectedTravailAFaireCount) {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(xml);
-
+        when(agendaService.getEvenementsFromUrl(any())).thenReturn(List.of());
         FetchAndParseEleveDataServiceFromEleveImpl service =
-                new FetchAndParseEleveDataServiceFromEleveImpl(fetchPronoteService, eleveDtoMapper);
+                new FetchAndParseEleveDataServiceFromEleveImpl(fetchPronoteService, eleveDtoMapper, agendaService);
 
         List<EleveDto> result = service.getDto("some-uid");
         EleveDto eleveDto = result.getFirst();

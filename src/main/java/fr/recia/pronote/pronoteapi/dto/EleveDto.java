@@ -16,6 +16,7 @@
 package fr.recia.pronote.pronoteapi.dto;
 
 import jakarta.annotation.Nullable;
+import fr.recia.pronote.pronoteapi.dto.agenda.EvenementAgendaDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.ResumeDeCoursDto;
 import fr.recia.pronote.pronoteapi.dto.cahierdetextes.TravailAFaireDto;
 import fr.recia.pronote.pronoteapi.dto.competences.CompetencesDto;
@@ -52,7 +53,8 @@ public class EleveDto {
     String etablissement;
     @Nullable
     String iCal;
-
+    @Nullable
+    List<EvenementAgendaDto> evenementsAgenda;
     public List<IWidgetCountable> countableComponents() {
         return Stream.of(vieScolaireDto, messagerieDto, competencesDto)
                 .filter(Objects::nonNull)
