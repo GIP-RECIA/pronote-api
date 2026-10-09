@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import type { PronotePageResponse } from '@/types/pronote'
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { faCircleExclamation, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -35,7 +35,7 @@ const { t } = useI18n()
 const appName = __APP_NAME__
 
 const data = ref<PronotePageResponse | null>(null)
-const error = ref<string | null>(null)
+const error = ref(false)
 const loading = ref(true)
 
 const backLink = computed(() => ({
@@ -52,7 +52,8 @@ onMounted(async () => {
     data.value = await fetchPronotePage()
   }
   catch (e) {
-    error.value = e instanceof Error ? e.message : String(e)
+    console.error('Échec du chargement de la page Pronote', e)
+    error.value = true
   }
   finally {
     loading.value = false
@@ -88,9 +89,10 @@ onMounted(async () => {
           {{ t('app.dataSourceNote') }}
         </p>
         <FicheEleveSkeleton v-if="loading" />
-        <p v-else-if="error">
-          {{ t('app.error', { message: error }) }}
-        </p>
+        <div v-else-if="error" class="r-card error-card" role="alert">
+          <FontAwesomeIcon :icon="faCircleExclamation" aria-hidden="true" />
+          <p>{{ t('app.error') }}</p>
+        </div>
         <template v-else-if="data && data.profil === 'Professeur'">
           <FicheProfesseur :professeur="data.professeurDto" />
         </template>
@@ -136,6 +138,28 @@ r-tabpanel:not([active]) {
   svg {
     flex: none;
     width: 14px;
+    color: var(--#{$prefix}basic-black-lighter);
+  }
+}
+
+.error-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 480px;
+  margin: 40px auto;
+  padding: 32px 24px;
+  text-align: center;
+
+  svg {
+    width: 32px;
+    height: 32px;
+    color: var(--#{$prefix}system-red);
+  }
+
+  p {
+    margin: 0;
     color: var(--#{$prefix}basic-black-lighter);
   }
 }

@@ -3,7 +3,7 @@
     "pageTitle": "Détail Pronote",
     "backToPortal": "Retour à l'accueil",
     "loading": "Chargement des données…",
-    "error": "Erreur : {message}",
+    "error": "Le service Pronote semble indisponible. Veuillez réessayer ultérieurement.",
     "defaultEleveLabel": "Élève",
     "quickAccess": "Accès rapide",
     "skipToContent": "Contenu",
