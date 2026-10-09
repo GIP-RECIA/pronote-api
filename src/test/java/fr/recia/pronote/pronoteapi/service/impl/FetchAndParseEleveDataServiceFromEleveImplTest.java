@@ -106,7 +106,7 @@ class FetchAndParseEleveDataServiceFromEleveImplTest {
     @MethodSource("xmlScenarios")
     void getDto_parsesXmlAndBuildsEleveDto(String xml, List<String> expectedMatieres, int expectedTravailAFaireCount) {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(xml);
-        when(agendaService.getEvenementsFromUrl(any())).thenReturn(List.of());
+        when(agendaService.getEvenementsFromUrl(any(), any())).thenReturn(List.of());
         FetchAndParseEleveDataServiceFromEleveImpl service =
                 new FetchAndParseEleveDataServiceFromEleveImpl(fetchPronoteService, eleveDtoMapper, agendaService);
 

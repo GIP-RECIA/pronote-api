@@ -17,11 +17,12 @@ package fr.recia.pronote.pronoteapi.service;
 
 import jakarta.annotation.Nullable;
 import fr.recia.pronote.pronoteapi.dto.agenda.EvenementAgendaDto;
+import fr.recia.pronote.pronoteapi.enums.UserProfile;
 
 import java.io.InputStream;
 import java.util.List;
 
 public interface IAgendaService {
-    List<EvenementAgendaDto> getEvenements(InputStream icsStream);
-    List<EvenementAgendaDto> getEvenementsFromUrl(@Nullable String icalUrl);
+    List<EvenementAgendaDto> getEvenements(InputStream icsStream, UserProfile profile);
+    List<EvenementAgendaDto> getEvenementsFromUrl(@Nullable String icalUrl, UserProfile profile);
 }

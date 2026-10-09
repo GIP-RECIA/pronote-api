@@ -16,6 +16,7 @@
 package fr.recia.pronote.pronoteapi.service.impl;
 
 import fr.recia.pronote.pronoteapi.dto.EleveDto;
+import fr.recia.pronote.pronoteapi.enums.UserProfile;
 import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.model.EleveFromParent;
 import fr.recia.pronote.pronoteapi.model.Parent;
@@ -60,7 +61,7 @@ public class FetchAndParseEleveDataServiceFromParentImpl implements IFetchAndPar
                     .prenom(eleve.getPrenom())
                     .nom(eleve.getNom())
                     .build();
-            eleveDto.setEvenementsAgenda(agendaService.getEvenementsFromUrl(eleveDto.getICal()));
+            eleveDto.setEvenementsAgenda(agendaService.getEvenementsFromUrl(eleveDto.getICal(), UserProfile.ELEVE));
             log.trace("DTO for Eleve with uid {} is {}", LogMasking.mask(uid), eleveDto);
 
             eleveDtoList.add(eleveDto);

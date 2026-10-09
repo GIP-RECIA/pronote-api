@@ -17,6 +17,7 @@ package fr.recia.pronote.pronoteapi.service.impl;
 
 import fr.recia.pronote.pronoteapi.dto.agenda.EvenementAgendaDto;
 import fr.recia.pronote.pronoteapi.enums.CategorieEvenement;
+import fr.recia.pronote.pronoteapi.enums.UserProfile;
 import fr.recia.pronote.pronoteapi.exception.IcsFetchException;
 import fr.recia.pronote.pronoteapi.exception.IcsParsingException;
 import fr.recia.pronote.pronoteapi.ical.IcsCalendarParser;
@@ -26,6 +27,7 @@ import fr.recia.pronote.pronoteapi.service.IFetchIcsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.fortuna.ical4j.data.ParserException;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -39,13 +41,12 @@ public final class AgendaServiceImpl implements IAgendaService {
 
     private final IcsCalendarParser icsCalendarParser;
     private final IFetchIcsService fetchIcsService;
-
     @Override
-    public List<EvenementAgendaDto> getEvenements(InputStream icsStream) {
+    public List<EvenementAgendaDto> getEvenements(InputStream icsStream, UserProfile profile) {
         List<EvenementAgendaDto> dtos;
         try {
             List<IcsEvent> events = icsCalendarParser.parse(icsStream);
-            dtos = events.stream().map(this::evenementAgendaDto).toList();
+            dtos = events.stream().map(event -> evenementAgendaDto(event, profile)).toList();
         } catch (ParserException | IOException e) {
             throw new IcsParsingException(e.getMessage(), e);
         }
@@ -53,32 +54,46 @@ public final class AgendaServiceImpl implements IAgendaService {
     }
 
     @Override
-    public List<EvenementAgendaDto> getEvenementsFromUrl(String icalUrl) {
+    public List<EvenementAgendaDto> getEvenementsFromUrl(@Nullable String icalUrl, UserProfile profile) {
         if (icalUrl == null) {
             return List.of();
         }
         try {
-            return getEvenements(fetchIcsService.fetchIcs(icalUrl));
+            return getEvenements(fetchIcsService.fetchIcs(icalUrl), profile);
         } catch (IcsFetchException | IcsParsingException e) {
             log.warn("Unable to build agenda for ical url {}: {}", icalUrl, e.getMessage());
             return List.of();
         }
     }
 
-    private EvenementAgendaDto evenementAgendaDto(IcsEvent event) {
+    private EvenementAgendaDto evenementAgendaDto(IcsEvent event, UserProfile profile) {
         CategorieEvenement categorie = event.categories().contains("Cours")
                 ? CategorieEvenement.COURS
                 : CategorieEvenement.JOUR_FERIE;
-        String matiere = categorie == CategorieEvenement.COURS
-                ? event.summary().split(" - ", 2)[0]
-                : null;
+
+        String matiere = null;
+        String professeur = null;
+        String classe = null;
+
+        if (categorie == CategorieEvenement.COURS) {
+            String[] parts = event.summary().split(" - ", 3);
+            matiere = parts[0];
+            String complement = parts.length > 1 ? parts[1] : null;
+            if (profile == UserProfile.PROFESSEUR) {
+                classe = complement;
+            } else {
+                professeur = complement;
+            }
+        }
+
         return EvenementAgendaDto.builder()
                 .matiere(matiere)
                 .categorie(categorie)
                 .salle(event.location())
                 .debut(event.start())
                 .fin(event.end())
+                .professeur(professeur)
+                .classe(classe)
                 .build();
-
     }
 }

@@ -18,6 +18,7 @@ package fr.recia.pronote.pronoteapi.service.impl;
 
 import fr.recia.pronote.pronoteapi.dto.agenda.EvenementAgendaDto;
 import fr.recia.pronote.pronoteapi.enums.CategorieEvenement;
+import fr.recia.pronote.pronoteapi.enums.UserProfile;
 import fr.recia.pronote.pronoteapi.exception.IcsParsingException;
 import fr.recia.pronote.pronoteapi.ical.IcsCalendarParser;
 import fr.recia.pronote.pronoteapi.ical.IcsEvent;
@@ -71,7 +72,7 @@ class AgendaServiceImplTest {
         when(icsCalendarParser.parse(any())).thenReturn(List.of(icsEvent));
 
         AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser, fetchIcsService);
-        List<EvenementAgendaDto> result = service.getEvenements(InputStream.nullInputStream());
+        List<EvenementAgendaDto> result = service.getEvenements(InputStream.nullInputStream(), UserProfile.ELEVE);
 
         EvenementAgendaDto dto = result.getFirst();
         assertThat(dto.getCategorie()).isEqualTo(CategorieEvenement.COURS);
@@ -93,7 +94,7 @@ class AgendaServiceImplTest {
         when(icsCalendarParser.parse(any())).thenReturn(List.of(icsEvent));
 
         AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser, fetchIcsService);
-        List<EvenementAgendaDto> result = service.getEvenements(InputStream.nullInputStream());
+        List<EvenementAgendaDto> result = service.getEvenements(InputStream.nullInputStream(),UserProfile.ELEVE);
 
         EvenementAgendaDto dto = result.getFirst();
         assertThat(dto.getCategorie()).isEqualTo(CategorieEvenement.JOUR_FERIE);
@@ -108,7 +109,7 @@ class AgendaServiceImplTest {
         AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser, fetchIcsService);
 
         try (InputStream icsStream = InputStream.nullInputStream()) {
-            assertThatThrownBy(() -> service.getEvenements(icsStream))
+            assertThatThrownBy(() -> service.getEvenements(icsStream, UserProfile.ELEVE))
                     .isInstanceOf(IcsParsingException.class)
                     .hasCauseInstanceOf(ParserException.class);
         }
@@ -121,7 +122,7 @@ class AgendaServiceImplTest {
         AgendaServiceImpl service = new AgendaServiceImpl(icsCalendarParser, fetchIcsService);
 
         try (InputStream icsStream = InputStream.nullInputStream()) {
-            assertThatThrownBy(() -> service.getEvenements(icsStream))
+            assertThatThrownBy(() -> service.getEvenements(icsStream, UserProfile.ELEVE))
                     .isInstanceOf(IcsParsingException.class)
                     .hasCauseInstanceOf(IOException.class);
         }
