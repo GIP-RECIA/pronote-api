@@ -3,7 +3,7 @@
     "pageTitle": "Pronote Details",
     "backToPortal": "Back to home",
     "loading": "Loading data…",
-    "error": "Error: {message}",
+    "error": "The Pronote service is not responding at the moment. Please try again later.",
     "defaultEleveLabel": "Student",
     "quickAccess": "Quick access",
     "skipToContent": "Content",
