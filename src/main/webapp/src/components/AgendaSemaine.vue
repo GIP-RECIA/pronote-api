@@ -26,6 +26,8 @@ const props = defineProps<{
   evenements: EvenementAgenda[]
   icalUrl: string | null
   index: number
+  /** Quel champ de complément afficher en badge sur chaque cours - le prof pour un élève/parent, la classe pour un professeur. */
+  badge: 'professeur' | 'classe'
 }>()
 
 const { t, locale } = useI18n()
@@ -75,8 +77,33 @@ const joursFeries = computed(() =>
   props.evenements.filter(evenement => evenement.categorie === 'JOUR_FERIE'),
 )
 
+// Plage réellement couverte par le flux iCal, déduite des dates présentes dans les
+// événements eux-mêmes (le backend ne renvoie pas de borne explicite). Un jour hors de
+// cette plage est "inconnu" (pas d'information), pas "vérifié sans cours".
+const plageConnue = computed(() => {
+  const dates = props.evenements.flatMap(evenement => [
+    evenement.debut.slice(0, 10),
+    evenement.fin.slice(0, 10),
+  ])
+  if (dates.length === 0) {
+    return null
+  }
+  return { min: dates.reduce((a, b) => (a < b ? a : b)), max: dates.reduce((a, b) => (a > b ? a : b)) }
+})
+
+function estWeekend(date: string): boolean {
+  const parts = date.split('-').map(Number)
+  const jsDay = new Date(Date.UTC(parts[0]!, parts[1]! - 1, parts[2]!)).getUTCDay()
+  return jsDay === 0 || jsDay === 6
+}
+
+function estDansLaPlageConnue(date: string): boolean {
+  const plage = plageConnue.value
+  return plage !== null && plage.min <= date && date <= plage.max
+}
+
 const jours = computed(() => {
-  return [0, 1, 2, 3, 4, 5].map((offset) => {
+  return [0, 1, 2, 3, 4, 5, 6].map((offset) => {
     const date = addDays(semaineAffichee.value, offset)
     const jourFerie = joursFeries.value.find(evenement =>
       evenement.debut.slice(0, 10) <= date && date < evenement.fin.slice(0, 10),
@@ -85,12 +112,18 @@ const jours = computed(() => {
       .filter(evenement => evenement.categorie === 'COURS')
       .filter(evenement => evenement.debut.slice(0, 10) === date)
       .sort((a, b) => a.debut.localeCompare(b.debut))
-    return { date, jourFerie, cours }
+    return {
+      date,
+      jourFerie,
+      cours,
+      weekend: estWeekend(date),
+      dansLaPlageConnue: estDansLaPlageConnue(date),
+    }
   })
 })
 
 const libelleSemaine = computed(() => {
-  const dernierJour = addDays(semaineAffichee.value, 5)
+  const dernierJour = addDays(semaineAffichee.value, 6)
   return t('agendaSemaine.plage', {
     debut: formatFullDate(semaineAffichee.value, locale.value),
     fin: formatFullDate(dernierJour, locale.value),
@@ -131,37 +164,78 @@ const libelleSemaine = computed(() => {
         </button>
       </div>
 
-      <table>
-        <caption class="sr-only">
-          {{ libelleSemaine }}
-        </caption>
-        <thead>
-          <tr>
-            <th v-for="jour in jours" :key="jour.date" scope="col">
-              {{ formatFullWeekday(jour.date, locale) }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td v-for="jour in jours" :key="jour.date">
-              <p v-if="jour.jourFerie" class="jour-ferie">
-                {{ t('agendaSemaine.jourFerie') }}
-              </p>
-              <template v-else-if="jour.cours.length">
-                <div v-for="(evenement, i) in jour.cours" :key="i" class="evenement">
-                  <span class="matiere">{{ evenement.matiere }}</span>
-                  <span class="horaire">{{ formatTimeRange(evenement.debut, evenement.fin, locale) }}</span>
-                  <span v-if="evenement.salle" class="salle">{{ evenement.salle }}</span>
-                </div>
-              </template>
-              <p v-else class="empty">
-                {{ t('agendaSemaine.empty') }}
-              </p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Vue tableau - desktop/tablette -->
+      <div class="table-wrapper vue-tableau">
+        <table>
+          <caption class="sr-only">
+            {{ libelleSemaine }}
+          </caption>
+          <thead>
+            <tr>
+              <th v-for="jour in jours" :key="jour.date" scope="col">
+                {{ formatFullWeekday(jour.date, locale) }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td v-for="jour in jours" :key="jour.date" :class="{ weekend: jour.weekend && !jour.cours.length }">
+                <p v-if="jour.jourFerie" class="jour-ferie">
+                  {{ t('agendaSemaine.jourFerie') }}
+                </p>
+                <ul v-else-if="jour.cours.length" class="evenements">
+                  <li v-for="(evenement, i) in jour.cours" :key="i" class="evenement">
+                    <div class="ligne-principale">
+                      <span class="matiere">{{ evenement.matiere }}</span>
+                      <span v-if="evenement[badge]" class="tag small">{{ evenement[badge] }}</span>
+                    </div>
+                    <span class="horaire">{{ formatTimeRange(evenement.debut, evenement.fin, locale) }}</span>
+                    <span v-if="evenement.salle" class="salle">{{ evenement.salle }}</span>
+                  </li>
+                </ul>
+                <p v-else-if="jour.weekend" class="weekend-label">
+                  {{ t('agendaSemaine.weekend') }}
+                </p>
+                <p v-else-if="jour.dansLaPlageConnue" class="aucun-cours">
+                  {{ t('agendaSemaine.aucunCours') }}
+                </p>
+                <p v-else class="empty">
+                  {{ t('agendaSemaine.empty') }}
+                </p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Vue jour par jour - mobile -->
+      <div class="vue-jours">
+        <div v-for="jour in jours" :key="jour.date" class="jour-carte" :class="{ weekend: jour.weekend && !jour.cours.length }">
+          <h3>{{ formatFullWeekday(jour.date, locale) }}</h3>
+          <p v-if="jour.jourFerie" class="jour-ferie">
+            {{ t('agendaSemaine.jourFerie') }}
+          </p>
+          <ul v-else-if="jour.cours.length" class="evenements">
+            <li v-for="(evenement, i) in jour.cours" :key="i" class="evenement">
+              <div class="ligne-principale">
+                <span class="matiere">{{ evenement.matiere }}</span>
+                <span v-if="evenement[badge]" class="tag small">{{ evenement[badge] }}</span>
+              </div>
+              <span class="horaire">{{ formatTimeRange(evenement.debut, evenement.fin, locale) }}</span>
+              <span v-if="evenement.salle" class="salle">{{ evenement.salle }}</span>
+            </li>
+          </ul>
+          <p v-else-if="jour.weekend" class="weekend-label">
+            {{ t('agendaSemaine.weekend') }}
+          </p>
+          <p v-else-if="jour.dansLaPlageConnue" class="aucun-cours">
+            {{ t('agendaSemaine.aucunCours') }}
+          </p>
+          <p v-else class="empty">
+            {{ t('agendaSemaine.empty') }}
+          </p>
+        </div>
+      </div>
     </template>
     <p v-else class="empty">
       {{ t('agendaSemaine.noApercu') }}
@@ -170,9 +244,50 @@ const libelleSemaine = computed(() => {
 </template>
 
 <style lang="scss" scoped>
+@use 'sass:map';
 @use '@gip-recia/ui/core/variables' as *;
 
 .agenda-semaine {
+  // Vue tableau par défaut (desktop/tablette), bascule vers la vue jour par jour empilée
+  // en dessous du seuil "md" - un tableau à 7 colonnes devient illisible sur mobile.
+  .vue-jours {
+    display: none;
+  }
+
+  @media (width < map.get($grid-breakpoints, md)) {
+    .vue-tableau {
+      display: none;
+    }
+
+    .vue-jours {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  .jour-carte {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--#{$prefix}stroke);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.weekend {
+      background-color: var(--#{$prefix}basic-grey);
+      border-radius: 6px;
+      padding: 8px;
+    }
+
+    h3 {
+      font-size: var(--#{$prefix}font-size-xs);
+      font-weight: 600;
+      text-transform: capitalize;
+      margin: 0 0 6px;
+    }
+  }
+
   .agenda-link {
     display: inline-flex;
     margin-bottom: 12px;
@@ -192,8 +307,13 @@ const libelleSemaine = computed(() => {
     }
   }
 
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
   table {
     width: 100%;
+    min-width: 700px;
     border-collapse: collapse;
     table-layout: fixed;
   }
@@ -215,13 +335,32 @@ const libelleSemaine = computed(() => {
     &:last-child {
       border-right: none;
     }
+
+    &.weekend {
+      background-color: var(--#{$prefix}basic-grey);
+    }
   }
 
   .jour-ferie,
+  .aucun-cours,
   .empty {
     color: var(--#{$prefix}basic-black-lighter);
     font-style: italic;
     font-size: var(--#{$prefix}font-size-xs);
+  }
+
+  // Sur fond gris (.weekend) : basic-black-lighter tombe à 4.31:1, sous le seuil AA (4.5:1)
+  // pour du texte de cette taille. basic-black donne 15:1, largement suffisant.
+  .weekend-label {
+    color: var(--#{$prefix}basic-black);
+    font-style: italic;
+    font-size: var(--#{$prefix}font-size-xs);
+  }
+
+  .evenements {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
   .evenement {
@@ -229,6 +368,13 @@ const libelleSemaine = computed(() => {
     flex-direction: column;
     gap: 2px;
     padding-bottom: 8px;
+
+    .ligne-principale {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
 
     .matiere {
       font-weight: 600;

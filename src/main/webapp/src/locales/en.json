@@ -75,16 +75,6 @@
     "observationLabel": "Remark ({matiere}) - {observation}",
     "signaledBy": "Reported by {demandeur}"
   },
-  "agendaJour": {
-    "heading": "Schedule",
-    "copyLink": "Copy calendar subscription link",
-    "linkCopied": "Link copied!",
-    "jourPrecedent": "Previous day",
-    "jourSuivant": "Next day",
-    "jourFerie": "Public holiday or school break",
-    "empty": "No information for this day.",
-    "noApercu": "Preview unavailable - use the link above to see the full schedule"
-  },
   "agendaSemaine": {
     "heading": "Timetable",
     "copyLink": "Copy calendar subscription link",
@@ -93,6 +83,8 @@
     "semaineSuivante": "Next week",
     "plage": "Week of {debut} to {fin}",
     "jourFerie": "Holiday / break",
+    "weekend": "Weekend - no classes",
+    "aucunCours": "No classes",
     "empty": "No information for this day.",
     "noApercu": "Preview unavailable - use the link above to see the full schedule"
   }
