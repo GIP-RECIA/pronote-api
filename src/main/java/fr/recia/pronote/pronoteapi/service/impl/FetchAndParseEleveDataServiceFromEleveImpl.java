@@ -17,8 +17,10 @@ package fr.recia.pronote.pronoteapi.service.impl;
 
 import fr.recia.pronote.pronoteapi.dto.EleveDto;
 import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
+import fr.recia.pronote.pronoteapi.enums.UserProfile;
 import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.model.Eleve;
+import fr.recia.pronote.pronoteapi.service.IAgendaService;
 import fr.recia.pronote.pronoteapi.service.IFetchAndParseEleveDataService;
 import fr.recia.pronote.pronoteapi.service.IFetchPronoteService;
 import fr.recia.pronote.pronoteapi.util.LogMasking;
@@ -39,6 +41,7 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
 
     private final IFetchPronoteService fetchPronoteService;
     private final IEleveDtoMapper eleveDtoMapper;
+    private final IAgendaService agendaService;
 
     @Override
     @Cacheable(value = "dtoListCache", key = "#uid")
@@ -56,7 +59,7 @@ public class FetchAndParseEleveDataServiceFromEleveImpl implements IFetchAndPars
         EleveDto eleveDto = eleveDtoMapper.map(eleve, pronoteBaseUrl)
                 .messagerieDto(messagerieDto)
                 .build();
-
+        eleveDto.setEvenementsAgenda(agendaService.getEvenementsFromUrl(eleveDto.getICal(), UserProfile.ELEVE));
         log.trace("DTO for Eleve with uid {} is {}", LogMasking.mask(uid), eleveDto);
 
         return Collections.singletonList(eleveDto);

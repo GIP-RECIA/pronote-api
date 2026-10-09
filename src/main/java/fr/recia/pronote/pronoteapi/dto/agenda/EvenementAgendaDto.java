@@ -13,27 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi.dto;
+package fr.recia.pronote.pronoteapi.dto.agenda;
 
 import jakarta.annotation.Nullable;
-import fr.recia.pronote.pronoteapi.dto.agenda.EvenementAgendaDto;
-import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
+import fr.recia.pronote.pronoteapi.enums.CategorieEvenement;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.temporal.Temporal;
 
 @Getter
 @Setter
 @Builder
-public class ProfesseurDto {
+public class EvenementAgendaDto {
+
     @Nullable
-    MessagerieDto messagerieDto;
+    String matiere;
     @Nullable
-    String etablissement;
+    String salle;
+    CategorieEvenement categorie;
+    Temporal debut;
+    Temporal fin;
     @Nullable
-    String iCal;
+    String professeur;
     @Nullable
-    List<EvenementAgendaDto> evenementsAgenda;
+    String classe;
 }

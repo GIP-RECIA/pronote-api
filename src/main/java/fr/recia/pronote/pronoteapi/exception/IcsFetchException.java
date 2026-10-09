@@ -13,27 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi.dto;
+package fr.recia.pronote.pronoteapi.exception;
 
-import jakarta.annotation.Nullable;
-import fr.recia.pronote.pronoteapi.dto.agenda.EvenementAgendaDto;
-import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+public class IcsFetchException extends RuntimeException {
+    public IcsFetchException(String message) {
+        super(message);
+    }
 
-import java.util.List;
-
-@Getter
-@Setter
-@Builder
-public class ProfesseurDto {
-    @Nullable
-    MessagerieDto messagerieDto;
-    @Nullable
-    String etablissement;
-    @Nullable
-    String iCal;
-    @Nullable
-    List<EvenementAgendaDto> evenementsAgenda;
+    public IcsFetchException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

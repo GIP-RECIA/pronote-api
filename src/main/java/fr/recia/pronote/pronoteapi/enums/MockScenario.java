@@ -40,4 +40,8 @@ public enum MockScenario {
     public String profilName(ProfilsProperties profilsProperties) {
         return profilNameExtractor.apply(profilsProperties);
     }
+
+    public String icsFixtureFileName() {
+        return fixtureFileName.replace(".xml", ".ics");
+    }
 }

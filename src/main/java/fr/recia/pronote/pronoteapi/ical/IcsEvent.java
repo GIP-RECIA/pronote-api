@@ -13,27 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.recia.pronote.pronoteapi.dto;
+package fr.recia.pronote.pronoteapi.ical;
 
-import jakarta.annotation.Nullable;
-import fr.recia.pronote.pronoteapi.dto.agenda.EvenementAgendaDto;
-import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
+import java.time.temporal.Temporal;
 import java.util.List;
 
-@Getter
-@Setter
-@Builder
-public class ProfesseurDto {
-    @Nullable
-    MessagerieDto messagerieDto;
-    @Nullable
-    String etablissement;
-    @Nullable
-    String iCal;
-    @Nullable
-    List<EvenementAgendaDto> evenementsAgenda;
+public record IcsEvent(String uid,
+                       Temporal start,
+                       Temporal end,
+                       String summary,
+                       String description,
+                       String location,
+                       List<String> categories) {
+
 }

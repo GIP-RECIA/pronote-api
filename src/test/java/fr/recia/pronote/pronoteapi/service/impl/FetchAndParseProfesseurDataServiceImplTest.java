@@ -18,12 +18,16 @@ package fr.recia.pronote.pronoteapi.service.impl;
 import fr.recia.pronote.pronoteapi.dto.ProfesseurDto;
 import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
 import fr.recia.pronote.pronoteapi.mapper.impl.PronoteUrlResolverImpl;
+import fr.recia.pronote.pronoteapi.service.IAgendaService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,12 +62,14 @@ class FetchAndParseProfesseurDataServiceImplTest {
 
     @Mock
     FetchPronoteServiceImpl fetchPronoteService;
+    @Mock
+    IAgendaService agendaService;
 
     @Test
     void getDto_parsesFullXml_buildsProfesseurDto() {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(XML_PROFESSEUR_COMPLET);
-
-        FetchAndParseProfesseurDataServiceImpl service = new FetchAndParseProfesseurDataServiceImpl(fetchPronoteService, new EtablissementMapperImpl(), new PronoteUrlResolverImpl());
+        when(agendaService.getEvenementsFromUrl(any(), any())).thenReturn(List.of());
+        FetchAndParseProfesseurDataServiceImpl service = new FetchAndParseProfesseurDataServiceImpl(fetchPronoteService, new EtablissementMapperImpl(), new PronoteUrlResolverImpl(), agendaService);
 
         ProfesseurDto result = service.getDto("some-uid");
 
@@ -78,8 +84,8 @@ class FetchAndParseProfesseurDataServiceImplTest {
     @Test
     void getDto_withoutPageMessagerie_leavesMessagerieDtoNull() {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(XML_PROFESSEUR_SANS_MESSAGERIE);
-
-        FetchAndParseProfesseurDataServiceImpl service = new FetchAndParseProfesseurDataServiceImpl(fetchPronoteService, new EtablissementMapperImpl(), new PronoteUrlResolverImpl());
+        when(agendaService.getEvenementsFromUrl(any(), any())).thenReturn(List.of());
+        FetchAndParseProfesseurDataServiceImpl service = new FetchAndParseProfesseurDataServiceImpl(fetchPronoteService, new EtablissementMapperImpl(), new PronoteUrlResolverImpl(), agendaService);
 
         ProfesseurDto result = service.getDto("some-uid");
 

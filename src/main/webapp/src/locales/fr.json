@@ -3,15 +3,14 @@
     "pageTitle": "Détail Pronote",
     "backToPortal": "Retour à l'accueil",
     "loading": "Chargement des données…",
-    "error": "Erreur : {message}",
+    "errorLabel": "Erreur",
+    "error": "Le service Pronote semble indisponible. Veuillez réessayer ultérieurement.",
     "defaultEleveLabel": "Élève",
     "quickAccess": "Accès rapide",
     "skipToContent": "Contenu",
     "dataSourceNote": "L'intégralité des données affichées est transmise par Pronote."
   },
   "ficheEleve": {
-    "copyAgendaLink": "Copier le lien d'abonnement à l'agenda",
-    "agendaLinkCopied": "Lien copié !",
     "stats": {
       "notesRecues": "notes reçues",
       "vieScolaire": "événements de vie scolaire",
@@ -20,8 +19,6 @@
     }
   },
   "ficheProfesseur": {
-    "copyAgendaLink": "Copier le lien d'abonnement à l'agenda",
-    "agendaLinkCopied": "Lien copié !",
     "unreadCasier": "documents casier non lus"
   },
   "cours": {
@@ -78,5 +75,18 @@
     "sanctionDuree": "{count} jour | {count} jours",
     "observationLabel": "Observation ({matiere}) - {observation}",
     "signaledBy": "Signalée par {demandeur}"
+  },
+  "agendaSemaine": {
+    "heading": "Emploi du temps",
+    "copyLink": "Copier le lien d'abonnement à l'agenda",
+    "linkCopied": "Lien copié !",
+    "semainePrecedente": "Semaine précédente",
+    "semaineSuivante": "Semaine suivante",
+    "plage": "Semaine du {debut} au {fin}",
+    "jourFerie": "Férié / vacances",
+    "weekend": "Week-end - pas de cours",
+    "aucunCours": "Aucun cours",
+    "empty": "Pas d'information pour ce jour.",
+    "noApercu": "Aperçu non disponible - utilisez le lien ci-dessus pour consulter l'agenda complet"
   }
 }

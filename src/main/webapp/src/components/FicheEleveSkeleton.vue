@@ -20,7 +20,7 @@
 <template>
   <div class="fiche-eleve-skeleton" aria-hidden="true">
     <div class="stats-strip">
-      <div v-for="n in 5" :key="n" class="stat-tile r-card">
+      <div v-for="n in 4" :key="n" class="stat-tile r-card">
         <span class="skeleton num" />
         <span class="skeleton lbl" />
       </div>
@@ -28,6 +28,12 @@
 
     <div class="layout">
       <div class="main-col">
+        <div class="r-card agenda-section">
+          <span class="skeleton section-title" />
+          <div class="agenda-grid">
+            <span v-for="n in 7" :key="n" class="skeleton day" />
+          </div>
+        </div>
         <div class="r-card">
           <span class="skeleton section-title" />
           <span class="skeleton line" />
@@ -93,8 +99,22 @@
     gap: 10px;
   }
 
+  .main-col > .agenda-section {
+    margin-bottom: 20px;
+  }
+
   .main-col > .travail-a-faire {
     margin-top: 16px;
+  }
+
+  .agenda-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+
+    .day {
+      height: 80px;
+    }
   }
 
   .sidebar-col {

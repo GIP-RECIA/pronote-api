@@ -34,15 +34,6 @@
 
     <PagePronote page="2" nom="Collège Jean Moulin"/>
 
-    <ICal>BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Pronote//EDT//FR
-BEGIN:VEVENT
-SUMMARY:Mathématiques - 3ème B
-DTSTART:20260917T080000Z
-DTEND:20260917T090000Z
-LOCATION:Salle 204
-END:VEVENT
-END:VCALENDAR</ICal>
+    <ICal>/ical/personnel.ics?icalsecurise=mock-token-professeur&amp;version=2026.1.1&amp;param=mock</ICal>
 
 </Professeur>

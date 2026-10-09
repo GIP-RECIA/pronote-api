@@ -16,6 +16,8 @@
 
 <script setup lang="ts">
 import type { PronotePageResponse } from '@/types/pronote'
+import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchPronotePage } from '@/api/pronote'
@@ -23,8 +25,9 @@ import FicheEleve from '@/components/FicheEleve.vue'
 import FicheEleveSkeleton from '@/components/FicheEleveSkeleton.vue'
 import FicheProfesseur from '@/components/FicheProfesseur.vue'
 import { initConfiguration, useConfiguration } from '@/composables/useConfiguration'
-import '@gip-recia/ui-webcomponents/dist/r-tabs.js'
+
 import '@gip-recia/ui-webcomponents/dist/r-page-layout.js'
+import '@gip-recia/ui-webcomponents/dist/r-tabs.js'
 
 const { configuration, isInit } = useConfiguration()
 const { t } = useI18n()
@@ -32,7 +35,7 @@ const { t } = useI18n()
 const appName = __APP_NAME__
 
 const data = ref<PronotePageResponse | null>(null)
-const error = ref<string | null>(null)
+const error = ref(false)
 const loading = ref(true)
 
 const backLink = computed(() => ({
@@ -49,7 +52,8 @@ onMounted(async () => {
     data.value = await fetchPronotePage()
   }
   catch (e) {
-    error.value = e instanceof Error ? e.message : String(e)
+    console.error('Échec du chargement de la page Pronote', e)
+    error.value = true
   }
   finally {
     loading.value = false
@@ -58,11 +62,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <nav
-    role="navigation"
-    :aria-label="t('app.quickAccess')"
-    class="skip-links"
-  >
+  <nav role="navigation" :aria-label="t('app.quickAccess')" class="skip-links">
     <ul>
       <li>
         <a href="#main">{{ t('app.skipToContent') }}</a>
@@ -84,17 +84,26 @@ onMounted(async () => {
       </span>
 
       <r-page-layout :page-title="t('app.pageTitle')" :back-link="JSON.stringify(backLink)">
-        <FicheEleveSkeleton v-if="loading" />
-        <p v-else-if="error">
-          {{ t('app.error', { message: error }) }}
+        <p v-if="!error" class="data-source-note">
+          <FontAwesomeIcon :icon="faCircleInfo" aria-hidden="true" />
+          {{ t('app.dataSourceNote') }}
         </p>
+        <FicheEleveSkeleton v-if="loading" />
+        <div v-else-if="error" class="error-state" role="alert">
+          <FontAwesomeIcon :icon="faTriangleExclamation" class="icon" aria-hidden="true" />
+          <span class="text">
+            {{ t('app.errorLabel') }}
+            <span class="large">{{ t('app.error') }}</span>
+          </span>
+        </div>
         <template v-else-if="data && data.profil === 'Professeur'">
           <FicheProfesseur :professeur="data.professeurDto" />
         </template>
         <template v-else-if="data && data.eleveDtoList.length > 1">
           <r-tablist
-            id-prefix="eleves" :tabs="data.eleveDtoList.map(eleve => eleve.prenom ?? t('app.defaultEleveLabel'))"
-            active-tab="0" switch-tabpanel
+            id-prefix="eleves"
+            :tabs="data.eleveDtoList.map(eleve => eleve.prenom ?? t('app.defaultEleveLabel'))" active-tab="0"
+            switch-tabpanel
           />
           <r-tabpanel
             v-for="(eleve, index) in data.eleveDtoList" :key="index" id-prefix="eleves" :index.attr="index"
@@ -113,8 +122,56 @@ onMounted(async () => {
   </footer>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '@gip-recia/ui/core/variables' as *;
+
 r-tabpanel:not([active]) {
   display: none;
+}
+
+.data-source-note {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--#{$prefix}font-size-xs);
+  color: var(--#{$prefix}basic-black-lighter);
+  margin-bottom: 20px;
+
+  svg {
+    flex: none;
+    width: 14px;
+    color: var(--#{$prefix}basic-black-lighter);
+  }
+}
+
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 480px;
+  margin: 60px auto;
+  background-color: var(--#{$prefix}body-bg);
+
+  > .icon {
+    font-size: 38px;
+    margin-bottom: 14px;
+    color: var(--#{$prefix}basic-black);
+    opacity: 0.1;
+  }
+
+  > .text {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: var(--#{$prefix}font-size-xs);
+
+    > .large {
+      font-size: var(--#{$prefix}font-size-sm);
+      font-weight: bold;
+      letter-spacing: -0.15px;
+    }
+  }
 }
 </style>

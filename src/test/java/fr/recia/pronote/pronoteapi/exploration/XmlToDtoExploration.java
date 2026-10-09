@@ -24,6 +24,7 @@ import fr.recia.pronote.pronoteapi.mapper.IEleveDtoMapper;
 import fr.recia.pronote.pronoteapi.mapper.impl.EleveDtoMapperImpl;
 import fr.recia.pronote.pronoteapi.mapper.impl.EtablissementMapperImpl;
 import fr.recia.pronote.pronoteapi.mapper.impl.PronoteUrlResolverImpl;
+import fr.recia.pronote.pronoteapi.service.IAgendaService;
 import fr.recia.pronote.pronoteapi.service.impl.FetchAndParseEleveDataServiceFromEleveImpl;
 import fr.recia.pronote.pronoteapi.service.impl.FetchPronoteServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,8 @@ class XmlToDtoExploration {
 
     @Mock
     FetchPronoteServiceImpl fetchPronoteService;
+    @Mock
+    IAgendaService agendaService;
 
     @Test
     void printJsonFromXml() throws IOException {
@@ -58,7 +61,7 @@ class XmlToDtoExploration {
         IEleveDtoMapper eleveDtoMapper = new EleveDtoMapperImpl(
                 new ResumeCoursEtTravailAFaireAllDtoFactory(new PronoteUrlResolverImpl()), new EtablissementMapperImpl(), new PronoteUrlResolverImpl());
 
-        var service = new FetchAndParseEleveDataServiceFromEleveImpl(fetchPronoteService, eleveDtoMapper);
+        var service = new FetchAndParseEleveDataServiceFromEleveImpl(fetchPronoteService, eleveDtoMapper, agendaService);
 
         List<EleveDto> eleveDtoList = service.getDto("test-uid");
 

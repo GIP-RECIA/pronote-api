@@ -126,12 +126,24 @@ export interface Eleve {
   competencesDto: Competences | null
   etablissement: string | null
   iCal: string | null
+  evenementsAgenda: EvenementAgenda[] | null
 }
 
 export interface Professeur {
   messagerieDto: Messagerie | null
   etablissement: string | null
   iCal: string | null
+  evenementsAgenda: EvenementAgenda[] | null
+}
+
+export interface EvenementAgenda {
+  matiere: string | null
+  debut: string
+  fin: string
+  salle: string | null
+  categorie: 'COURS' | 'JOUR_FERIE'
+  professeur: string | null
+  classe: string | null
 }
 
 export type PronotePageResponse
