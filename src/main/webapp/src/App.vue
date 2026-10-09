@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import type { PronotePageResponse } from '@/types/pronote'
-import { faCircleExclamation, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { faCircleInfo, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -84,14 +84,17 @@ onMounted(async () => {
       </span>
 
       <r-page-layout :page-title="t('app.pageTitle')" :back-link="JSON.stringify(backLink)">
-        <p class="data-source-note">
+        <p v-if="!error" class="data-source-note">
           <FontAwesomeIcon :icon="faCircleInfo" aria-hidden="true" />
           {{ t('app.dataSourceNote') }}
         </p>
         <FicheEleveSkeleton v-if="loading" />
-        <div v-else-if="error" class="r-card error-card" role="alert">
-          <FontAwesomeIcon :icon="faCircleExclamation" aria-hidden="true" />
-          <p>{{ t('app.error') }}</p>
+        <div v-else-if="error" class="error-state" role="alert">
+          <FontAwesomeIcon :icon="faTriangleExclamation" class="icon" aria-hidden="true" />
+          <span class="text">
+            {{ t('app.errorLabel') }}
+            <span class="large">{{ t('app.error') }}</span>
+          </span>
         </div>
         <template v-else-if="data && data.profil === 'Professeur'">
           <FicheProfesseur :professeur="data.professeurDto" />
@@ -142,25 +145,33 @@ r-tabpanel:not([active]) {
   }
 }
 
-.error-card {
+.error-state {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
   max-width: 480px;
-  margin: 40px auto;
-  padding: 32px 24px;
-  text-align: center;
+  margin: 60px auto;
+  background-color: var(--#{$prefix}body-bg);
 
-  svg {
-    width: 32px;
-    height: 32px;
-    color: var(--#{$prefix}system-red);
+  > .icon {
+    font-size: 38px;
+    margin-bottom: 14px;
+    color: var(--#{$prefix}basic-black);
+    opacity: 0.1;
   }
 
-  p {
-    margin: 0;
-    color: var(--#{$prefix}basic-black-lighter);
+  > .text {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: var(--#{$prefix}font-size-xs);
+
+    > .large {
+      font-size: var(--#{$prefix}font-size-sm);
+      font-weight: bold;
+      letter-spacing: -0.15px;
+    }
   }
 }
 </style>
