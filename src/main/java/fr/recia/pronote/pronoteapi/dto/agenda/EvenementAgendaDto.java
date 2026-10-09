@@ -35,5 +35,8 @@ public class EvenementAgendaDto {
     CategorieEvenement categorie;
     Temporal debut;
     Temporal fin;
-
+    @Nullable
+    String professeur;
+    @Nullable
+    String classe;
 }

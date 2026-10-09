@@ -17,6 +17,7 @@ package fr.recia.pronote.pronoteapi.service.impl;
 
 import fr.recia.pronote.pronoteapi.dto.ProfesseurDto;
 import fr.recia.pronote.pronoteapi.dto.messagerie.MessagerieDto;
+import fr.recia.pronote.pronoteapi.enums.UserProfile;
 import fr.recia.pronote.pronoteapi.mapper.IEtablissementMapper;
 import fr.recia.pronote.pronoteapi.mapper.IPronoteUrlResolver;
 import fr.recia.pronote.pronoteapi.model.Professeur;
@@ -61,7 +62,7 @@ public class FetchAndParseProfesseurDataServiceImpl implements IFetchAndParsePro
                 .etablissement(etablissement)
                 .iCal(pronoteUrlResolver.resolve(professeur.getICal(), pronoteBaseUrl))
                 .build();
-        professeurDto.setEvenementsAgenda(agendaService.getEvenementsFromUrl(professeurDto.getICal()));
+        professeurDto.setEvenementsAgenda(agendaService.getEvenementsFromUrl(professeurDto.getICal(), UserProfile.PROFESSEUR));
 
         log.trace("DTO for Professeur with uid {} is {}", LogMasking.mask(uid), professeurDto);
 

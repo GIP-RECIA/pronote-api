@@ -58,7 +58,7 @@ class FetchAndParseEleveDataServiceFromParentImplTest {
     @Test
     void getDto_withTwoChildrenSharingTheSameFirstName_keepsBothAsSeparateEntries() {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(XML_DEUX_ENFANTS_MEME_PRENOM);
-        when(agendaService.getEvenementsFromUrl(any())).thenReturn(List.of());
+        when(agendaService.getEvenementsFromUrl(any(), any())).thenReturn(List.of());
         FetchAndParseEleveDataServiceFromParentImpl service =
                 new FetchAndParseEleveDataServiceFromParentImpl(fetchPronoteService, eleveDtoMapper, agendaService);
 

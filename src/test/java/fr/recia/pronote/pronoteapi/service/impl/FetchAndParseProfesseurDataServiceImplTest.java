@@ -68,7 +68,7 @@ class FetchAndParseProfesseurDataServiceImplTest {
     @Test
     void getDto_parsesFullXml_buildsProfesseurDto() {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(XML_PROFESSEUR_COMPLET);
-        when(agendaService.getEvenementsFromUrl(any())).thenReturn(List.of());
+        when(agendaService.getEvenementsFromUrl(any(), any())).thenReturn(List.of());
         FetchAndParseProfesseurDataServiceImpl service = new FetchAndParseProfesseurDataServiceImpl(fetchPronoteService, new EtablissementMapperImpl(), new PronoteUrlResolverImpl(), agendaService);
 
         ProfesseurDto result = service.getDto("some-uid");
@@ -84,7 +84,7 @@ class FetchAndParseProfesseurDataServiceImplTest {
     @Test
     void getDto_withoutPageMessagerie_leavesMessagerieDtoNull() {
         when(fetchPronoteService.getPronoteXmlAsString()).thenReturn(XML_PROFESSEUR_SANS_MESSAGERIE);
-        when(agendaService.getEvenementsFromUrl(any())).thenReturn(List.of());
+        when(agendaService.getEvenementsFromUrl(any(), any())).thenReturn(List.of());
         FetchAndParseProfesseurDataServiceImpl service = new FetchAndParseProfesseurDataServiceImpl(fetchPronoteService, new EtablissementMapperImpl(), new PronoteUrlResolverImpl(), agendaService);
 
         ProfesseurDto result = service.getDto("some-uid");
