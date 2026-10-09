@@ -16,6 +16,8 @@
 
 <script setup lang="ts">
 import type { PronotePageResponse } from '@/types/pronote'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { fetchPronotePage } from '@/api/pronote'
@@ -23,8 +25,9 @@ import FicheEleve from '@/components/FicheEleve.vue'
 import FicheEleveSkeleton from '@/components/FicheEleveSkeleton.vue'
 import FicheProfesseur from '@/components/FicheProfesseur.vue'
 import { initConfiguration, useConfiguration } from '@/composables/useConfiguration'
-import '@gip-recia/ui-webcomponents/dist/r-tabs.js'
+
 import '@gip-recia/ui-webcomponents/dist/r-page-layout.js'
+import '@gip-recia/ui-webcomponents/dist/r-tabs.js'
 
 const { configuration, isInit } = useConfiguration()
 const { t } = useI18n()
@@ -58,11 +61,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <nav
-    role="navigation"
-    :aria-label="t('app.quickAccess')"
-    class="skip-links"
-  >
+  <nav role="navigation" :aria-label="t('app.quickAccess')" class="skip-links">
     <ul>
       <li>
         <a href="#main">{{ t('app.skipToContent') }}</a>
@@ -84,6 +83,10 @@ onMounted(async () => {
       </span>
 
       <r-page-layout :page-title="t('app.pageTitle')" :back-link="JSON.stringify(backLink)">
+        <p class="data-source-note">
+          <FontAwesomeIcon :icon="faCircleInfo" aria-hidden="true" />
+          {{ t('app.dataSourceNote') }}
+        </p>
         <FicheEleveSkeleton v-if="loading" />
         <p v-else-if="error">
           {{ t('app.error', { message: error }) }}
@@ -93,8 +96,9 @@ onMounted(async () => {
         </template>
         <template v-else-if="data && data.eleveDtoList.length > 1">
           <r-tablist
-            id-prefix="eleves" :tabs="data.eleveDtoList.map(eleve => eleve.prenom ?? t('app.defaultEleveLabel'))"
-            active-tab="0" switch-tabpanel
+            id-prefix="eleves"
+            :tabs="data.eleveDtoList.map(eleve => eleve.prenom ?? t('app.defaultEleveLabel'))" active-tab="0"
+            switch-tabpanel
           />
           <r-tabpanel
             v-for="(eleve, index) in data.eleveDtoList" :key="index" id-prefix="eleves" :index.attr="index"
@@ -113,8 +117,26 @@ onMounted(async () => {
   </footer>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '@gip-recia/ui/core/variables' as *;
+
 r-tabpanel:not([active]) {
   display: none;
+}
+
+.data-source-note {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--#{$prefix}font-size-xs);
+  color: var(--#{$prefix}basic-black-lighter);
+  margin-bottom: 20px;
+
+  svg {
+    flex: none;
+    width: 14px;
+    color: var(--#{$prefix}basic-black-lighter);
+  }
 }
 </style>

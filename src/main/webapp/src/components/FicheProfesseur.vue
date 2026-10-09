@@ -16,57 +16,24 @@
 
 <script setup lang="ts">
 import type { Professeur } from '@/types/pronote'
-import { faCheck, faCircleInfo, faCopy } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import AgendaSemaine from '@/components/AgendaSemaine.vue'
 
 defineProps<{
   professeur: Professeur
 }>()
 
 const { t } = useI18n()
-
-const agendaLinkCopied = ref(false)
-
-async function copyAgendaLink(url: string) {
-  try {
-    await navigator.clipboard.writeText(url)
-    agendaLinkCopied.value = true
-    setTimeout(() => {
-      agendaLinkCopied.value = false
-    }, 2000)
-  }
-  catch (error) {
-    console.error('Unable to copy agenda link', error)
-  }
-}
 </script>
 
 <template>
   <article class="fiche-professeur">
-    <button
-      v-if="professeur.iCal"
-      type="button"
-      class="btn-secondary small agenda-link"
-      @click="copyAgendaLink(professeur.iCal)"
-    >
-      <FontAwesomeIcon :icon="agendaLinkCopied ? faCheck : faCopy" aria-hidden="true" />
-      {{ agendaLinkCopied ? t('ficheProfesseur.agendaLinkCopied') : t('ficheProfesseur.copyAgendaLink') }}
-    </button>
-    <span class="sr-only" role="status" aria-live="polite">
-      {{ agendaLinkCopied ? t('ficheProfesseur.agendaLinkCopied') : '' }}
-    </span>
+    <div class="layout">
+      <div v-if="professeur.iCal" class="r-card main-col">
+        <AgendaSemaine :evenements="professeur.evenementsAgenda ?? []" :ical-url="professeur.iCal" :index="0" />
+      </div>
 
-    <p class="data-source-note r-card">
-      <FontAwesomeIcon :icon="faCircleInfo" aria-hidden="true" />
-      {{ t('app.dataSourceNote') }}
-    </p>
-    <section class="r-card messagerie" aria-labelledby="messagerie-heading">
-      <h2 id="messagerie-heading">
-        {{ t('messagerie.heading') }}
-      </h2>
-      <div class="stats">
+      <div class="r-card messagerie sidebar-col" :aria-label="t('messagerie.heading')">
         <div class="stat">
           <span class="num">{{ professeur.messagerieDto?.nombreMessagesNonLus ?? 0 }}</span>
           <span class="lbl">{{ t('messagerie.unreadMessages') }}</span>
@@ -80,38 +47,39 @@ async function copyAgendaLink(url: string) {
           <span class="lbl">{{ t('ficheProfesseur.unreadCasier') }}</span>
         </div>
       </div>
-    </section>
+    </div>
   </article>
 </template>
 
 <style lang="scss" scoped>
+@use 'sass:map';
 @use '@gip-recia/ui/core/variables' as *;
 
-.fiche-professeur {
-  .data-source-note {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    font-size: var(--#{$prefix}font-size-xs);
-    color: var(--#{$prefix}basic-black-lighter);
-    margin-bottom: 20px;
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 24px;
+  align-items: start;
+}
 
-    svg {
-      flex: none;
-      width: 14px;
-      color: var(--#{$prefix}basic-black-lighter);
-    }
+@media (width < map.get($grid-breakpoints, lg)) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-col {
+    grid-column: auto;
   }
 }
 
+.sidebar-col {
+  grid-column: 2;
+}
+
 .messagerie {
-  .stats {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 4px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
   .stat {
     display: flex;
@@ -129,9 +97,5 @@ async function copyAgendaLink(url: string) {
       color: var(--#{$prefix}basic-black-lighter);
     }
   }
-}
-.agenda-link {
-  display: inline-flex;
-  margin-bottom: 16px;
 }
 </style>

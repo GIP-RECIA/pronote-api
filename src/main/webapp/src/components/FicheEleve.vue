@@ -16,10 +16,9 @@
 
 <script setup lang="ts">
 import type { Eleve } from '@/types/pronote'
-import { faCheck, faCircleInfo, faCopy } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import AgendaJour from '@/components/AgendaJour.vue'
 import Competences from '@/components/Competences.vue'
 import Cours from '@/components/Cours.vue'
 import Devoirs from '@/components/Devoirs.vue'
@@ -49,42 +48,10 @@ const vieScolaireCount = computed(() => {
 
 const travailAFaireCount = computed(() => props.eleve.travailAFaireDtoList?.length ?? 0)
 const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
-
-const agendaLinkCopied = ref(false)
-
-async function copyAgendaLink(url: string) {
-  try {
-    await navigator.clipboard.writeText(url)
-    agendaLinkCopied.value = true
-    setTimeout(() => {
-      agendaLinkCopied.value = false
-    }, 2000)
-  }
-  catch (error) {
-    console.error('Unable to copy agenda link', error)
-  }
-}
 </script>
 
 <template>
   <article class="fiche-eleve">
-    <button
-      v-if="eleve.iCal"
-      type="button"
-      class="btn-secondary small agenda-link"
-      @click="copyAgendaLink(eleve.iCal)"
-    >
-      <FontAwesomeIcon :icon="agendaLinkCopied ? faCheck : faCopy" aria-hidden="true" />
-      {{ agendaLinkCopied ? t('ficheEleve.agendaLinkCopied') : t('ficheEleve.copyAgendaLink') }}
-    </button>
-    <span class="sr-only" role="status" aria-live="polite">
-      {{ agendaLinkCopied ? t('ficheEleve.agendaLinkCopied') : '' }}
-    </span>
-
-    <p class="data-source-note r-card">
-      <FontAwesomeIcon :icon="faCircleInfo" aria-hidden="true" />
-      {{ t('app.dataSourceNote') }}
-    </p>
     <div class="stats-strip">
       <a :href="`#devoirs-${index}`" class="stat-tile r-card">
         <span class="num">{{ devoirsCount }}</span>
@@ -113,6 +80,9 @@ async function copyAgendaLink(url: string) {
       </div>
 
       <div class="sidebar-col">
+        <div v-if="eleve.iCal" :id="`agenda-${index}`" class="r-card">
+          <AgendaJour :evenements="eleve.evenementsAgenda ?? []" :ical-url="eleve.iCal" :index="index" />
+        </div>
         <div :id="`messagerie-${index}`" tabindex="-1">
           <Messagerie v-if="eleve.messagerieDto" :messagerie="eleve.messagerieDto" :index="index" />
         </div>
@@ -136,22 +106,6 @@ async function copyAgendaLink(url: string) {
 @use '@gip-recia/ui/functions' as *;
 
 .fiche-eleve {
-  .data-source-note {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    font-size: var(--#{$prefix}font-size-xs);
-    color: var(--#{$prefix}basic-black-lighter);
-    margin-bottom: 20px;
-
-    svg {
-      flex: none;
-      width: 14px;
-      color: var(--#{$prefix}basic-black-lighter);
-    }
-  }
-
   .stats-strip {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -178,11 +132,6 @@ async function copyAgendaLink(url: string) {
       font-size: var(--#{$prefix}font-size-xs);
       color: var(--#{$prefix}basic-black-lighter);
     }
-  }
-
-  .agenda-link {
-    display: inline-flex;
-    margin-bottom: 16px;
   }
 
   .layout {

@@ -10,8 +10,6 @@
     "dataSourceNote": "All the data shown here is provided by Pronote."
   },
   "ficheEleve": {
-    "copyAgendaLink": "Copy calendar subscription link",
-    "agendaLinkCopied": "Link copied!",
     "stats": {
       "notesRecues": "grades received",
       "vieScolaire": "school-life events",
@@ -20,8 +18,6 @@
     }
   },
   "ficheProfesseur": {
-    "copyAgendaLink": "Copy calendar subscription link",
-    "agendaLinkCopied": "Link copied!",
     "unreadCasier": "unread documents"
   },
   "cours": {
@@ -78,5 +74,26 @@
     "sanctionDuree": "{count} day | {count} days",
     "observationLabel": "Remark ({matiere}) - {observation}",
     "signaledBy": "Reported by {demandeur}"
+  },
+  "agendaJour": {
+    "heading": "Schedule",
+    "copyLink": "Copy calendar subscription link",
+    "linkCopied": "Link copied!",
+    "jourPrecedent": "Previous day",
+    "jourSuivant": "Next day",
+    "jourFerie": "Public holiday or school break",
+    "empty": "No information for this day.",
+    "noApercu": "Preview unavailable - use the link above to see the full schedule"
+  },
+  "agendaSemaine": {
+    "heading": "Timetable",
+    "copyLink": "Copy calendar subscription link",
+    "linkCopied": "Link copied!",
+    "semainePrecedente": "Previous week",
+    "semaineSuivante": "Next week",
+    "plage": "Week of {debut} to {fin}",
+    "jourFerie": "Holiday / break",
+    "empty": "No information for this day.",
+    "noApercu": "Preview unavailable - use the link above to see the full schedule"
   }
 }
