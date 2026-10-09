@@ -18,7 +18,7 @@
 import type { Eleve } from '@/types/pronote'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import AgendaJour from '@/components/AgendaJour.vue'
+import AgendaSemaine from '@/components/AgendaSemaine.vue'
 import Competences from '@/components/Competences.vue'
 import Cours from '@/components/Cours.vue'
 import Devoirs from '@/components/Devoirs.vue'
@@ -73,6 +73,9 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
 
     <div class="layout">
       <div :id="`cours-${index}`" class="main-col" tabindex="-1">
+        <div v-if="eleve.iCal" :id="`agenda-${index}`" class="r-card agenda-section">
+          <AgendaSemaine :evenements="eleve.evenementsAgenda ?? []" :ical-url="eleve.iCal" :index="index" badge="professeur" />
+        </div>
         <Cours
           :resume-de-cours-list="eleve.resumeDeCoursDtoList" :travail-a-faire-list="eleve.travailAFaireDtoList"
           :index="index"
@@ -80,9 +83,6 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
       </div>
 
       <div class="sidebar-col">
-        <div v-if="eleve.iCal" :id="`agenda-${index}`" class="r-card">
-          <AgendaJour :evenements="eleve.evenementsAgenda ?? []" :ical-url="eleve.iCal" :index="index" />
-        </div>
         <div :id="`messagerie-${index}`" tabindex="-1">
           <Messagerie v-if="eleve.messagerieDto" :messagerie="eleve.messagerieDto" :index="index" />
         </div>
@@ -139,6 +139,10 @@ const devoirsCount = computed(() => props.eleve.devoirDtoList?.length ?? 0)
     grid-template-columns: minmax(0, 1fr) 380px;
     gap: 24px;
     align-items: start;
+  }
+
+  .agenda-section {
+    margin-bottom: 20px;
   }
 
   @media (width < map.get($grid-breakpoints, lg)) {

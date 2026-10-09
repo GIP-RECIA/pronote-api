@@ -75,16 +75,6 @@
     "observationLabel": "Observation ({matiere}) - {observation}",
     "signaledBy": "Signalée par {demandeur}"
   },
-  "agendaJour": {
-    "heading": "Agenda",
-    "copyLink": "Copier le lien d'abonnement à l'agenda",
-    "linkCopied": "Lien copié !",
-    "jourPrecedent": "Jour précédent",
-    "jourSuivant": "Jour suivant",
-    "jourFerie": "Jour férié ou vacances",
-    "empty": "Pas d'information pour ce jour.",
-    "noApercu": "Aperçu non disponible - utilisez le lien ci-dessus pour consulter l'agenda complet"
-  },
   "agendaSemaine": {
     "heading": "Emploi du temps",
     "copyLink": "Copier le lien d'abonnement à l'agenda",
@@ -93,6 +83,8 @@
     "semaineSuivante": "Semaine suivante",
     "plage": "Semaine du {debut} au {fin}",
     "jourFerie": "Férié / vacances",
+    "weekend": "Week-end - pas de cours",
+    "aucunCours": "Aucun cours",
     "empty": "Pas d'information pour ce jour.",
     "noApercu": "Aperçu non disponible - utilisez le lien ci-dessus pour consulter l'agenda complet"
   }

@@ -142,6 +142,8 @@ export interface EvenementAgenda {
   fin: string
   salle: string | null
   categorie: 'COURS' | 'JOUR_FERIE'
+  professeur: string | null
+  classe: string | null
 }
 
 export type PronotePageResponse

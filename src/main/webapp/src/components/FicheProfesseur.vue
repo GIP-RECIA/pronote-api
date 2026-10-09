@@ -29,11 +29,11 @@ const { t } = useI18n()
 <template>
   <article class="fiche-professeur">
     <div class="layout">
-      <div v-if="professeur.iCal" class="r-card main-col">
-        <AgendaSemaine :evenements="professeur.evenementsAgenda ?? []" :ical-url="professeur.iCal" :index="0" />
+      <div v-if="professeur.iCal" class="r-card agenda-section">
+        <AgendaSemaine :evenements="professeur.evenementsAgenda ?? []" :ical-url="professeur.iCal" :index="0" badge="classe" />
       </div>
 
-      <div class="r-card messagerie sidebar-col" :aria-label="t('messagerie.heading')">
+      <div class="r-card messagerie" :aria-label="t('messagerie.heading')">
         <div class="stat">
           <span class="num">{{ professeur.messagerieDto?.nombreMessagesNonLus ?? 0 }}</span>
           <span class="lbl">{{ t('messagerie.unreadMessages') }}</span>
@@ -52,28 +52,12 @@ const { t } = useI18n()
 </template>
 
 <style lang="scss" scoped>
-@use 'sass:map';
 @use '@gip-recia/ui/core/variables' as *;
 
 .layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
-  gap: 24px;
-  align-items: start;
-}
-
-@media (width < map.get($grid-breakpoints, lg)) {
-  .layout {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar-col {
-    grid-column: auto;
-  }
-}
-
-.sidebar-col {
-  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .messagerie {
