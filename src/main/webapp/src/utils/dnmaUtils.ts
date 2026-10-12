@@ -20,7 +20,7 @@ const { configuration } = useConfiguration()
 
 export class dnmaService {
   private static get fname(): string | undefined {
-    return configuration.value?.front.extendedUportal?.header?.props?.fname
+    return configuration.value?.front?.dnmaLinkName
   }
 
   static openPieceJointe() {

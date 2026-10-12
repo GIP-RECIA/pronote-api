@@ -25,6 +25,7 @@ import java.util.Map;
 public class FrontProperties {
 
     private ExtendedUportalProperties extendedUportal;
+    private String dnmaLinkName;
 
     @Data
     public static class ExtendedUportalProperties {

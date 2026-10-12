@@ -26,6 +26,7 @@ export interface ExtendedUportalProperties {
 
 export interface FrontProperties {
   extendedUportal: ExtendedUportalProperties | null
+  dnmaLinkName: string | undefined
 }
 
 export interface Configuration {
