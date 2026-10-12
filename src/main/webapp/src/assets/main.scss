@@ -51,6 +51,14 @@ body,
 }
 
 #app {
+  background-color: var(--#{$prefix}body-bg);
+  font-family: $dm-sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: var(--#{$prefix}body-font-size);
+  letter-spacing: 0;
+  color: var(--#{$prefix}body);
+
   display: grid;
   min-height: 100%;
   grid-template-rows: auto auto 1fr auto;
