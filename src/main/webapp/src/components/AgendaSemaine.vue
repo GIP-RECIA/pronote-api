@@ -248,8 +248,8 @@ const libelleSemaine = computed(() => {
 @use '@gip-recia/ui/core/variables' as *;
 
 .agenda-semaine {
-  // Vue tableau par défaut (desktop/tablette), bascule vers la vue jour par jour empilée
-  // en dessous du seuil "md" - un tableau à 7 colonnes devient illisible sur mobile.
+  // Vue jour par jour par défaut (mobile), bascule vers le tableau à partir du seuil "lg"
+  // - un tableau à 7 colonnes devient illisible en dessous de 992px.
   .vue-tableau {
     display: none;
   }
