@@ -51,3 +51,53 @@ const { t } = useI18n()
     </p>
   </section>
 </template>
+
+<style lang="scss" scoped>
+@use '@gip-recia/ui/core/variables' as *;
+@use '@gip-recia/ui/functions' as *;
+
+.competences {
+  .subheading {
+    font-size: var(--#{$prefix}font-size-xs);
+    color: var(--#{$prefix}basic-black-lighter);
+    margin: 2px 0 8px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--#{$prefix}stroke);
+    margin: 10px 0;
+  }
+
+  .evaluation {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: 8px;
+    padding: 6px 0;
+
+    .matiere {
+      font-weight: 600;
+      font-size: var(--#{$prefix}font-size-sm);
+    }
+
+    .niveau {
+      font-weight: 700;
+      font-size: var(--#{$prefix}font-size-xs);
+      color: var(--#{$prefix}primary);
+    }
+
+    .intitule {
+      flex-basis: 100%;
+      font-size: var(--#{$prefix}font-size-sm);
+      color: var(--#{$prefix}basic-black-lighter);
+    }
+  }
+
+  .code {
+    font-weight: 600;
+    font-size: var(--#{$prefix}font-size-xs);
+    color: var(--#{$prefix}basic-black-lighter);
+  }
+}
+</style>
