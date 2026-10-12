@@ -136,7 +136,6 @@ r-tabpanel:not([active]) {
   gap: 8px;
   font-size: var(--#{$prefix}font-size-xs);
   color: var(--#{$prefix}basic-black-lighter);
-  margin-bottom: 20px;
 
   svg {
     flex: none;
