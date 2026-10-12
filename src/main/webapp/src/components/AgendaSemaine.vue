@@ -250,19 +250,23 @@ const libelleSemaine = computed(() => {
 .agenda-semaine {
   // Vue tableau par défaut (desktop/tablette), bascule vers la vue jour par jour empilée
   // en dessous du seuil "md" - un tableau à 7 colonnes devient illisible sur mobile.
-  .vue-jours {
+  .vue-tableau {
     display: none;
   }
 
-  @media (width < map.get($grid-breakpoints, md)) {
+  .vue-jours {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  @media (width >= map.get($grid-breakpoints, lg)) {
     .vue-tableau {
-      display: none;
+      display: block;
     }
 
     .vue-jours {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      display: none;
     }
   }
 
