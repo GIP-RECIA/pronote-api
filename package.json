@@ -17,7 +17,7 @@
     "@fortawesome/fontawesome-svg-core": "^7.3.1",
     "@fortawesome/free-solid-svg-icons": "^7.3.1",
     "@fortawesome/vue-fontawesome": "^3.3.3",
-    "@intlify/unplugin-vue-i18n": "^11.2.5",
+    "@intlify/unplugin-vue-i18n": "^11.2.8",
     "dompurify": "^3.4.17",
     "vue": "^3.5.42",
     "vue-i18n": "^11.4.14",
