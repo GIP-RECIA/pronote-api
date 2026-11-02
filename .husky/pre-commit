@@ -18,8 +18,7 @@ else
   ./scripts/license.sh 2
 fi
 
-# TODO: réactiver quand une infra de tests frontend (vitest) existera
-# yarn run test:unit run
+yarn run test:unit run
 yarn exec lint-staged
 
 # Vérification des erreurs

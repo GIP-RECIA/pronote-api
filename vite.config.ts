@@ -1,3 +1,5 @@
+/* eslint-disable node/prefer-global/process */
+import type { ConfigEnv } from 'vite'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
@@ -7,7 +9,8 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import { parseString } from 'xml2js'
 import { slugify } from './src/main/webapp/src/utils/stringUtils.ts'
 
-export default defineConfig(({ mode }) => {
+// https://vitejs.dev/config/
+export default ({ mode }: ConfigEnv) => {
   const env = loadEnv(mode, process.cwd())
 
   const {
@@ -19,6 +22,7 @@ export default defineConfig(({ mode }) => {
   } = env
 
   const appName = JSON.stringify(VITE_APP_NAME)
+
   const appSlug = JSON.stringify(VITE_APP_SLUG || slugify(appName))
 
   const backVersion = (): string => {
@@ -29,10 +33,11 @@ export default defineConfig(({ mode }) => {
         console.error(err)
       else version = result.project.version[0]
     })
+
     return JSON.stringify(version)
   }
 
-  return {
+  return defineConfig({
     base: `${VITE_BASE_URI}/ui`,
     root: './src/main/webapp',
     envDir: '../../../',
@@ -40,8 +45,14 @@ export default defineConfig(({ mode }) => {
       vue({
         template: {
           compilerOptions: {
-            isCustomElement: tag =>
-              ['r-filters', 'r-tablist', 'r-tabpanel', 'r-page-layout', 'extended-uportal-header', 'extended-uportal-footer'].includes(tag),
+            isCustomElement: tag => [
+              'r-filters',
+              'r-tablist',
+              'r-tabpanel',
+              'r-page-layout',
+              'extended-uportal-header',
+              'extended-uportal-footer'
+            ].includes(tag),
           },
         },
       }),
@@ -69,5 +80,5 @@ export default defineConfig(({ mode }) => {
       __APP_SLUG__: appSlug,
       __BACK_VERSION__: backVersion(),
     },
-  }
-})
+  })
+}
