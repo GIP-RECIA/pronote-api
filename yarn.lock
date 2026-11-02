@@ -2014,16 +2014,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^26.4.0":
-  version: 26.6.1
-  resolution: "@types/node@npm:26.6.1"
-  dependencies:
-    undici-types: "npm:~8.9.0"
-  checksum: 10/86e4bbb49b696e1183d42e1e8653b13b969146969e6e30635aa5de7d4340f06fcdd748284bcc68ea6a3f8300d9dc54569ec377f312cdeb1c1ae0a5996ec075d7
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^26":
+"@types/node@npm:*, @types/node@npm:^26, @types/node@npm:^26.4.0":
   version: 26.6.6
   resolution: "@types/node@npm:26.6.6"
   dependencies:
