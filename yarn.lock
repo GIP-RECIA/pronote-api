@@ -1159,10 +1159,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gip-recia/ui-webcomponents@npm:^1.18.2":
-  version: 1.18.2
-  resolution: "@gip-recia/ui-webcomponents@npm:1.18.2"
-  checksum: 10/97a91575d78d9a34fcbbef74f7e16cd77267f337210c1599b875a56eb489bf895b89eb385ada0ceda8fd5acc4e4ce2c38f48b6b6c87fdb89cf079776c404d3be
+"@gip-recia/ui-webcomponents@npm:^1.20.0":
+  version: 1.20.0
+  resolution: "@gip-recia/ui-webcomponents@npm:1.20.0"
+  checksum: 10/8ffbc6e2f892f437a0c39e640a34a801109fe34d28eb4bff32e32070b45eca0853fe26e2e3d7435ae8d24682ede27bb6b7b5748f7b7b649e89d66a9ed93da6dd
   languageName: node
   linkType: hard
 
@@ -6433,7 +6433,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": "npm:^7.3.1"
     "@fortawesome/vue-fontawesome": "npm:^3.3.3"
     "@gip-recia/ui": "npm:^1.1.0"
-    "@gip-recia/ui-webcomponents": "npm:^1.18.2"
+    "@gip-recia/ui-webcomponents": "npm:^1.20.0"
     "@intlify/unplugin-vue-i18n": "npm:^11.2.5"
     "@tsconfig/node24": "npm:^24.0.5"
     "@types/node": "npm:^24"
