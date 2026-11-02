@@ -44,7 +44,7 @@
     "npm-run-all2": "^9.0.3",
     "ress": "^6.0.0",
     "sass": "^1.104.1",
-    "typescript": "~6.0.0",
+    "typescript": "~7.0.2",
     "vite": "^8.3.3",
     "vite-plugin-vue-devtools": "^8.2.1",
     "vue-tsc": "^3.3.11"
