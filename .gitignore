@@ -52,6 +52,10 @@ coverage
 src/main/resources/**/application-*.yml
 !src/main/resources/**/application-test.yml
 !src/main/resources/**/application-*.example.yml
+src/main/resources/**/application-*.yaml
+!src/main/resources/**/application-test.yaml
+!src/main/resources/**/application-*.example.yaml
+.env
 *.bak
 
 ### Tests ###

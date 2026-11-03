@@ -84,7 +84,6 @@ This project includes:
   SnakeYAML under Apache License, Version 2.0
   Spring AOP under Apache License, Version 2.0
   Spring Beans under Apache License, Version 2.0
-  Spring Commons Logging Bridge under Apache License, Version 2.0
   Spring Context under Apache License, Version 2.0
   Spring Context Support under Apache License, Version 2.0
   Spring Core under Apache License, Version 2.0
@@ -100,6 +99,7 @@ This project includes:
   Spring Web MVC under Apache License, Version 2.0
   spring-boot under Apache License, Version 2.0
   spring-boot-autoconfigure under Apache License, Version 2.0
+  spring-boot-cache under Apache License, Version 2.0
   spring-boot-data-commons under Apache License, Version 2.0
   spring-boot-data-redis under Apache License, Version 2.0
   spring-boot-http-converter under Apache License, Version 2.0
@@ -130,7 +130,7 @@ This project includes:
   spring-security-core under Apache License, Version 2.0
   spring-security-crypto under Apache License, Version 2.0
   spring-security-web under Apache License, Version 2.0
-  spring-session-core under Apache License, Version 2.0
+  spring-session-core under Broadcom Foundation License
   spring-session-data-redis under Broadcom Foundation License
   Stax2 API under The BSD 2-Clause License
   ThreeTen-Extra under BSD 3-clause
